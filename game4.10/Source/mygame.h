@@ -87,7 +87,7 @@ namespace game_framework {
 	// 這個class提供地圖的構成
 	// 看懂就可以改寫自己的程式了
 	/////////////////////////////////////////////////////////////////////////////
-	class CBouncingBall;
+	// class CBouncingBall;
 
 	class CGameMap {
 	public:
@@ -162,5 +162,6 @@ namespace game_framework {
 	private:
 		int counter;	// 倒數之計數器
 	};
+
 
 }

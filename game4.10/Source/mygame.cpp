@@ -402,7 +402,6 @@ void CGameStateRun::OnShow()
 	gamemap.OnShow();					// 貼上地圖，注意順序
 	help.ShowBitmap();					// 貼上說明圖
 	hits_left.ShowBitmap();
-
 	
 
 	for (int i=0; i < NUMBALLS; i++)
@@ -418,8 +417,8 @@ void CGameStateRun::OnShow()
 	corner.ShowBitmap();
 	practice.ShowBitmap();
 	c_practice.OnShow();
-	
 }
+
 CPractice::CPractice() {
 	x = y = 0;
 }
@@ -456,6 +455,7 @@ CGameMap::CGameMap()
 		}
 	}
 	random_num = 0;
+	bballs = NULL;
 }
 
 void CGameMap::LoadBitmap() {
@@ -480,11 +480,11 @@ void CGameMap::OnShow() {
 				default:
 					ASSERT(0);									// map陣列不該出現0, 1, 2 之外的值
 			}
-
+	
 		}
 	}
 	for (int i = 0; i < random_num; i++)
-	{
+	{	
 		bballs[i].OnShow();
 	}
 }
@@ -518,6 +518,7 @@ void CGameMap::RandomBouncingBall() {
 	const int MAX_RAND_NUM = 10;
 	random_num = (rand() % MAX_RAND_NUM) + 1;			// 隨機1~MAX_RAND_NUM
 
+	delete[] bballs;													// 先刪掉之前所配置的空間
 	bballs = new CBouncingBall[random_num];				// 動態配置CBouncingBall 陣列
 	int ini_index = 0;								
 	for (int row = 0; row < 4; row++) {
@@ -543,7 +544,7 @@ void CGameMap::OnMove() {
 }
 
 CGameMap::~CGameMap() {
-
+	delete[] bballs;
 }
 
 }
