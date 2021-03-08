@@ -81,24 +81,33 @@ namespace game_framework {
 	private:
 		CMovingBitmap logo;								// csie的logo
 	};
-	
+
+
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class提供地圖的構成
 	// 看懂就可以改寫自己的程式了
 	/////////////////////////////////////////////////////////////////////////////
+	class CBouncingBall;
+
 	class CGameMap {
 	public:
 		CGameMap();
 		void LoadBitmap();			// 載入地圖
 		void OnShow();				// 顯示地圖
+		void OnMove();									// 播放彈跳球的動畫
+		void OnKeyDown(UINT);							// 處理按鍵按下後CGaneMap的反應
+		void RandomBouncingBall();						// 隨機彈跳球的個數加入到Map中
+		void InitializeBouncingBall(int, int, int);		// 初始化彈跳球
+		~CGameMap();									// 解構子
 	protected:
 		CMovingBitmap blue, green;	// 建立藍色和綠色地圖
 		int map[4][5];				// 建立一個地圖矩陣的index
 		const int X, Y;				// 大地圖的左上角x, y座標
 		const int MW, MH;			// 每張地圖的寬高度
+		CBouncingBall* bballs;		// CBouncingBall指標
+		int random_num;				// 隨機個數
 	};
-	
-	
+
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
 	// 每個Member function的Implementation都要弄懂

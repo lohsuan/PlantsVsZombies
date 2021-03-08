@@ -243,6 +243,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		picX = picY = 0;
 	}
 	practice.SetTopLeft(picX, picY);
+	gamemap.OnMove();
 	//
 	// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
 	//
@@ -342,6 +343,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		eraser.SetMovingUp(true);
 	if (nChar == KEY_DOWN)
 		eraser.SetMovingDown(true);
+	gamemap.OnKeyDown(nChar);
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -453,6 +455,7 @@ CGameMap::CGameMap()
 			map[i][j] = map_init[i][j];		// 依序填入map內
 		}
 	}
+	random_num = 0;
 }
 
 void CGameMap::LoadBitmap() {
@@ -480,6 +483,67 @@ void CGameMap::OnShow() {
 
 		}
 	}
+	for (int i = 0; i < random_num; i++)
+	{
+		bballs[i].OnShow();
+	}
+}
+
+void CBouncingBall::SetXY(int x, int y) {
+	this->x = x;
+	this->y = y;
+}
+
+void CBouncingBall::SetFloor(int floor) {
+	this->floor = floor;
+}
+
+void CBouncingBall::SetVelocity(int velocity) {
+	this->velocity = velocity;
+	this->initial_velocity = velocity;
+}
+
+void CGameMap::InitializeBouncingBall(int ini_index, int row, int col) {
+	const int VELOCITY = 10;							// 球的起始上升高度	
+	const int BALL_PIC_HEIGHT = 15;						// 球圖片的高度
+	int floor = Y + (row + 1)*MH - BALL_PIC_HEIGHT;		// 設定球的落下點為Map的下方
+
+	bballs[ini_index].LoadBitmap();						// 載入彈跳球的動畫
+	bballs[ini_index].SetFloor(floor);					// 設定彈跳球的起始水平面
+	bballs[ini_index].SetVelocity(VELOCITY+col);		// 設定彈跳球的初始速度，越右邊的彈越高
+	bballs[ini_index].SetXY(X+col*MW + MW/2, floor);	// 設定彈跳球的起始位置X座標為該Map一半的位置
+}
+
+void CGameMap::RandomBouncingBall() {
+	const int MAX_RAND_NUM = 10;
+	random_num = (rand() % MAX_RAND_NUM) + 1;			// 隨機1~MAX_RAND_NUM
+
+	bballs = new CBouncingBall[random_num];				// 動態配置CBouncingBall 陣列
+	int ini_index = 0;								
+	for (int row = 0; row < 4; row++) {
+		for (int col = 0; col < 5; col++) {
+			if (map[row][col] != 0 && ini_index < random_num) {		// 只放球在有色的地圖且初始化的陣列索引必小於隨機的個數
+				InitializeBouncingBall(ini_index, row, col);
+				ini_index++;										
+			}
+		}
+	}
+}
+
+void CGameMap::OnKeyDown(UINT nChar) {
+	const int KEY_SPACE = 0x20;
+	if (nChar == KEY_SPACE)
+		RandomBouncingBall();	// 當空白鍵按下後隨機彈跳球
+}
+
+void CGameMap::OnMove() {
+	for (int i = 0; i < random_num; i++) {
+		bballs[i].OnMove();
+	}
+}
+
+CGameMap::~CGameMap() {
+
 }
 
 }

@@ -11,6 +11,10 @@ namespace game_framework {
 		void LoadBitmap();		// 載入圖形
 		void OnMove();			// 移動
 		void OnShow();			// 將圖形貼到畫面
+		void SetFloor(int);		// 設定彈回的水平面
+		void SetXY(int, int);	// 設定起始上升座標
+		void SetVelocity(int);	// 設定上升的起始速度
+
 	private:
 		int x, y;				// 圖形座標
 		int floor;				// 地板的Y座標
