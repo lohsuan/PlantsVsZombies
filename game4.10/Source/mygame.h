@@ -64,6 +64,7 @@ namespace game_framework {
 		int			  x, y;
 	};
 
+
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件
 	// 每個Member function的Implementation都要弄懂
@@ -79,8 +80,10 @@ namespace game_framework {
 	protected:
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		CMovingBitmap mainmenu;								// mainmenu picture
+		CMovingBitmap	mainmenu;								// mainmenu picture
 		CMovingBitmap	loadtext;						// Loading... picture
+		CMovingBitmap	adventure0;
+		CMovingBitmap	adventure1;
 
 	};
 

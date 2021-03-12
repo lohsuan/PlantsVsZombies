@@ -62,8 +62,6 @@
 namespace game_framework {
 
 
-
-
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲開頭畫面物件
 /////////////////////////////////////////////////////////////////////////////
@@ -75,24 +73,26 @@ CGameStateInit::CGameStateInit(CGame *g)
 
 void CGameStateInit::OnInit()
 {	
-	loadtext.LoadBitmap(IDB_LOADING, RGB(0, 0, 0));
-	loadtext.SetTopLeft(400, 530);
-	loadtext.ShowBitmap();
+
 	//
 	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
 	ShowInitProgress(0);	// 一開始的loading進度為0%
-	loadtext.ShowBitmap();
+	
 	Sleep(300);
 	//
 	// 開始載入資料
 	//
 	mainmenu.LoadBitmap("Bitmaps/MainMenu.bmp");
+	adventure0.LoadBitmap("Bitmaps/Adventure0.bmp", RGB(255,255,255));
+	adventure1.LoadBitmap("Bitmaps/Adventure1.bmp", RGB(255,255,255));
+
 	// Sleep(500);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
 	// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 	//
+	
 }
 
 void CGameStateInit::OnBeginState()
@@ -111,7 +111,12 @@ void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+	if (point.x > 470 && point.y > 100 && point.x < 790 && point.y < 260) {
+		adventure1.SetTopLeft(470, 100);
+		adventure1.ShowBitmap();
+		Sleep(1000);
+		GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+	}
 }
 
 void CGameStateInit::OnShow()
@@ -122,20 +127,28 @@ void CGameStateInit::OnShow()
 	mainmenu.SetTopLeft(0,0);
 	mainmenu.ShowBitmap();
 
+	adventure0.SetTopLeft(470, 100);
+	adventure0.ShowBitmap();
+
 	//
 	// Demo螢幕字型的使用，不過開發時請盡量避免直接使用字型，改用CMovingBitmap比較好
 	//
 	CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
 	CFont f,*fp;
-	f.CreatePointFont(160,"Times New Roman");	// 產生 font f; 160表示16 point的字
+	f.CreatePointFont(170,"微軟正黑體");	// 產生 font f; 160表示16 point的字
 	fp=pDC->SelectObject(&f);					// 選用 font f
-	pDC->SetBkColor(RGB(0,0,0));
-	pDC->SetTextColor(RGB(255,255,0));
-	pDC->TextOut(120,220,"Please click mouse or press SPACE to begin.");
-	pDC->TextOut(5,395,"Press Ctrl-F to switch in between window mode and full screen mode.");
+	// pDC->SetBkColor(RGB(0,0,0));
+	pDC->SetBkMode(TRANSPARENT);
+	
+	pDC->SetTextColor(RGB(0,0,0));
+	pDC->TextOut(500, 270, "~ 19XX-XX-XX ~");
+	pDC->SetTextColor(RGB(255, 255, 0));
+	pDC->TextOut(480,320,"點擊 \"冒險模式\" 開始 !");
+	// pDC->TextOut(5,395,"Press Ctrl-F to switch in between window mode and full screen mode.");
 	if (ENABLE_GAME_PAUSE)
-		pDC->TextOut(5,425,"Press Ctrl-Q to pause the Game.");
-	pDC->TextOut(5,455,"Press Alt-F4 or ESC to Quit.");
+		pDC->SetTextColor(RGB(255, 255, 0));
+		pDC->TextOut(5,530,"Press Ctrl-Q to pause the Game.");
+	pDC->TextOut(5,565,"Press Alt-F4 or ESC to Quit.");
 	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
 }								
@@ -171,11 +184,11 @@ void CGameStateOver::OnInit()
 	ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
 
 
-	Sleep(300);
+	Sleep(100);
 	ShowInitProgress(85);	// 接個前一個狀態的進度，此處進度視為66%
 
 
-	Sleep(300);
+	Sleep(100);
 	//
 	// 開始載入資料
 	//
