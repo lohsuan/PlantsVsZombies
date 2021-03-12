@@ -63,6 +63,7 @@ namespace game_framework {
 
 
 
+
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲開頭畫面物件
 /////////////////////////////////////////////////////////////////////////////
@@ -73,19 +74,22 @@ CGameStateInit::CGameStateInit(CGame *g)
 }
 
 void CGameStateInit::OnInit()
-{
+{	
+	loadtext.LoadBitmap(IDB_LOADING, RGB(0, 0, 0));
+	loadtext.SetTopLeft(400, 530);
+	loadtext.ShowBitmap();
 	//
 	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
 	ShowInitProgress(0);	// 一開始的loading進度為0%
-	
+	loadtext.ShowBitmap();
+	Sleep(300);
 	//
 	// 開始載入資料
 	//
-	logo.LoadBitmap("Bitmaps/MainMenu.bmp");
-	loadtext.LoadBitmap(IDB_LOADING, RGB(0, 0, 0));
-	Sleep(500);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	mainmenu.LoadBitmap("Bitmaps/MainMenu.bmp");
+	// Sleep(500);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
 	// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 	//
@@ -113,13 +117,11 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 void CGameStateInit::OnShow()
 {
 	//
-	// 貼上logo
+	// 貼上mainmenu
 	//
-	logo.SetTopLeft(0,0);
-	logo.ShowBitmap();
+	mainmenu.SetTopLeft(0,0);
+	mainmenu.ShowBitmap();
 
-	loadtext.SetTopLeft(50, 50);
-	loadtext.ShowBitmap();
 	//
 	// Demo螢幕字型的使用，不過開發時請盡量避免直接使用字型，改用CMovingBitmap比較好
 	//
@@ -165,11 +167,19 @@ void CGameStateOver::OnInit()
 	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
+	
 	ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
+
+
+	Sleep(300);
+	ShowInitProgress(85);	// 接個前一個狀態的進度，此處進度視為66%
+
+
+	Sleep(300);
 	//
 	// 開始載入資料
 	//
-	Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	// Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
 	// 最終進度為100%
 	//
@@ -298,7 +308,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
 	ShowInitProgress(33);	// 接個前一個狀態的進度，此處進度視為33%
-	Sleep(3000); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 
 	//
 	// 開始載入資料
@@ -318,7 +328,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	// 完成部分Loading動作，提高進度
 	//
 	ShowInitProgress(50);
-	Sleep(3000); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
 	// 繼續載入其他資料
 	//

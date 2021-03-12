@@ -438,13 +438,14 @@ void CGameState::ShowInitProgress(int percent)
 	const int progress_x2 = progress_x1 + percent * (bar_width-2*pen_width) / 100;
 	const int progress_x2_end = x2 - pen_width;
 	const int progress_y1 = y1 + pen_width;
-	const int progress_y2 = y2 - pen_width;
+	const int progress_y2 = y2 - pen_width; 
 
 	CDDraw::BltBackColor(DEFAULT_BG_COLOR);		// 將 Back Plain 塗上預設的顏色
 	CMovingBitmap loading;						// 貼上loading圖示
 	loading.LoadBitmap("Bitmaps/Loading.bmp");
 	loading.SetTopLeft(0, 0);
 	loading.ShowBitmap();
+
 
 	//
 	// 以下為CDC的用法
@@ -464,6 +465,15 @@ void CGameState::ShowInitProgress(int percent)
 	CBrush b2(RGB(132, 66, 0));					// 畫黃色 progrss進度
 	pDC->SelectObject(&b2);
 	pDC->Rectangle(progress_x1,progress_y1,progress_x2,progress_y2);
+	
+	CFont f, *fp;
+	f.CreatePointFont(240, "Courier");	// 產生 font f; 160表示16 point的字
+	fp = pDC->SelectObject(&f);					// 選用 font f
+	//pDC->SetBkColor(RGB(132, 66, 0));
+	pDC->SetBkMode(TRANSPARENT);
+	pDC->SetTextColor(RGB(255, 211, 6));
+	pDC->TextOut(360, 530, "Loading...");
+	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 
 	pDC->SelectObject(pp);						// 釋放 pen
 	pDC->SelectObject(pb);						// 釋放 brush
