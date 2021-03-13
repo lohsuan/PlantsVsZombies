@@ -77,6 +77,8 @@ namespace game_framework {
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnKeyUp(UINT, UINT, UINT); 				// 處理鍵盤Up的動作
 		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
+		//void OnMouseMove(UINT nFlags, CPoint point);
+		//void OnMouseHover(UINT nFlags, CPoint point);
 	protected:
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
@@ -140,6 +142,7 @@ namespace game_framework {
 		
 		const int		NUMBALLS;	// 球的總數
 		CMovingBitmap	background;	// 背景圖
+		
 		CMovingBitmap	help;		// 說明圖
 		CBall			*ball;		// 球的陣列
 		CMovingBitmap	corner;		// 角落圖
@@ -148,7 +151,7 @@ namespace game_framework {
 		CBouncingBall   bball;		// 反覆彈跳的球
 		CMovingBitmap	practice;
 		int				picX, picY;
-		
+		int				flag = 0;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

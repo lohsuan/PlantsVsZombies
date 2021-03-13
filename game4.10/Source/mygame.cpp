@@ -102,19 +102,28 @@ void CGameStateInit::OnBeginState()
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	const char KEY_ESC = 27;
-	const char KEY_SPACE = ' ';
-	if (nChar == KEY_SPACE)
-		GotoGameState(GAME_STATE_RUN);						// 切換至GAME_STATE_RUN
-	else if (nChar == KEY_ESC)								// Demo 關閉遊戲的方法
+	//const char KEY_SPACE = ' ';
+	//if (nChar == KEY_SPACE)
+	//	GotoGameState(GAME_STATE_RUN);						// 切換至GAME_STATE_RUN
+	if (nChar == KEY_ESC)								// Demo 關閉遊戲的方法
 		PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE,0,0);	// 關閉遊戲
 }
 
+//void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point) {
+//	adventure1.SetTopLeft(470, 100);
+//	adventure1.ShowBitmap();
+//}
+
+//void CGameStateInit::OnMouseHover(UINT nFlags, CPoint point) {
+//	adventure1.SetTopLeft(470, 100);
+//	adventure1.ShowBitmap();
+//}
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	if (point.x > 470 && point.y > 100 && point.x < 790 && point.y < 260) {
 		adventure1.SetTopLeft(470, 100);
 		adventure1.ShowBitmap();
-		Sleep(1000);
+		//Sleep(1000);
 		GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 	}
 }
@@ -142,7 +151,7 @@ void CGameStateInit::OnShow()
 	
 	pDC->SetTextColor(RGB(0,0,0));
 	pDC->TextOut(500, 270, "~ 19XX-XX-XX ~");
-	pDC->SetTextColor(RGB(255, 255, 0));
+	pDC->SetTextColor(RGB(204, 255, 204));
 	pDC->TextOut(480,320,"點擊 \"冒險模式\" 開始 !");
 	// pDC->TextOut(5,395,"Press Ctrl-F to switch in between window mode and full screen mode.");
 	if (ENABLE_GAME_PAUSE)
@@ -239,7 +248,7 @@ void CGameStateRun::OnBeginState()
 	const int HITS_LEFT = 10;
 	const int HITS_LEFT_X = 590;
 	const int HITS_LEFT_Y = 0;
-	const int BACKGROUND_X = 60;
+	const int BACKGROUND_X = 0;
 	const int ANIMATION_SPEED = 15;
 	for (int i = 0; i < NUMBALLS; i++) {				// 設定球的起始座標
 		int x_pos = i % BALL_PER_ROW;
@@ -249,7 +258,7 @@ void CGameStateRun::OnBeginState()
 		ball[i].SetIsAlive(true);
 	}
 	eraser.Initialize();
-	background.SetTopLeft(BACKGROUND_X,0);				// 設定背景的起始座標
+	//background.SetTopLeft(BACKGROUND_X,0);				// 設定背景的起始座標
 	help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
 	hits_left.SetInteger(HITS_LEFT);					// 指定剩下的撞擊數
 	hits_left.SetTopLeft(HITS_LEFT_X,HITS_LEFT_Y);		// 指定剩下撞擊數的座標
@@ -261,26 +270,34 @@ void CGameStateRun::OnBeginState()
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
 	c_practice.OnMove();
-	// practice.SetTopLeft(10, 10);
-	if (picX <= SIZE_Y) {
-		picX += 5;
-		picY += 5;
+
+	//
+	// 移動背景圖的座標
+	//
+	if (picX > -400 && flag==0) {
+		picX -= 4;
+	}// (-400,0)
+	else if (flag == 0) {
+		Sleep(1000);
+		flag = 1;
 	}
+	else if (picX < -150) {
+		//flag = 1;
+		picX += 4;
+	}// (-150,0)
 	else {
-		picX = picY = 0;
+		flag = 2;
+		picX = -150;
 	}
-	practice.SetTopLeft(picX, picY);
+	background.SetTopLeft(picX, picY);
+
 	gamemap.OnMove();
 	//
 	// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
 	//
 	// SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
-	//
-	// 移動背景圖的座標
-	//
-	if (background.Top() > SIZE_Y)
-		background.SetTopLeft(60 ,-background.Height());
-	background.SetTopLeft(background.Left(),background.Top()+1);
+
+
 	//
 	// 移動球
 	//
@@ -330,13 +347,13 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	// practice.LoadBitmap("Bitmaps/snowgie.bmp");
 	gamemap.LoadBitmap();							// 載入地圖的圖形
 	c_practice.LoadBitmap();
-	practice.LoadBitmap("Bitmaps/snowgie.bmp", RGB(255,255,255));
+	background.LoadBitmap("Bitmaps/Background.bmp");			// 載入背景的圖形
 
 	int i;
 	for (i = 0; i < NUMBALLS; i++)	
 		ball[i].LoadBitmap();								// 載入第i個球的圖形
 	eraser.LoadBitmap();
-	background.LoadBitmap(IDB_BACKGROUND);					// 載入背景的圖形
+
 	//
 	// 完成部分Loading動作，提高進度
 	//
@@ -426,8 +443,8 @@ void CGameStateRun::OnShow()
 	//
 	//  貼上背景圖、撞擊數、球、擦子、彈跳的球
 	//
-
-	background.ShowBitmap();			// 貼上背景圖
+	background.ShowBitmap();				// 貼上背景圖
+	
 	gamemap.OnShow();					// 貼上地圖，注意順序
 	help.ShowBitmap();					// 貼上說明圖
 	hits_left.ShowBitmap();
@@ -444,7 +461,7 @@ void CGameStateRun::OnShow()
 	corner.ShowBitmap();
 	corner.SetTopLeft(SIZE_X-corner.Width(), SIZE_Y-corner.Height());
 	corner.ShowBitmap();
-	practice.ShowBitmap();
+	
 	c_practice.OnShow();
 }
 
