@@ -87,6 +87,9 @@ void CGameStateInit::OnInit()
 	mainmenu.LoadBitmap("Bitmaps/MainMenu.bmp");
 	adventure0.LoadBitmap("Bitmaps/Adventure0.bmp", RGB(255,255,255));
 	adventure1.LoadBitmap("Bitmaps/Adventure1.bmp", RGB(255,255,255));
+	CAudio::Instance()->Load(AUDIO_MAIN, "sounds\\mainmenu.mp3");
+	CAudio::Instance()->Play(AUDIO_MAIN, true);
+	CAudio::Instance()->Load(AUDIO_MENUTOGAME, "sounds\\menutogame.mp3");
 
 	// Sleep(500);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
@@ -97,6 +100,7 @@ void CGameStateInit::OnInit()
 
 void CGameStateInit::OnBeginState()
 {
+	
 }
 
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -123,7 +127,9 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	if (point.x > 470 && point.y > 100 && point.x < 790 && point.y < 260) {
 		adventure1.SetTopLeft(470, 100);
 		adventure1.ShowBitmap();
-		//Sleep(1000);
+		
+		CAudio::Instance()->Play(AUDIO_MENUTOGAME, false);
+
 		GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 	}
 }
@@ -262,9 +268,9 @@ void CGameStateRun::OnBeginState()
 	help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
 	hits_left.SetInteger(HITS_LEFT);					// 指定剩下的撞擊數
 	hits_left.SetTopLeft(HITS_LEFT_X,HITS_LEFT_Y);		// 指定剩下撞擊數的座標
-	CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
-	CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
-	CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
+	CAudio::Instance()->Stop(AUDIO_MAIN);
+	CAudio::Instance()->Play(AUDIO_START, true);		// 撥放 WAVE
+
 }
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -311,17 +317,16 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	//
 	// 判斷擦子是否碰到球
 	//
+
 	for (i=0; i < NUMBALLS; i++)
 		if (ball[i].IsAlive() && ball[i].HitEraser(&eraser)) {
 			ball[i].SetIsAlive(false);
-			CAudio::Instance()->Play(AUDIO_DING);
 			hits_left.Add(-1);
 			//
 			// 若剩餘碰撞次數為0，則跳到Game Over狀態
 			//
 			if (hits_left.GetInteger() <= 0) {
-				CAudio::Instance()->Stop(AUDIO_LAKE);	// 停止 WAVE
-				CAudio::Instance()->Stop(AUDIO_NTUT);	// 停止 MIDI
+				CAudio::Instance()->Stop(AUDIO_START);
 				GotoGameState(GAME_STATE_OVER);
 			}
 		}
@@ -367,9 +372,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	corner.ShowBitmap(background);							// 將corner貼到background
 	bball.LoadBitmap();										// 載入圖形
 	hits_left.LoadBitmap();									
-	CAudio::Instance()->Load(AUDIO_DING,  "sounds\\ding.wav");	// 載入編號0的聲音ding.wav
-	CAudio::Instance()->Load(AUDIO_LAKE,  "sounds\\lake.mp3");	// 載入編號1的聲音lake.mp3
-	CAudio::Instance()->Load(AUDIO_NTUT,  "sounds\\ntut.mid");	// 載入編號2的聲音ntut.mid
+	CAudio::Instance()->Load(AUDIO_START,  "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
+
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 	//
