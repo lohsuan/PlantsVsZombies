@@ -53,6 +53,7 @@ namespace game_framework {
 		AUDIO_MENUTOGAME
 	};
 
+	
 	class CPractice {
 	public:
 		CPractice();
@@ -63,7 +64,7 @@ namespace game_framework {
 		CMovingBitmap pic;
 		int			  x, y;
 	};
-
+	
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件
@@ -96,6 +97,7 @@ namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// class CBouncingBall;
 
+	
 	class CGameMap {
 	public:
 		CGameMap();
@@ -114,6 +116,7 @@ namespace game_framework {
 		CBouncingBall* bballs;		// CBouncingBall指標
 		int random_num;				// 隨機個數
 	};
+	
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
@@ -137,7 +140,7 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		CGameMap		gamemap;	// 地圖
+		CGameMap		gamemap;	// 地圖 
 		CPractice		c_practice;	// 移動物件
 		
 		const int		NUMBALLS;	// 球的總數
@@ -149,7 +152,8 @@ namespace game_framework {
 		CEraser			eraser;		// 拍子
 		CInteger		hits_left;	// 剩下的撞擊數
 		CBouncingBall   bball;		// 反覆彈跳的球
-		CMovingBitmap	practice;
+		CMovingBitmap	chooser; // practice;
+			
 		int				picX, picY;
 		int				flag = 0;
 	};

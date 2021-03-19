@@ -277,6 +277,14 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 {
 	c_practice.OnMove();
 
+	if (flag != 2) {
+		chooser.SetTopLeft(0, -87);
+	}
+	else {
+		chooser.SetTopLeft(0, 0);
+	}
+	
+	
 	//
 	// 移動背景圖的座標
 	//
@@ -349,8 +357,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	// 開始載入資料
 	//
 	// practice.LoadBitmap(IDB_SNOWGIEDRAW);
-	// practice.LoadBitmap("Bitmaps/snowgie.bmp");
-	gamemap.LoadBitmap();							// 載入地圖的圖形
+	chooser.LoadBitmap("Bitmaps/ChooserBackground.bmp"); //zozo
+	//gamemap.LoadBitmap();							// 載入地圖的圖形  //practiceGreenBlue
 	c_practice.LoadBitmap();
 	background.LoadBitmap("Bitmaps/Background.bmp");			// 載入背景的圖形
 
@@ -449,15 +457,17 @@ void CGameStateRun::OnShow()
 	//
 	background.ShowBitmap();				// 貼上背景圖
 	
-	gamemap.OnShow();					// 貼上地圖，注意順序
+	//gamemap.OnShow();					// 貼上地圖，注意順序 //practiceGreenBlue
 	help.ShowBitmap();					// 貼上說明圖
 	hits_left.ShowBitmap();
 	
-
+	/* teacher's ball
 	for (int i=0; i < NUMBALLS; i++)
 		ball[i].OnShow();				// 貼上第i號球
 	bball.OnShow();						// 貼上彈跳的球
 	eraser.OnShow();					// 貼上擦子
+	*/
+
 	//
 	//  貼上左上及右下角落的圖
 	//
@@ -465,8 +475,10 @@ void CGameStateRun::OnShow()
 	corner.ShowBitmap();
 	corner.SetTopLeft(SIZE_X-corner.Width(), SIZE_Y-corner.Height());
 	corner.ShowBitmap();
+
+	chooser.ShowBitmap();
 	
-	c_practice.OnShow();
+	//c_practice.OnShow();  //practice snowgie
 }
 
 CPractice::CPractice() {
