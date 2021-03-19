@@ -78,6 +78,7 @@ void CGameStateInit::OnInit()
 	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
+	flag_menutogame = 0;
 	ShowInitProgress(0);	// 一開始的loading進度為0%
 	
 	Sleep(300);
@@ -124,11 +125,14 @@ void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 //}
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	
+
 	if (point.x > 470 && point.y > 100 && point.x < 790 && point.y < 260) {
-		adventure1.SetTopLeft(470, 100);
-		adventure1.ShowBitmap();
+		
+		flag_menutogame = 1;
 		
 		CAudio::Instance()->Play(AUDIO_MENUTOGAME, false);
+		Sleep(3000);
 
 		GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 	}
@@ -143,8 +147,13 @@ void CGameStateInit::OnShow()
 	mainmenu.ShowBitmap();
 
 	adventure0.SetTopLeft(470, 100);
-	adventure0.ShowBitmap();
-
+	adventure1.SetTopLeft(470, 100);
+	
+	if (flag_menutogame == 0) {
+		adventure0.ShowBitmap();
+	} else {
+		adventure1.ShowBitmap();
+	}
 	//
 	// Demo螢幕字型的使用，不過開發時請盡量避免直接使用字型，改用CMovingBitmap比較好
 	//
@@ -239,6 +248,7 @@ CGameStateRun::CGameStateRun(CGame *g)
 {
 	ball = new CBall [NUMBALLS];
 	picX = picY = 0;
+	sun_amount = 50;
 }
 
 CGameStateRun::~CGameStateRun()

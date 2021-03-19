@@ -87,7 +87,7 @@ namespace game_framework {
 		CMovingBitmap	loadtext;						// Loading... picture
 		CMovingBitmap	adventure0;
 		CMovingBitmap	adventure1;
-
+		int				flag_menutogame;
 	};
 
 
@@ -156,6 +156,7 @@ namespace game_framework {
 			
 		int				picX, picY;
 		int				flag = 0;
+		int				sun_amount;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
