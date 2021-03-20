@@ -50,7 +50,8 @@ namespace game_framework {
 	enum AUDIO_ID {				// 定義各種音效的編號
 		AUDIO_START,				// 0
 		AUDIO_MAIN,
-		AUDIO_MENUTOGAME
+		AUDIO_MENUTOGAME,
+		AUDIO_SUNPICK
 	};
 
 	
@@ -153,10 +154,12 @@ namespace game_framework {
 		CInteger		hits_left;	// 剩下的撞擊數
 		CBouncingBall   bball;		// 反覆彈跳的球
 		CMovingBitmap	chooser; // practice;
-			
+		
 		int				picX, picY;
-		int				flag = 0;
-		int				sun_amount;
+		int				flag;
+		YSun			sun;
+		int				sun_amount;			// show on the board
+		int				sun_interval_time;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

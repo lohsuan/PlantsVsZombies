@@ -55,6 +55,8 @@
 #include "Resource.h"
 #include <mmsystem.h>
 #include <ddraw.h>
+#include <stdlib.h> /* 亂數相關函數 */
+#include <time.h>   /* 時間相關函數 */
 #include "audio.h"
 #include "gamelib.h"
 #include "mygame.h"
@@ -91,6 +93,7 @@ void CGameStateInit::OnInit()
 	CAudio::Instance()->Load(AUDIO_MAIN, "sounds\\mainmenu.mp3");
 	CAudio::Instance()->Play(AUDIO_MAIN, true);
 	CAudio::Instance()->Load(AUDIO_MENUTOGAME, "sounds\\menutogame.mp3");
+	CAudio::Instance()->Load(AUDIO_SUNPICK, "sounds\\sun_pick.mp3");
 
 	// Sleep(500);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
@@ -132,7 +135,7 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 		flag_menutogame = 1;
 		
 		CAudio::Instance()->Play(AUDIO_MENUTOGAME, false);
-		Sleep(3000);
+		//Sleep(3000);
 
 		GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 	}
@@ -248,12 +251,61 @@ CGameStateRun::CGameStateRun(CGame *g)
 {
 	ball = new CBall [NUMBALLS];
 	picX = picY = 0;
-	sun_amount = 50;
+	flag = 0;
+	// suntry
+	sun_amount = 50;			// 一開始50個sun
+	sun_interval_time = 5;		// 5 second
 }
+
+
 
 CGameStateRun::~CGameStateRun()
 {
 	delete [] ball;
+}
+
+void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
+{
+	//
+	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
+	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
+	//
+	ShowInitProgress(33);	// 接個前一個狀態的進度，此處進度視為33%
+	Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+
+	//
+	// 開始載入資料
+	//
+	// practice.LoadBitmap(IDB_SNOWGIEDRAW);
+	chooser.LoadBitmap("Bitmaps/ChooserBackground.bmp"); //zozo
+	//gamemap.LoadBitmap();							// 載入地圖的圖形  //practiceGreenBlue
+	c_practice.LoadBitmap();
+	background.LoadBitmap("Bitmaps/Background.bmp");			// 載入背景的圖形
+
+	int i;
+	for (i = 0; i < NUMBALLS; i++)
+		ball[i].LoadBitmap();								// 載入第i個球的圖形
+	eraser.LoadBitmap();
+
+	//
+	// 完成部分Loading動作，提高進度
+	//
+	ShowInitProgress(50);
+	Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	//
+	// 繼續載入其他資料
+	//
+	help.LoadBitmap(IDB_HELP, RGB(255, 255, 255));				// 載入說明的圖形
+	corner.LoadBitmap(IDB_CORNER);							// 載入角落圖形
+	corner.ShowBitmap(background);							// 將corner貼到background
+	bball.LoadBitmap();										// 載入圖形
+	hits_left.LoadBitmap();
+	sun.LoadBitmap();
+	CAudio::Instance()->Load(AUDIO_START, "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
+
+	//
+	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
+	//
 }
 
 void CGameStateRun::OnBeginState()
@@ -279,122 +331,8 @@ void CGameStateRun::OnBeginState()
 	hits_left.SetInteger(HITS_LEFT);					// 指定剩下的撞擊數
 	hits_left.SetTopLeft(HITS_LEFT_X,HITS_LEFT_Y);		// 指定剩下撞擊數的座標
 	CAudio::Instance()->Stop(AUDIO_MAIN);
-	CAudio::Instance()->Play(AUDIO_START, true);		// 撥放 WAVE
+	CAudio::Instance()->Play(AUDIO_START, true);		
 
-}
-
-void CGameStateRun::OnMove()							// 移動遊戲元素
-{
-	c_practice.OnMove();
-
-	if (flag != 2) {
-		chooser.SetTopLeft(0, -87);
-	}
-	else {
-		chooser.SetTopLeft(0, 0);
-	}
-	
-	
-	//
-	// 移動背景圖的座標
-	//
-	if (picX > -400 && flag==0) {
-		picX -= 4;
-	}// (-400,0)
-	else if (flag == 0) {
-		Sleep(1000);
-		flag = 1;
-	}
-	else if (picX < -150) {
-		//flag = 1;
-		picX += 4;
-	}// (-150,0)
-	else {
-		flag = 2;
-		picX = -150;
-	}
-	background.SetTopLeft(picX, picY);
-
-	gamemap.OnMove();
-	//
-	// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
-	//
-	// SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
-
-
-	//
-	// 移動球
-	//
-	int i;
-	for (i=0; i < NUMBALLS; i++)
-		ball[i].OnMove();
-	//
-	// 移動擦子
-	//
-	eraser.OnMove();
-	//
-	// 判斷擦子是否碰到球
-	//
-
-	for (i=0; i < NUMBALLS; i++)
-		if (ball[i].IsAlive() && ball[i].HitEraser(&eraser)) {
-			ball[i].SetIsAlive(false);
-			hits_left.Add(-1);
-			//
-			// 若剩餘碰撞次數為0，則跳到Game Over狀態
-			//
-			if (hits_left.GetInteger() <= 0) {
-				CAudio::Instance()->Stop(AUDIO_START);
-				GotoGameState(GAME_STATE_OVER);
-			}
-		}
-	//
-	// 移動彈跳的球
-	//
-	bball.OnMove();
-}
-
-void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
-{
-	//
-	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
-	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
-	//
-	ShowInitProgress(33);	// 接個前一個狀態的進度，此處進度視為33%
-	Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-
-	//
-	// 開始載入資料
-	//
-	// practice.LoadBitmap(IDB_SNOWGIEDRAW);
-	chooser.LoadBitmap("Bitmaps/ChooserBackground.bmp"); //zozo
-	//gamemap.LoadBitmap();							// 載入地圖的圖形  //practiceGreenBlue
-	c_practice.LoadBitmap();
-	background.LoadBitmap("Bitmaps/Background.bmp");			// 載入背景的圖形
-
-	int i;
-	for (i = 0; i < NUMBALLS; i++)	
-		ball[i].LoadBitmap();								// 載入第i個球的圖形
-	eraser.LoadBitmap();
-
-	//
-	// 完成部分Loading動作，提高進度
-	//
-	ShowInitProgress(50);
-	Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-	//
-	// 繼續載入其他資料
-	//
-	help.LoadBitmap(IDB_HELP,RGB(255,255,255));				// 載入說明的圖形
-	corner.LoadBitmap(IDB_CORNER);							// 載入角落圖形
-	corner.ShowBitmap(background);							// 將corner貼到background
-	bball.LoadBitmap();										// 載入圖形
-	hits_left.LoadBitmap();									
-	CAudio::Instance()->Load(AUDIO_START,  "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
-
-	//
-	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
-	//
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -432,12 +370,18 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
-	eraser.SetMovingLeft(true);
+	// suntry
+	if (point.x > sun.GetX() - 5 && point.y - 5 > sun.GetY() && point.x < sun.GetX() + 80 && point.y < sun.GetY() + 80) {
+		CAudio::Instance()->Play(AUDIO_SUNPICK, false);
+		sun.SetIsAlive(false);
+		sun_amount += 25;
+	}
+	//eraser.SetMovingLeft(true);
 }
 
 void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 {
-	eraser.SetMovingLeft(false);
+	//eraser.SetMovingLeft(false);
 }
 
 void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -452,7 +396,84 @@ void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 
 void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 {
-	eraser.SetMovingRight(false);
+	//eraser.SetMovingRight(false);
+}
+
+void CGameStateRun::OnMove()							// 移動遊戲元素
+{
+	c_practice.OnMove();
+
+	if (flag != 2) {
+		chooser.SetTopLeft(0, -87);
+	}
+	else {
+		chooser.SetTopLeft(0, 0);
+	}
+
+	//
+	// 移動背景圖的座標
+	//
+	if (picX > -400 && flag == 0) {
+		picX -= 4;
+	}// (-400,0)
+	else if (flag == 0) {
+		Sleep(1000);
+		flag = 1;
+	}
+	else if (picX < -150) {
+		//flag = 1;
+		picX += 4;
+	}// (-150,0)
+	else {
+		flag = 2;
+		picX = -150;
+	}
+	background.SetTopLeft(picX, picY);
+
+	// Suntry
+	// sun.OnMove();
+	if (flag==2 && sun.IsAlive()) {
+		sun.OnMove();
+	}
+
+	// gamemap.OnMove();
+	//
+	// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
+	//
+	// SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
+
+
+
+	//
+	// 移動球
+	//
+
+	for (int i = 0; i < NUMBALLS; i++)
+		ball[i].OnMove();
+	//
+	// 移動擦子
+	//
+	eraser.OnMove();
+	//
+	// 判斷擦子是否碰到球
+	//
+
+	for (int i = 0; i < NUMBALLS; i++)
+		if (ball[i].IsAlive() && ball[i].HitEraser(&eraser)) {
+			ball[i].SetIsAlive(false);
+			hits_left.Add(-1);
+			//
+			// 若剩餘碰撞次數為0，則跳到Game Over狀態
+			//
+			if (hits_left.GetInteger() <= 0) {
+				CAudio::Instance()->Stop(AUDIO_START);
+				GotoGameState(GAME_STATE_OVER);
+			}
+		}
+	//
+	// 移動彈跳的球
+	//
+	bball.OnMove();
 }
 
 void CGameStateRun::OnShow()
@@ -481,10 +502,15 @@ void CGameStateRun::OnShow()
 	//
 	//  貼上左上及右下角落的圖
 	//
-	corner.SetTopLeft(0,0);
-	corner.ShowBitmap();
-	corner.SetTopLeft(SIZE_X-corner.Width(), SIZE_Y-corner.Height());
-	corner.ShowBitmap();
+	//corner.SetTopLeft(0,0);
+	//corner.ShowBitmap();
+	//corner.SetTopLeft(SIZE_X-corner.Width(), SIZE_Y-corner.Height());
+	//corner.ShowBitmap();
+	
+	// suntry
+	if (flag == 2 && sun.IsAlive()) {
+		sun.OnShow();
+	}
 
 	chooser.ShowBitmap();
 	

@@ -29,6 +29,7 @@ namespace game_framework {
 		bool HitRectangle(int tx1, int ty1, int tx2, int ty2);	// 是否碰到參數範圍的矩形
 	};
 
+	////////////////////////////////////////////////////////////////////////////////////
 	class YSun
 	{
 	public:
@@ -39,11 +40,14 @@ namespace game_framework {
 		void OnMove();											// 移動
 		void OnShow();											// 將圖形貼到畫面
 		void SetIsAlive(bool alive);							// 設定是否活著
-
+		int  GetX();
+		int  GetY();
+		int	 GetFloor();
 	private:
 		CMovingBitmap sun;	
 		int x, y;		
 		bool is_alive;
 		CAnimation sunanimation;	// 利用動畫作圖形
+		int floor;					// where sun stop
 	};
 }
