@@ -13,8 +13,8 @@ namespace game_framework {
 
 	YSun::YSun() {
 		srand((int)time(NULL));
-		x = (rand() % 550) + 200;		// 200~750
-		y = -100;
+		x = (rand() % 650) + 100;		// 100~750
+		y = -150;
 		floor = (rand() % 250) + 250;	//250~500
 		is_alive = true;
 	}
@@ -22,6 +22,7 @@ namespace game_framework {
 	void YSun::OnLButtonDown(UINT nFlags, CPoint point) {
 		if (point.x > x - 5 && point.y - 5 > y && point.x < x + 80 && point.y < y + 80) {
 			is_alive = false;
+
 		}
 	}
 
@@ -38,8 +39,11 @@ namespace game_framework {
 	}
 
 	void YSun::OnMove() {
-		if (!is_alive)
-			return;
+		/*if (!is_alive)
+			return;*/
+		if (GetY() > 0) {
+			SetIsAlive(true);
+		}
 		if (GetY() < GetFloor())
 			y = y + 2;
 
@@ -47,12 +51,21 @@ namespace game_framework {
 	}
 
 	void YSun::OnShow() {
-		sunanimation.SetTopLeft(x, y);
-		sunanimation.OnShow();
+		if (IsAlive()) {
+			sunanimation.SetTopLeft(x, y);
+			sunanimation.OnShow();
+		}
 	}
 
 	void YSun::SetIsAlive(bool alive) {
 		is_alive = alive;
+	}
+
+	void YSun::SetY(int y) {
+		srand((int)time(NULL));
+		x = (rand() % 550) + 200;		// 200~750
+		this->y = y;
+		floor = (rand() % 250) + 250;	//250~500
 	}
 
 	int YSun::GetX() {

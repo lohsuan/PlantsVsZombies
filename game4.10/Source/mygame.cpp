@@ -57,6 +57,8 @@
 #include <ddraw.h>
 #include <stdlib.h> /* 亂數相關函數 */
 #include <time.h>   /* 時間相關函數 */
+#include <string>	// to_string
+#include <sstream>
 #include "audio.h"
 #include "gamelib.h"
 #include "mygame.h"
@@ -375,6 +377,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		CAudio::Instance()->Play(AUDIO_SUNPICK, false);
 		sun.SetIsAlive(false);
 		sun_amount += 25;
+		sun.SetY(-500);
 	}
 	//eraser.SetMovingLeft(true);
 }
@@ -432,7 +435,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	// Suntry
 	// sun.OnMove();
-	if (flag==2 && sun.IsAlive()) {
+	if (flag==2) {
 		sun.OnMove();
 	}
 
@@ -482,9 +485,7 @@ void CGameStateRun::OnShow()
 	//        否則當視窗重新繪圖時(OnDraw)，物件就會移動，看起來會很怪。換個術語
 	//        說，Move負責MVC中的Model，Show負責View，而View不應更動Model。
 	//
-	//
-	//  貼上背景圖、撞擊數、球、擦子、彈跳的球
-	//
+
 	background.ShowBitmap();				// 貼上背景圖
 	
 	//gamemap.OnShow();					// 貼上地圖，注意順序 //practiceGreenBlue
@@ -507,11 +508,48 @@ void CGameStateRun::OnShow()
 	//corner.ShowBitmap();
 	
 	// suntry
-	if (flag == 2 && sun.IsAlive()) {
+	if (flag == 2 ) {
 		sun.OnShow();
 	}
 
 	chooser.ShowBitmap();
+	
+	// sun amount
+	if (flag == 2) {
+		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+		CFont f, *fp;
+		f.CreatePointFont(90, "微軟正黑體");	// 產生 font f; 160表示16 point的字
+		fp = pDC->SelectObject(&f);					// 選用 font f
+		pDC->SetBkMode(TRANSPARENT);
+
+		pDC->SetTextColor(RGB(0, 0, 0));
+
+		if (sun_amount == 50)
+			pDC->TextOut(30, 62, "50");
+		else if (sun_amount == 0) 
+			pDC->TextOut(34, 62, "0");
+		else if (sun_amount == 25) 
+			pDC->TextOut(30, 62, "25");
+		else if (sun_amount == 75) 
+			pDC->TextOut(30, 62, "75");
+		else if (sun_amount == 100)
+			pDC->TextOut(26, 62, "100");
+		else if (sun_amount == 125)
+			pDC->TextOut(26, 62, "125");
+		else if (sun_amount == 150)
+			pDC->TextOut(26, 62, "150");
+		else if (sun_amount == 175)
+			pDC->TextOut(26, 62, "175");
+		else if (sun_amount == 200)
+			pDC->TextOut(26, 62, "200");
+		else if (sun_amount == 225)
+			pDC->TextOut(26, 62, "225");
+		else if (sun_amount == 250)
+			pDC->TextOut(26, 62, "250");
+	
+		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
+		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+	}
 	
 	//c_practice.OnShow();  //practice snowgie
 }
