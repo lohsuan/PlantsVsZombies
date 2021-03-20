@@ -371,7 +371,7 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
 	// suntry
-	if (point.x > sun.GetX() - 5 && point.y - 5 > sun.GetY() && point.x < sun.GetX() + 80 && point.y < sun.GetY() + 80) {
+	if (point.x > sun.GetX() - 5 && point.y - 5 > sun.GetY() && point.x < sun.GetX() + 80 && point.y < sun.GetY() + 80 && sun.IsAlive()) {
 		CAudio::Instance()->Play(AUDIO_SUNPICK, false);
 		sun.SetIsAlive(false);
 		sun_amount += 25;
@@ -391,7 +391,7 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 
 void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
-	eraser.SetMovingRight(true);
+	//eraser.SetMovingRight(true);
 }
 
 void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -447,29 +447,28 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	//
 	// 移動球
 	//
-
-	for (int i = 0; i < NUMBALLS; i++)
-		ball[i].OnMove();
+	//for (int i = 0; i < NUMBALLS; i++)
+	//	ball[i].OnMove();
 	//
 	// 移動擦子
 	//
-	eraser.OnMove();
+	//eraser.OnMove();
 	//
 	// 判斷擦子是否碰到球
 	//
 
-	for (int i = 0; i < NUMBALLS; i++)
-		if (ball[i].IsAlive() && ball[i].HitEraser(&eraser)) {
-			ball[i].SetIsAlive(false);
-			hits_left.Add(-1);
-			//
-			// 若剩餘碰撞次數為0，則跳到Game Over狀態
-			//
-			if (hits_left.GetInteger() <= 0) {
-				CAudio::Instance()->Stop(AUDIO_START);
-				GotoGameState(GAME_STATE_OVER);
-			}
-		}
+	//for (int i = 0; i < NUMBALLS; i++)
+	//	if (ball[i].IsAlive() && ball[i].HitEraser(&eraser)) {
+	//		ball[i].SetIsAlive(false);
+	//		hits_left.Add(-1);
+	//		//
+	//		// 若剩餘碰撞次數為0，則跳到Game Over狀態
+	//		//
+	//		if (hits_left.GetInteger() <= 0) {
+	//			CAudio::Instance()->Stop(AUDIO_START);
+	//			GotoGameState(GAME_STATE_OVER);
+	//		}
+	//	}
 	//
 	// 移動彈跳的球
 	//
@@ -489,8 +488,8 @@ void CGameStateRun::OnShow()
 	background.ShowBitmap();				// 貼上背景圖
 	
 	//gamemap.OnShow();					// 貼上地圖，注意順序 //practiceGreenBlue
-	help.ShowBitmap();					// 貼上說明圖
-	hits_left.ShowBitmap();
+	//help.ShowBitmap();					// 貼上說明圖
+	//hits_left.ShowBitmap();
 	
 	/* teacher's ball
 	for (int i=0; i < NUMBALLS; i++)

@@ -41,6 +41,7 @@
 #include "CEraser.h"
 #include "CBall.h"
 #include "CBouncingBall.h"
+#include "YSun.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
