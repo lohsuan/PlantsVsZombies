@@ -132,6 +132,12 @@
     <ClCompile Include="Source\YSun.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="Source\YPlants.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\YSunFlower.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\audio.h">
@@ -171,6 +177,12 @@
       <Filter>MyGame</Filter>
     </ClInclude>
     <ClInclude Include="Source\YSun.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\YPlants.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\YSunFlower.h">
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>

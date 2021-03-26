@@ -11,7 +11,7 @@ namespace game_framework {
 		void OnMove();											// 移動
 		void OnShow();											// 將圖形貼到畫面
 		void SetIsAlive(bool alive);							// 設定是否活著
-		void YSun::SetY(int y);
+		void SetY(int y);
 		int  GetX();
 		int  GetY();
 		int	 GetFloor();
