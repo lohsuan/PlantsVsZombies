@@ -257,6 +257,7 @@ CGameStateRun::CGameStateRun(CGame *g)
 	// suntry
 	sun_amount = 50;			// 一開始50個sun
 	sun_interval_time = 5;		// 5 second
+	generateSunFlowerFlag = false;
 }
 
 
@@ -373,7 +374,14 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
-{
+{	
+	if (generateSunFlowerFlag) {
+		YSunFlower sunflower(point.x, point.y);
+		sunflower.LoadBitmap();
+		sunflower_vector.push_back(sunflower);
+		generateSunFlowerFlag = false;
+	}
+
 	// suntry
 	if (point.x > sun.GetX() - 5 && point.y - 5 > sun.GetY() && point.x < sun.GetX() + 80 && point.y < sun.GetY() + 80 && sun.IsAlive()) {
 		CAudio::Instance()->Play(AUDIO_SUNPICK, false);
@@ -385,6 +393,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	if (point.x > sun_flower_card.GetX() && point.y > sun_flower_card.GetY() && point.x < sun_flower_card.GetX() + 65 && point.y < sun_flower_card.GetY() + 90 && sun_flower_card.IsAlive()) {
 		sun_flower_card.SetIsAlive(false);
 		sun_amount -= sun_flower_card.GetSunCost();
+		generateSunFlowerFlag = true;
 	}
 	if (point.x > pea_shooter_card.GetX() && point.y > pea_shooter_card.GetY() && point.x < pea_shooter_card.GetX() + 65 && point.y < pea_shooter_card.GetY() + 90 && pea_shooter_card.IsAlive()) {
 		pea_shooter_card.SetIsAlive(false);
@@ -527,6 +536,9 @@ void CGameStateRun::OnShow()
 		pea_shooter_card.OnShow();
 	}
 
+	for (YSunFlower sf : sunflower_vector) {
+		sf.OnShow();
+	}
 	
 
 	// sun amount

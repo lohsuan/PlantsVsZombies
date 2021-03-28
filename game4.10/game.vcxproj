@@ -317,6 +317,8 @@
     <ClInclude Include="Source\gamelib.h" />
     <ClInclude Include="Source\mygame.h" />
     <ClInclude Include="Source\YCard.h" />
+    <ClInclude Include="Source\YMap.h" />
+    <ClInclude Include="Source\YPlants.h" />
     <ClInclude Include="Source\YSun.h" />
   </ItemGroup>
   <ItemGroup>

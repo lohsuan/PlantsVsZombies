@@ -37,12 +37,14 @@
  *      2. Replace the demonstration of animation as a new bouncing ball.
  *      3. Use ShowInitProgress(percent) to display loading progress.
 */
-
+#include <vector>
 #include "CEraser.h"
 #include "CBall.h"
 #include "CBouncingBall.h"
 #include "YSun.h"
 #include "YCard.h"
+#include "YPlants.h"
+#include "YMap.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -162,9 +164,10 @@ namespace game_framework {
 		YSun			sun;
 		int				sun_amount;			// show on the board
 		int				sun_interval_time;
-
+		bool			generateSunFlowerFlag;
 		YSunFlowerCard  sun_flower_card;
 		YPeaShooterCard  pea_shooter_card;
+		std::vector<YSunFlower>	sunflower_vector;
 
 	};
 

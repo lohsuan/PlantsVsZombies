@@ -34,6 +34,7 @@ namespace game_framework {
 		char *filename[8] = { ".\\bitmaps\\sun0.bmp",".\\bitmaps\\sun1.bmp",".\\bitmaps\\sun2.bmp",".\\bitmaps\\sun3.bmp"
 		, ".\\bitmaps\\sun4.bmp",".\\bitmaps\\sun5.bmp",".\\bitmaps\\sun6.bmp",".\\bitmaps\\sun7.bmp"
 		};
+		
 		for (int i = 0; i < 8; i++)	// 載入動畫(由8張圖形構成)
 			sunanimation.AddBitmap(filename[i], RGB(255, 255, 255));
 	}

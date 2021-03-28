@@ -18,7 +18,7 @@ namespace game_framework {
 		int  GetY();
 		int	 GetFloor();
 	private:
-		CMovingBitmap sun;
+		//CMovingBitmap sun;
 		int x, y;
 		bool is_alive;
 		CAnimation sunanimation;	// 利用動畫作圖形
