@@ -303,6 +303,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	bball.LoadBitmap();										// 載入圖形
 	hits_left.LoadBitmap();
 	sun.LoadBitmap();
+	sun_flower_card.LoadBitmap();
 	CAudio::Instance()->Load(AUDIO_START, "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
 
 	//
@@ -379,7 +380,12 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		sun_amount += 25;
 		sun.SetY(-500);
 	}
-	//eraser.SetMovingLeft(true);
+	// sunflowercardtry
+	if (point.x > sun_flower_card.GetX() && point.y > sun_flower_card.GetY() && point.x < sun_flower_card.GetX() + 65 && point.y < sun_flower_card.GetY() + 90 && sun_flower_card.IsAlive()) {
+		sun_flower_card.SetIsAlive(false);
+		sun_amount -= sun_flower_card.GetSunCost();
+	}
+	
 }
 
 void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -406,12 +412,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 {
 	c_practice.OnMove();
 
-	if (flag != 2) {
-		chooser.SetTopLeft(0, -87);
-	}
-	else {
-		chooser.SetTopLeft(0, 0);
-	}
+	chooser.SetTopLeft(0, 0);
 
 	//
 	// 移動背景圖的座標
@@ -437,6 +438,11 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	// sun.OnMove();
 	if (flag==2) {
 		sun.OnMove();
+	}
+
+	// sunflowercardtry
+	if (sun_amount >= sun_flower_card.GetSunCost()) {
+		sun_flower_card.SetIsAlive(true);
 	}
 
 	// gamemap.OnMove();
@@ -510,10 +516,12 @@ void CGameStateRun::OnShow()
 	// suntry
 	if (flag == 2 ) {
 		sun.OnShow();
+		chooser.ShowBitmap();
+		sun_flower_card.OnShow();
 	}
 
-	chooser.ShowBitmap();
 	
+
 	// sun amount
 	if (flag == 2) {
 		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 

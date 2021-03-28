@@ -42,6 +42,7 @@
 #include "CBall.h"
 #include "CBouncingBall.h"
 #include "YSun.h"
+#include "YCard.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -161,6 +162,8 @@ namespace game_framework {
 		YSun			sun;
 		int				sun_amount;			// show on the board
 		int				sun_interval_time;
+
+		YSunFlowerCard  sun_flower_card;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
