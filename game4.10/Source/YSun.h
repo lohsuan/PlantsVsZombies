@@ -1,3 +1,5 @@
+#ifndef YSUN_H
+#define YSUN_H
 
 namespace game_framework {
 	
@@ -23,3 +25,5 @@ namespace game_framework {
 		int floor;					// where sun stop
 	};
 }
+
+#endif

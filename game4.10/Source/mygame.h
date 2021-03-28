@@ -164,6 +164,8 @@ namespace game_framework {
 		int				sun_interval_time;
 
 		YSunFlowerCard  sun_flower_card;
+		YPeaShooterCard  pea_shooter_card;
+
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

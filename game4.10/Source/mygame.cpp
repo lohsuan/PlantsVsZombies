@@ -304,6 +304,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	hits_left.LoadBitmap();
 	sun.LoadBitmap();
 	sun_flower_card.LoadBitmap();
+	pea_shooter_card.LoadBitmap();
 	CAudio::Instance()->Load(AUDIO_START, "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
 
 	//
@@ -385,7 +386,10 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		sun_flower_card.SetIsAlive(false);
 		sun_amount -= sun_flower_card.GetSunCost();
 	}
-	
+	if (point.x > pea_shooter_card.GetX() && point.y > pea_shooter_card.GetY() && point.x < pea_shooter_card.GetX() + 65 && point.y < pea_shooter_card.GetY() + 90 && pea_shooter_card.IsAlive()) {
+		pea_shooter_card.SetIsAlive(false);
+		sun_amount -= pea_shooter_card.GetSunCost();
+	}
 }
 
 void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -444,7 +448,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	if (sun_amount >= sun_flower_card.GetSunCost()) {
 		sun_flower_card.SetIsAlive(true);
 	}
-
+	if (sun_amount >= pea_shooter_card.GetSunCost()) {
+		pea_shooter_card.SetIsAlive(true);
+	}
 	// gamemap.OnMove();
 	//
 	// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
@@ -518,6 +524,7 @@ void CGameStateRun::OnShow()
 		sun.OnShow();
 		chooser.ShowBitmap();
 		sun_flower_card.OnShow();
+		pea_shooter_card.OnShow();
 	}
 
 	
