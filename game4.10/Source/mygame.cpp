@@ -447,6 +447,11 @@ void CGameStateRun::OnMove()							// ²¾°Ê¹CÀ¸¤¸¯À
 	}
 	background.SetTopLeft(picX, picY);
 
+
+	for (YSunFlower &sf : sunflower_vector) {
+		sf.OnMove();
+	}
+
 	// Suntry
 	// sun.OnMove();
 	if (flag==2) {
@@ -536,8 +541,8 @@ void CGameStateRun::OnShow()
 		pea_shooter_card.OnShow();
 	}
 
-	for (YSunFlower sf : sunflower_vector) {
-		sf.OnShow();
+	for (size_t i = 0; i<sunflower_vector.size() ; i++) {
+		sunflower_vector.at(i).OnShow();
 	}
 	
 
