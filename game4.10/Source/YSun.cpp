@@ -31,11 +31,11 @@ namespace game_framework {
 	}
 
 	void YSun::LoadBitmap() {
-		char *filename[8] = { ".\\bitmaps\\sun0.bmp",".\\bitmaps\\sun1.bmp",".\\bitmaps\\sun2.bmp",".\\bitmaps\\sun3.bmp"
-		, ".\\bitmaps\\sun4.bmp",".\\bitmaps\\sun5.bmp",".\\bitmaps\\sun6.bmp",".\\bitmaps\\sun7.bmp"
+		char *filename[8] = { ".\\bitmaps\\Sun\\sun0.bmp",".\\bitmaps\\Sun\\sun1.bmp",".\\bitmaps\\Sun\\sun2.bmp",".\\bitmaps\\Sun\\sun3.bmp"
+		, ".\\bitmaps\\Sun\\sun4.bmp",".\\bitmaps\\Sun\\sun5.bmp",".\\bitmaps\\Sun\\sun6.bmp",".\\bitmaps\\Sun\\sun7.bmp"
 		};
 		
-		for (int i = 0; i < 8; i++)	// ¸ü¤J°Êµe(¥Ñ8±i¹Ï§Îºc¦¨)
+		for (int i = 0; i < 8; i++)	// ï¿½ï¿½ï¿½Jï¿½Êµe(ï¿½ï¿½8ï¿½iï¿½Ï§Îºcï¿½ï¿½)
 			sunanimation.AddBitmap(filename[i], RGB(255, 255, 255));
 	}
 
@@ -48,7 +48,7 @@ namespace game_framework {
 		if (GetY() < GetFloor())
 			y = y + 2;
 
-		sunanimation.OnMove();		// °õ¦æ¤@¦¸animation.OnMove()¡Aanimation¤~·|´«¹Ï
+		sunanimation.OnMove();		// ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½animation.OnMove()ï¿½Aanimationï¿½~ï¿½|ï¿½ï¿½ï¿½ï¿½
 	}
 
 	void YSun::OnShow() {
@@ -80,8 +80,8 @@ namespace game_framework {
 	int	YSun::GetFloor() {
 		return floor;
 	}
-	//CMovingBitmap sun;			// ²yªº¹Ï
-	//int x, y;					// ¶ê¤ßªº®y¼Ð
+	//CMovingBitmap sun;			// ï¿½yï¿½ï¿½ï¿½ï¿½
+	//int x, y;					// ï¿½ï¿½ßªï¿½ï¿½yï¿½ï¿½
 	//bool is_alive;
 }
 

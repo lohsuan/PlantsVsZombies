@@ -62,6 +62,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "mygame.h"
+#include "YMap.h"
 
 namespace game_framework {
 
@@ -258,6 +259,9 @@ CGameStateRun::CGameStateRun(CGame *g)
 	sun_amount = 50;			// 一開始50個sun
 	sun_interval_time = 5;		// 5 second
 	generateSunFlowerFlag = false;
+	generatePeaShooterFlag = false;
+	sun_flower_card_delay_flag = 0;
+	peashooter_card_delay_flag = 0;
 }
 
 
@@ -354,7 +358,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		eraser.SetMovingUp(true);
 	if (nChar == KEY_DOWN)
 		eraser.SetMovingDown(true);
-	gamemap.OnKeyDown(nChar);
+	//gamemap.OnKeyDown(nChar);
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -381,6 +385,12 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		sunflower_vector.push_back(sunflower);
 		generateSunFlowerFlag = false;
 	}
+	if (generatePeaShooterFlag) {
+		YPeaShooter peashooter(point.x, point.y);
+		peashooter.LoadBitmap();
+		peashooter_vector.push_back(peashooter);
+		generatePeaShooterFlag = false;
+	}
 
 	// suntry
 	if (point.x > sun.GetX() - 5 && point.y - 5 > sun.GetY() && point.x < sun.GetX() + 80 && point.y < sun.GetY() + 80 && sun.IsAlive()) {
@@ -390,14 +400,18 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		sun.SetY(-500);
 	}
 	// sunflowercardtry
+
 	if (point.x > sun_flower_card.GetX() && point.y > sun_flower_card.GetY() && point.x < sun_flower_card.GetX() + 65 && point.y < sun_flower_card.GetY() + 90 && sun_flower_card.IsAlive()) {
 		sun_flower_card.SetIsAlive(false);
 		sun_amount -= sun_flower_card.GetSunCost();
 		generateSunFlowerFlag = true;
+		sun_flower_card_delay_flag = 150;
 	}
 	if (point.x > pea_shooter_card.GetX() && point.y > pea_shooter_card.GetY() && point.x < pea_shooter_card.GetX() + 65 && point.y < pea_shooter_card.GetY() + 90 && pea_shooter_card.IsAlive()) {
 		pea_shooter_card.SetIsAlive(false);
 		sun_amount -= pea_shooter_card.GetSunCost();
+		generatePeaShooterFlag = true;
+		peashooter_card_delay_flag = 150;
 	}
 }
 
@@ -451,27 +465,37 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	for (YSunFlower &sf : sunflower_vector) {
 		sf.OnMove();
 	}
-
+	for (YPeaShooter &ps : peashooter_vector) {
+		ps.OnMove();
+	}
 	// Suntry
 	// sun.OnMove();
 	if (flag==2) {
 		sun.OnMove();
 	}
 
+	if (sun_flower_card_delay_flag > 0) {
+		sun_flower_card_delay_flag--;
+	}
+	
+
+	if (peashooter_card_delay_flag > 0) {
+		peashooter_card_delay_flag--;
+	}
+
 	// sunflowercardtry
-	if (sun_amount >= sun_flower_card.GetSunCost()) {
+	if (sun_amount >= sun_flower_card.GetSunCost() && sun_flower_card_delay_flag == 0) {
 		sun_flower_card.SetIsAlive(true);
 	}
-	if (sun_amount >= pea_shooter_card.GetSunCost()) {
+	if (sun_amount >= pea_shooter_card.GetSunCost() && peashooter_card_delay_flag == 0) {
 		pea_shooter_card.SetIsAlive(true);
 	}
+
 	// gamemap.OnMove();
 	//
 	// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
 	//
 	// SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
-
-
 
 	//
 	// 移動球
@@ -501,7 +525,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	//
 	// 移動彈跳的球
 	//
-	bball.OnMove();
+	//bball.OnMove();
 }
 
 void CGameStateRun::OnShow()
@@ -544,7 +568,10 @@ void CGameStateRun::OnShow()
 	for (size_t i = 0; i<sunflower_vector.size() ; i++) {
 		sunflower_vector.at(i).OnShow();
 	}
-	
+
+	for (size_t i = 0; i < peashooter_vector.size(); i++) {
+		peashooter_vector.at(i).OnShow();
+	}
 
 	// sun amount
 	if (flag == 2) {
@@ -609,52 +636,52 @@ void CPractice::OnShow() {
 	pic.ShowBitmap();
 }
 
-CGameMap::CGameMap()
-	:X(20), Y(40), MW(120), MH(100)			// 給予地圖左上角座標及每張小圖寬高
-{
-	int map_init[4][5] = { {0, 0, 1, 0, 0},		// 給予地圖陣列初值
-						  {0, 1, 2, 1, 0},
-						  {1, 2, 1, 2, 1},
-						  {2, 1, 2, 1, 2} };
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 5; j++) {
-			map[i][j] = map_init[i][j];		// 依序填入map內
-		}
-	}
-	random_num = 0;
-	bballs = NULL;
-}
-
-void CGameMap::LoadBitmap() {
-	blue.LoadBitmap(IDB_BLUE);
-	green.LoadBitmap(IDB_GREEN);
-}
-
-void CGameMap::OnShow() {
-	for (int i = 0; i < 5; i++) {			// 往右顯示五張圖
-		for (int j = 0; j < 4; j++) {		// 往下顯示四張圖
-			switch (map[j][i]) {
-				case 0:
-					break;
-				case 1:
-					blue.SetTopLeft(X + (MW*i), Y + (MH*j));	// 設定每張圖的座標
-					blue.ShowBitmap();							// 顯示設定完的座標
-					break;
-				case 2:
-					green.SetTopLeft(X + (MW*i), Y + (MH*j));	// 設定每張圖的座標
-					green.ShowBitmap();							// 顯示設定完的座標
-					break;
-				default:
-					ASSERT(0);									// map陣列不該出現0, 1, 2 之外的值
-			}
-	
-		}
-	}
-	for (int i = 0; i < random_num; i++)
-	{	
-		bballs[i].OnShow();
-	}
-}
+//CGameMap::CGameMap()
+//	:X(20), Y(40), MW(120), MH(100)			// 給予地圖左上角座標及每張小圖寬高
+//{
+//	int map_init[4][5] = { {0, 0, 1, 0, 0},		// 給予地圖陣列初值
+//						  {0, 1, 2, 1, 0},
+//						  {1, 2, 1, 2, 1},
+//						  {2, 1, 2, 1, 2} };
+//	for (int i = 0; i < 4; i++) {
+//		for (int j = 0; j < 5; j++) {
+//			map[i][j] = map_init[i][j];		// 依序填入map內
+//		}
+//	}
+//	random_num = 0;
+//	bballs = NULL;
+//}
+//
+//void CGameMap::LoadBitmap() {
+//	blue.LoadBitmap(IDB_BLUE);
+//	green.LoadBitmap(IDB_GREEN);
+//}
+//
+//void CGameMap::OnShow() {
+//	for (int i = 0; i < 5; i++) {			// 往右顯示五張圖
+//		for (int j = 0; j < 4; j++) {		// 往下顯示四張圖
+//			switch (map[j][i]) {
+//				case 0:
+//					break;
+//				case 1:
+//					blue.SetTopLeft(X + (MW*i), Y + (MH*j));	// 設定每張圖的座標
+//					blue.ShowBitmap();							// 顯示設定完的座標
+//					break;
+//				case 2:
+//					green.SetTopLeft(X + (MW*i), Y + (MH*j));	// 設定每張圖的座標
+//					green.ShowBitmap();							// 顯示設定完的座標
+//					break;
+//				default:
+//					ASSERT(0);									// map陣列不該出現0, 1, 2 之外的值
+//			}
+//	
+//		}
+//	}
+//	for (int i = 0; i < random_num; i++)
+//	{	
+//		bballs[i].OnShow();
+//	}
+//}
 
 void CBouncingBall::SetXY(int x, int y) {
 	this->x = x;
@@ -670,48 +697,48 @@ void CBouncingBall::SetVelocity(int velocity) {
 	this->initial_velocity = velocity;
 }
 
-void CGameMap::InitializeBouncingBall(int ini_index, int row, int col) {
-	const int VELOCITY = 10;							// 球的起始上升高度	
-	const int BALL_PIC_HEIGHT = 15;						// 球圖片的高度
-	int floor = Y + (row + 1)*MH - BALL_PIC_HEIGHT;		// 設定球的落下點為Map的下方
-
-	bballs[ini_index].LoadBitmap();						// 載入彈跳球的動畫
-	bballs[ini_index].SetFloor(floor);					// 設定彈跳球的起始水平面
-	bballs[ini_index].SetVelocity(VELOCITY+col);		// 設定彈跳球的初始速度，越右邊的彈越高
-	bballs[ini_index].SetXY(X+col*MW + MW/2, floor);	// 設定彈跳球的起始位置X座標為該Map一半的位置
-}
-
-void CGameMap::RandomBouncingBall() {
-	const int MAX_RAND_NUM = 10;
-	random_num = (rand() % MAX_RAND_NUM) + 1;			// 隨機1~MAX_RAND_NUM
-
-	delete[] bballs;													// 先刪掉之前所配置的空間
-	bballs = new CBouncingBall[random_num];				// 動態配置CBouncingBall 陣列
-	int ini_index = 0;								
-	for (int row = 0; row < 4; row++) {
-		for (int col = 0; col < 5; col++) {
-			if (map[row][col] != 0 && ini_index < random_num) {		// 只放球在有色的地圖且初始化的陣列索引必小於隨機的個數
-				InitializeBouncingBall(ini_index, row, col);
-				ini_index++;										
-			}
-		}
-	}
-}
-
-void CGameMap::OnKeyDown(UINT nChar) {
-	const int KEY_SPACE = 0x20;
-	if (nChar == KEY_SPACE)
-		RandomBouncingBall();	// 當空白鍵按下後隨機彈跳球
-}
-
-void CGameMap::OnMove() {
-	for (int i = 0; i < random_num; i++) {
-		bballs[i].OnMove();
-	}
-}
-
-CGameMap::~CGameMap() {
-	delete[] bballs;
-}
+//void CGameMap::InitializeBouncingBall(int ini_index, int row, int col) {
+//	const int VELOCITY = 10;							// 球的起始上升高度	
+//	const int BALL_PIC_HEIGHT = 15;						// 球圖片的高度
+//	int floor = Y + (row + 1)*MH - BALL_PIC_HEIGHT;		// 設定球的落下點為Map的下方
+//
+//	bballs[ini_index].LoadBitmap();						// 載入彈跳球的動畫
+//	bballs[ini_index].SetFloor(floor);					// 設定彈跳球的起始水平面
+//	bballs[ini_index].SetVelocity(VELOCITY+col);		// 設定彈跳球的初始速度，越右邊的彈越高
+//	bballs[ini_index].SetXY(X+col*MW + MW/2, floor);	// 設定彈跳球的起始位置X座標為該Map一半的位置
+//}
+//
+//void CGameMap::RandomBouncingBall() {
+//	const int MAX_RAND_NUM = 10;
+//	random_num = (rand() % MAX_RAND_NUM) + 1;			// 隨機1~MAX_RAND_NUM
+//
+//	delete[] bballs;													// 先刪掉之前所配置的空間
+//	bballs = new CBouncingBall[random_num];				// 動態配置CBouncingBall 陣列
+//	int ini_index = 0;								
+//	for (int row = 0; row < 4; row++) {
+//		for (int col = 0; col < 5; col++) {
+//			if (map[row][col] != 0 && ini_index < random_num) {		// 只放球在有色的地圖且初始化的陣列索引必小於隨機的個數
+//				InitializeBouncingBall(ini_index, row, col);
+//				ini_index++;										
+//			}
+//		}
+//	}
+//}
+//
+//void CGameMap::OnKeyDown(UINT nChar) {
+//	const int KEY_SPACE = 0x20;
+//	if (nChar == KEY_SPACE)
+//		RandomBouncingBall();	// 當空白鍵按下後隨機彈跳球
+//}
+//
+//void CGameMap::OnMove() {
+//	for (int i = 0; i < random_num; i++) {
+//		bballs[i].OnMove();
+//	}
+//}
+//
+//CGameMap::~CGameMap() {
+//	delete[] bballs;
+//}
 
 }

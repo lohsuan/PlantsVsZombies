@@ -44,7 +44,7 @@
 #include "YSun.h"
 #include "YCard.h"
 #include "YPlants.h"
-#include "YMap.h"
+//#include "YMap.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -103,24 +103,24 @@ namespace game_framework {
 	// class CBouncingBall;
 
 	
-	class CGameMap {
-	public:
-		CGameMap();
-		void LoadBitmap();			// 載入地圖
-		void OnShow();				// 顯示地圖
-		void OnMove();									// 播放彈跳球的動畫
-		void OnKeyDown(UINT);							// 處理按鍵按下後CGaneMap的反應
-		void RandomBouncingBall();						// 隨機彈跳球的個數加入到Map中
-		void InitializeBouncingBall(int, int, int);		// 初始化彈跳球
-		~CGameMap();									// 解構子
-	protected:
-		CMovingBitmap blue, green;	// 建立藍色和綠色地圖
-		int map[4][5];				// 建立一個地圖矩陣的index
-		const int X, Y;				// 大地圖的左上角x, y座標
-		const int MW, MH;			// 每張地圖的寬高度
-		CBouncingBall* bballs;		// CBouncingBall指標
-		int random_num;				// 隨機個數
-	};
+	//class CGameMap {
+	//public:
+	//	CGameMap();
+	//	void LoadBitmap();			// 載入地圖
+	//	void OnShow();				// 顯示地圖
+	//	void OnMove();									// 播放彈跳球的動畫
+	//	void OnKeyDown(UINT);							// 處理按鍵按下後CGaneMap的反應
+	//	void RandomBouncingBall();						// 隨機彈跳球的個數加入到Map中
+	//	void InitializeBouncingBall(int, int, int);		// 初始化彈跳球
+	//	~CGameMap();									// 解構子
+	//protected:
+	//	CMovingBitmap blue, green;	// 建立藍色和綠色地圖
+	//	//int map[4][5];				// 建立一個地圖矩陣的index
+	//	const int X, Y;				// 大地圖的左上角x, y座標
+	//	const int MW, MH;			// 每張地圖的寬高度
+	//	CBouncingBall* bballs;		// CBouncingBall指標
+	//	int random_num;				// 隨機個數
+	//};
 	
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -145,7 +145,7 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		CGameMap		gamemap;	// 地圖 
+		//CGameMap		gamemap;	// 地圖 
 		CPractice		c_practice;	// 移動物件
 		
 		const int		NUMBALLS;	// 球的總數
@@ -165,9 +165,14 @@ namespace game_framework {
 		int				sun_amount;			// show on the board
 		int				sun_interval_time;
 		bool			generateSunFlowerFlag;
+		bool			generatePeaShooterFlag;
 		YSunFlowerCard  sun_flower_card;
 		YPeaShooterCard  pea_shooter_card;
+		int sun_flower_card_delay_flag;
+		int peashooter_card_delay_flag;
 		std::vector<YSunFlower>	sunflower_vector;
+		std::vector<YPeaShooter>	peashooter_vector;
+
 
 	};
 
