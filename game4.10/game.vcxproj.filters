@@ -182,6 +182,9 @@
     <ClInclude Include="Source\YMap.h">
       <Filter>MyGame</Filter>
     </ClInclude>
+    <ClInclude Include="Source\YZombies.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\game.rc">

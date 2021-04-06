@@ -320,6 +320,7 @@
     <ClInclude Include="Source\YMap.h" />
     <ClInclude Include="Source\YPlants.h" />
     <ClInclude Include="Source\YSun.h" />
+    <ClInclude Include="Source\YZombies.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\game.rc">

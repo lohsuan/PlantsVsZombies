@@ -61,6 +61,9 @@ namespace game_framework {
 		}
 		void SetBlood(int attack_blood) {
 			blood = blood - attack_blood;
+			if (blood == 0) {
+				is_alive = false;
+			}
 		}
 		int  GetBlood() {
 			return blood;
@@ -135,7 +138,9 @@ namespace game_framework {
 		void SetBlood(int attack_blood)
 		{
 			blood = blood - attack_blood;
-			// if(blood == 0){}
+			if (blood == 0) {
+				is_alive = false;
+			}
 		}
 		int GetBlood()
 		{
@@ -146,13 +151,9 @@ namespace game_framework {
 		int x, y;
 		bool is_alive;
 		int blood;
-		// int sun_make_time;
 
 		// try
 		CAnimation peashooter_animation;
-		//CMovingBitmap sun_flower_animation;
-
-		//YSun	flower_sun;
 	};
 }
 
