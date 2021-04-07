@@ -13,8 +13,8 @@ namespace game_framework {
 	{
 	public:
 		YSunFlower(int x, int y) {
-			this->x = x;
-			this->y = y;
+			this->x = x+20;
+			this->y = y+20;
 			blood = 5;
 			sun_make_time = 7;
 			is_alive = true;
@@ -44,12 +44,13 @@ namespace game_framework {
 				// try
 				sun_flower_animation.SetTopLeft(x, y);
 				sun_flower_animation.OnShow();
-				//sun_flower_animation.ShowBitmap();
+				
 			}
 		}
 		bool IsAlive() {
 			return is_alive;
 		}
+
 		void SetIsAlive(bool alive) {
 			is_alive = alive;
 		}
@@ -88,8 +89,8 @@ namespace game_framework {
 	public:
 		YPeaShooter(int x, int y)
 		{
-			this->x = x;
-			this->y = y;
+			this->x = x+20;
+			this->y = y+20;
 			blood = 5;
 			is_alive = true;
 		}
@@ -107,14 +108,16 @@ namespace game_framework {
 
 		void OnMove()
 		{
-			peashooter_animation.OnMove();
+			if (is_alive) {
+				peashooter_animation.OnMove();
+			}
 		}
 
 		void OnShow()
 		{
-			if (IsAlive())
+			if (is_alive)
 			{
-				// try
+				// try mistake 
 				peashooter_animation.SetTopLeft(x, y);
 				peashooter_animation.OnShow();
 			}

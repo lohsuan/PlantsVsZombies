@@ -5,16 +5,21 @@
 #include "Resource.h"
 #include <mmsystem.h>
 #include "gamelib.h"
-
+#include "YPlants.h"
+#include "mygame.h"
 
 namespace game_framework {
 	class YNormalZombie {
 	public:
+		friend class CGameStateRun;
+		//friend class YSunFlower;
+		//friend class YPeaShooter;
+
 		YNormalZombie() {
 			srand((int)time(NULL));
 			int i = rand() % 5;		// 0~4
 			int a[5] = { 78, 182, 270, 368, 464 };
-			y = a[i];
+			y = a[i] + 20;
 			x = 1000;
 			blood = 15;
 			is_alive = true;
@@ -34,28 +39,64 @@ namespace game_framework {
 			for (int i = 0; i < 7; i++)
 				zombie_attack_animation.AddBitmap(filenamea[i], RGB(255, 255, 255));
 
-			char *filename[10] = {".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_0.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_1.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_2.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_3.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_4.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_5.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_6.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_7.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_8.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_9.bmp"};
+			char *filenamed[10] = {".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_0.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_1.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_2.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_3.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_4.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_5.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_6.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_7.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_8.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_9.bmp"};
 			for (int i = 0; i < 10; i++)
-				zombie_die_animation.AddBitmap(filename[i], RGB(255, 255, 255));
+				zombie_die_animation.AddBitmap(filenamed[i], RGB(255, 255, 255));
 		}
 
 		void OnMove() {
-			x += 1;
-			zombie_animation.OnMove();
+			//int tx = getXmyMapLocation(x, y);
+			//
+			// question
+			//if (checkmyMap(x-10, y)) {		// zombie and plants are in the same place
+			//	zombie_attack_animation.OnMove();
+			//}
+			//else if (is_alive) {
+			//	x += 1;
+			//	zombie_animation.OnMove();
+			//}
+			//else {
+			//	zombie_die_animation.OnMove();
+			//}
+
+			if (is_alive) {
+				x += 1;
+				zombie_animation.OnMove();
+			}
+
 		}
 
 		void OnShow() {
-			if (blood<3){
-				zombie_die_animation.SetTopLeft(x, y);
-				zombie_die_animation.OnShow();
-			}
-			else if (IsAlive()) {
+			//static int disappear_time = 80;
+			//
+			// question
+			//if (checkmyMap(x - 10, y)) {
+			//zombie_attack_animation.OnShow();
+			//}
+			//else if (is_alive) {
+			//	// try
+			//	zombie_animation.SetTopLeft(x, y);
+			//	zombie_animation.OnShow();
+			//}
+			//else if (!is_alive && disappear_time > 0) {
+			//	zombie_die_animation.SetTopLeft(x, y);
+			//	zombie_die_animation.OnShow();
+			//	disappear_time--;
+			//}
+			//else if (!is_alive && disappear_time <= 0) {}
+			
+			if (is_alive) {
 				// try
 				zombie_animation.SetTopLeft(x, y);
 				zombie_animation.OnShow();
-				//zombie_animation.ShowBitmap();
 			}
+
 		}
+		
+		void attack() {
+
+		}
+
 		bool IsAlive() {
 			return is_alive;
 		}

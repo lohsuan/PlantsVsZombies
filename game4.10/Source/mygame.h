@@ -49,6 +49,7 @@
 #include "YCard.h"
 #include "YPlants.h"
 #include "YMap.h"
+#include "YZombies.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -134,6 +135,8 @@ namespace game_framework {
 
 	class CGameStateRun : public CGameState {
 	public:
+		friend class YZombies;
+
 		CGameStateRun(CGame *g);
 		~CGameStateRun();
 		void OnBeginState();							// 設定每次重玩所需的變數
@@ -147,17 +150,17 @@ namespace game_framework {
 		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 		// question
 		void setmyMap(int x, int y);
-		bool checkmyMap(int x, int y);
+		bool checkmyMap(int x, int y); // return true if plant are there
 		int  getXmyMapLocation(int x, int y);
 		int  getYmyMapLocation(int x, int y);
-		
+		int	 mymap[9][5];
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		//CGameMap		gamemap;	// 地圖 
 		//CPractice		c_practice;	// 移動物件
-		int	 mymap[9][5];
+		
 		const int		NUMBALLS;	// 球的總數
 		CMovingBitmap	background;	// 背景圖
 		
@@ -183,7 +186,6 @@ namespace game_framework {
 		std::vector<YSunFlower>	sunflower_vector;
 		std::vector<YPeaShooter>	peashooter_vector;
 		
-
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

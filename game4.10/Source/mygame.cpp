@@ -380,14 +380,22 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {	
-	if (generateSunFlowerFlag) {
-		YSunFlower sunflower(point.x, point.y);
+	if (generateSunFlowerFlag && !checkmyMap(point.x, point.y)) {
+		int tx = getXmyMapLocation(point.x, point.y);
+		int ty = getYmyMapLocation(point.x, point.y);
+		setmyMap(point.x, point.y);
+
+		YSunFlower sunflower(tx, ty);
 		sunflower.LoadBitmap();
 		sunflower_vector.push_back(sunflower);
 		generateSunFlowerFlag = false;
 	}
-	if (generatePeaShooterFlag) {
-		YPeaShooter peashooter(point.x, point.y);
+	if (generatePeaShooterFlag && !checkmyMap(point.x, point.y)) {
+		int tx = getXmyMapLocation(point.x, point.y);
+		int ty = getYmyMapLocation(point.x, point.y);
+		setmyMap(point.x, point.y);
+		
+		YPeaShooter peashooter(tx, ty);
 		peashooter.LoadBitmap();
 		peashooter_vector.push_back(peashooter);
 		generatePeaShooterFlag = false;
