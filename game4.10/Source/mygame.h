@@ -37,6 +37,10 @@
  *      2. Replace the demonstration of animation as a new bouncing ball.
  *      3. Use ShowInitProgress(percent) to display loading progress.
 */
+
+#ifndef MYGAME_H
+#define MYGAME_H
+
 #include <vector>
 #include "CEraser.h"
 #include "CBall.h"
@@ -44,7 +48,7 @@
 #include "YSun.h"
 #include "YCard.h"
 #include "YPlants.h"
-//#include "YMap.h"
+#include "YMap.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -59,16 +63,16 @@ namespace game_framework {
 	};
 
 	
-	class CPractice {
-	public:
-		CPractice();
-		void LoadBitmap();
-		void OnMove();
-		void OnShow();
-	private:
-		CMovingBitmap pic;
-		int			  x, y;
-	};
+	//class CPractice {
+	//public:
+	//	CPractice();
+	//	void LoadBitmap();
+	//	void OnMove();
+	//	void OnShow();
+	//private:
+	//	CMovingBitmap pic;
+	//	int			  x, y;
+	//};
 	
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -141,13 +145,19 @@ namespace game_framework {
 		void OnMouseMove(UINT nFlags, CPoint point);	// 處理滑鼠的動作 
 		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
+		// question
+		void setmyMap(int x, int y);
+		bool checkmyMap(int x, int y);
+		int  getXmyMapLocation(int x, int y);
+		int  getYmyMapLocation(int x, int y);
+		
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		//CGameMap		gamemap;	// 地圖 
-		CPractice		c_practice;	// 移動物件
-		
+		//CPractice		c_practice;	// 移動物件
+		int	 mymap[9][5];
 		const int		NUMBALLS;	// 球的總數
 		CMovingBitmap	background;	// 背景圖
 		
@@ -172,7 +182,7 @@ namespace game_framework {
 		int peashooter_card_delay_flag;
 		std::vector<YSunFlower>	sunflower_vector;
 		std::vector<YPeaShooter>	peashooter_vector;
-
+		
 
 	};
 
@@ -195,3 +205,6 @@ namespace game_framework {
 
 
 }
+
+
+#endif

@@ -1,12 +1,11 @@
 //#ifndef YMAP_H
 //#define YMAP_H
 //
+//#include "mygame.h"
+//
 //namespace game_framework {
 //
-//	extern int mymap[9][5] = { 0 };
-//	//int mymap[9][5] = { 0 };
-//
-//	void setmyMap(int x, int y) {
+//	void CGameStateRun::setmyMap(int x, int y) {
 //
 //		if (x >= 100 && x < 190) {
 //			if (y > 78 && y < 182) {
@@ -163,7 +162,7 @@
 //		}
 //	}
 //
-//	bool checkmyMap(int x, int y) {
+//	bool CGameStateRun::checkmyMap(int x, int y) {
 //
 //		if (x >= 100 && x < 190) {
 //			if (y > 78 && y < 182) {
@@ -422,7 +421,7 @@
 //
 //	}
 //
-//	int  getXmyMapLocation(int x, int y) {
+//	int  CGameStateRun::getXmyMapLocation(int x, int y) {
 //
 //		if (x >= 100 && x < 190) {
 //			return 100;
@@ -454,7 +453,7 @@
 //		return 0;
 //	}
 //
-//	int  getYmyMapLocation(int x, int y) {
+//	int  CGameStateRun::getYmyMapLocation(int x, int y) {
 //		if (y > 78 && y < 182)
 //		{
 //			return 78;

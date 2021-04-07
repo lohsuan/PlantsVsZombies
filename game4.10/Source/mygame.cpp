@@ -255,6 +255,8 @@ CGameStateRun::CGameStateRun(CGame *g)
 	ball = new CBall [NUMBALLS];
 	picX = picY = 0;
 	flag = 0;
+	// question
+	mymap[9][5] = { 0 };
 	// suntry
 	sun_amount = 50;			// 一開始50個sun
 	sun_interval_time = 5;		// 5 second
@@ -263,7 +265,6 @@ CGameStateRun::CGameStateRun(CGame *g)
 	sun_flower_card_delay_flag = 0;
 	peashooter_card_delay_flag = 0;
 }
-
 
 
 CGameStateRun::~CGameStateRun()
@@ -286,7 +287,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	// practice.LoadBitmap(IDB_SNOWGIEDRAW);
 	chooser.LoadBitmap("Bitmaps/ChooserBackground.bmp"); //zozo
 	//gamemap.LoadBitmap();							// 載入地圖的圖形  //practiceGreenBlue
-	c_practice.LoadBitmap();
+	//c_practice.LoadBitmap();
 	background.LoadBitmap("Bitmaps/Background.bmp");			// 載入背景的圖形
 
 	int i;
@@ -437,7 +438,7 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
-	c_practice.OnMove();
+	//c_practice.OnMove();
 
 	chooser.SetTopLeft(0, 0);
 
@@ -613,28 +614,501 @@ void CGameStateRun::OnShow()
 	//c_practice.OnShow();  //practice snowgie
 }
 
-CPractice::CPractice() {
-	x = y = 0;
-}
+void CGameStateRun::setmyMap(int x, int y) {
 
-void CPractice::OnMove() {
-	if (y <= SIZE_Y) {
-		x += 3;
-		y += 3;
+	if (x >= 100 && x < 190) {
+		if (y > 78 && y < 182) {
+			mymap[0][0] = 1;
+		}
+		else if (y >= 182 && y < 270) {
+			mymap[0][1] = 1;
+		}
+		else if (y >= 270 && y < 368) {
+			mymap[0][2] = 1;
+		}
+		else if (y >= 368 && y < 464) {
+			mymap[0][3] = 1;
+		}
+		else if (y >= 464 && y < 571) {
+			mymap[0][4] = 1;
+		}
 	}
-	else {
-		x = y = 0;
+	else if (x >= 190 && x < 260) {
+		if (y > 78 && y < 182) {
+			mymap[1][0] = 1;
+		}
+		else if (y >= 182 && y < 270) {
+			mymap[1][1] = 1;
+		}
+		else if (y >= 270 && y < 368) {
+			mymap[1][2] = 1;
+		}
+		else if (y >= 368 && y < 464) {
+			mymap[1][3] = 1;
+		}
+		else if (y >= 464 && y < 571) {
+			mymap[1][4] = 1;
+		}
+	}
+	else if (x >= 260 && x < 340) {
+		if (y > 78 && y < 182) {
+			mymap[2][0] = 1;
+		}
+		else if (y >= 182 && y < 270) {
+			mymap[2][1] = 1;
+		}
+		else if (y >= 270 && y < 368) {
+			mymap[2][2] = 1;
+		}
+		else if (y >= 368 && y < 464) {
+			mymap[2][3] = 1;
+		}
+		else if (y >= 464 && y < 571) {
+			mymap[2][4] = 1;
+		}
+	}
+	else if (x >= 340 && x < 425) {
+		if (y > 78 && y < 182) {
+			mymap[3][0] = 1;
+		}
+		else if (y >= 182 && y < 270) {
+			mymap[3][1] = 1;
+		}
+		else if (y >= 270 && y < 368) {
+			mymap[3][2] = 1;
+		}
+		else if (y >= 368 && y < 464) {
+			mymap[3][3] = 1;
+		}
+		else if (y >= 464 && y < 571) {
+			mymap[3][4] = 1;
+		}
+	}
+	else if (x >= 425 && x < 505) {
+		if (y > 78 && y < 182) {
+			mymap[4][0] = 1;
+		}
+		else if (y >= 182 && y < 270) {
+			mymap[4][1] = 1;
+		}
+		else if (y >= 270 && y < 368) {
+			mymap[4][2] = 1;
+		}
+		else if (y >= 368 && y < 464) {
+			mymap[4][3] = 1;
+		}
+		else if (y >= 464 && y < 571) {
+			mymap[4][4] = 1;
+		}
+	}
+	else if (x >= 505 && x < 585) {
+		if (y > 78 && y < 182) {
+			mymap[5][0] = 1;
+		}
+		else if (y >= 182 && y < 270) {
+			mymap[5][1] = 1;
+		}
+		else if (y >= 270 && y < 368) {
+			mymap[5][2] = 1;
+		}
+		else if (y >= 368 && y < 464) {
+			mymap[5][3] = 1;
+		}
+		else if (y >= 464 && y < 571) {
+			mymap[5][4] = 1;
+		}
+	}
+	else if (x >= 585 && x < 660) {
+		if (y > 78 && y < 182) {
+			mymap[6][0] = 1;
+		}
+		else if (y >= 182 && y < 270) {
+			mymap[6][1] = 1;
+		}
+		else if (y >= 270 && y < 368) {
+			mymap[6][2] = 1;
+		}
+		else if (y >= 368 && y < 464) {
+			mymap[6][3] = 1;
+		}
+		else if (y >= 464 && y < 571) {
+			mymap[6][4] = 1;
+		}
+	}
+	else if (x >= 660 && x < 747) {
+		if (y > 78 && y < 182) {
+			mymap[7][0] = 1;
+		}
+		else if (y >= 182 && y < 270) {
+			mymap[7][1] = 1;
+		}
+		else if (y >= 270 && y < 368) {
+			mymap[7][2] = 1;
+		}
+		else if (y >= 368 && y < 464) {
+			mymap[7][3] = 1;
+		}
+		else if (y >= 464 && y < 571) {
+			mymap[7][4] = 1;
+		}
+	}
+	else if (x >= 747 && x < 840) {
+		if (y > 78 && y < 182) {
+			mymap[8][0] = 1;
+		}
+		else if (y >= 182 && y < 270) {
+			mymap[8][1] = 1;
+		}
+		else if (y >= 270 && y < 368) {
+			mymap[8][2] = 1;
+		}
+		else if (y >= 368 && y < 464) {
+			mymap[8][3] = 1;
+		}
+		else if (y >= 464 && y < 571) {
+			mymap[8][4] = 1;
+		}
 	}
 }
 
-void CPractice::LoadBitmap() {
-	pic.LoadBitmap(IDB_SNOWGIE);
+bool CGameStateRun::checkmyMap(int x, int y) {
+
+	if (x >= 100 && x < 190) {
+		if (y > 78 && y < 182) {
+			if (mymap[0][0] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 182 && y < 270) {
+			if (mymap[0][1] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 270 && y < 368) {
+			if (mymap[0][2] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 368 && y < 464) {
+			if (mymap[0][3] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 464 && y < 571) {
+			if (mymap[0][4] == 1)
+				return true;
+			return false;
+		}
+		return true;
+	}
+	else if (x >= 190 && x < 260) {
+		if (y > 78 && y < 182) {
+			if (mymap[1][0] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 182 && y < 270) {
+			if (mymap[1][1] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 270 && y < 368) {
+			if (mymap[1][2] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 368 && y < 464) {
+			if (mymap[1][3] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 464 && y < 571) {
+			if (mymap[1][4] == 1)
+				return true;
+			return false;
+		}
+		return true;
+	}
+	else if (x >= 260 && x < 340) {
+		if (y > 78 && y < 182) {
+			if (mymap[2][0] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 182 && y < 270) {
+			if (mymap[2][1] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 270 && y < 368) {
+			if (mymap[2][2] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 368 && y < 464) {
+			if (mymap[2][3] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 464 && y < 571) {
+			if (mymap[2][4] == 1)
+				return true;
+			return false;
+		}
+		return true;
+	}
+	else if (x >= 340 && x < 425) {
+		if (y > 78 && y < 182) {
+			if (mymap[3][0] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 182 && y < 270) {
+			if (mymap[3][1] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 270 && y < 368) {
+			if (mymap[3][2] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 368 && y < 464) {
+			if (mymap[3][3] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 464 && y < 571) {
+			if (mymap[3][4] == 1)
+				return true;
+			return false;
+		}
+		return true;
+	}
+	else if (x >= 425 && x < 505) {
+		if (y > 78 && y < 182) {
+			if (mymap[4][0] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 182 && y < 270) {
+			if (mymap[4][1] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 270 && y < 368) {
+			if (mymap[4][2] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 368 && y < 464) {
+			if (mymap[4][3] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 464 && y < 571) {
+			if (mymap[4][4] == 1)
+				return true;
+			return false;
+		}
+		return true;
+	}
+	else if (x >= 505 && x < 585) {
+		if (y > 78 && y < 182) {
+			if (mymap[5][0] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 182 && y < 270) {
+			if (mymap[5][1] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 270 && y < 368) {
+			if (mymap[5][2] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 368 && y < 464) {
+			if (mymap[5][3] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 464 && y < 571) {
+			if (mymap[5][4] == 1)
+				return true;
+			return false;
+		}
+		return true;
+	}
+	else if (x >= 585 && x < 660) {
+		if (y > 78 && y < 182) {
+			if (mymap[6][0] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 182 && y < 270) {
+			if (mymap[6][1] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 270 && y < 368) {
+			if (mymap[6][2] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 368 && y < 464) {
+			if (mymap[6][3] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 464 && y < 571) {
+			if (mymap[6][4] == 1)
+				return true;
+			return false;
+		}
+		return true;
+	}
+	else if (x >= 660 && x < 747) {
+		if (y > 78 && y < 182) {
+			if (mymap[7][0] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 182 && y < 270) {
+			if (mymap[7][1] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 270 && y < 368) {
+			if (mymap[7][2] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 368 && y < 464) {
+			if (mymap[7][3] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 464 && y < 571) {
+			if (mymap[7][4] == 1)
+				return true;
+			return false;
+		}
+		return true;
+	}
+	else if (x >= 747 && x < 840) {
+		if (y > 78 && y < 182) {
+			if (mymap[8][0] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 182 && y < 270) {
+			if (mymap[8][1] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 270 && y < 368) {
+			if (mymap[8][2] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 368 && y < 464) {
+			if (mymap[8][3] == 1)
+				return true;
+			return false;
+		}
+		else if (y >= 464 && y < 571) {
+			if (mymap[8][4] == 1)
+				return true;
+			return false;
+		}
+		return true;
+	}
+
+	return true;
+
 }
 
-void CPractice::OnShow() {
-	pic.SetTopLeft(x, y);
-	pic.ShowBitmap();
+int  CGameStateRun::getXmyMapLocation(int x, int y) {
+
+	if (x >= 100 && x < 190) {
+		return 100;
+	}
+	else if (x >= 190 && x < 260) {
+		return 190;
+	}
+	else if (x >= 260 && x < 340) {
+		return 260;
+	}
+	else if (x >= 340 && x < 425) {
+		return 340;
+	}
+	else if (x >= 425 && x < 505) {
+		return 425;
+	}
+	else if (x >= 505 && x < 585) {
+		return 505;
+	}
+	else if (x >= 585 && x < 660) {
+		return 585;
+	}
+	else if (x >= 660 && x < 747) {
+		return 660;
+	}
+	else if (x >= 747 && x < 840) {
+		return 747;
+	}
+	return 0;
 }
+
+int  CGameStateRun::getYmyMapLocation(int x, int y) {
+	if (y > 78 && y < 182)
+	{
+		return 78;
+	}
+	else if (y >= 182 && y < 270)
+	{
+		return 182;
+	}
+	else if (y >= 270 && y < 368)
+	{
+		return 270;
+	}
+	else if (y >= 368 && y < 464)
+	{
+		return 368;
+	}
+	else if (y >= 464 && y < 571)
+	{
+		return 464;
+	}
+	return 0;
+}
+
+
+//CPractice::CPractice() {
+//	x = y = 0;
+//}
+//
+//void CPractice::OnMove() {
+//	if (y <= SIZE_Y) {
+//		x += 3;
+//		y += 3;
+//	}
+//	else {
+//		x = y = 0;
+//	}
+//}
+//
+//void CPractice::LoadBitmap() {
+//	pic.LoadBitmap(IDB_SNOWGIE);
+//}
+//
+//void CPractice::OnShow() {
+//	pic.SetTopLeft(x, y);
+//	pic.ShowBitmap();
+//}
 
 //CGameMap::CGameMap()
 //	:X(20), Y(40), MW(120), MH(100)			// 給予地圖左上角座標及每張小圖寬高
