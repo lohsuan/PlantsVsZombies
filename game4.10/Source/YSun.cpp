@@ -35,7 +35,7 @@ namespace game_framework {
 		, ".\\bitmaps\\Sun\\sun4.bmp",".\\bitmaps\\Sun\\sun5.bmp",".\\bitmaps\\Sun\\sun6.bmp",".\\bitmaps\\Sun\\sun7.bmp"
 		};
 		
-		for (int i = 0; i < 8; i++)	// ���J�ʵe(��8�i�ϧκc��)
+		for (int i = 0; i < 8; i++)
 			sunanimation.AddBitmap(filename[i], RGB(255, 255, 255));
 	}
 

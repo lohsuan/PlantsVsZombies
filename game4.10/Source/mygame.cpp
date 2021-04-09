@@ -97,8 +97,9 @@ void CGameStateInit::OnInit()
 	CAudio::Instance()->Play(AUDIO_MAIN, true);
 	CAudio::Instance()->Load(AUDIO_MENUTOGAME, "sounds\\menutogame.mp3");
 	CAudio::Instance()->Load(AUDIO_SUNPICK, "sounds\\sun_pick.mp3");
+	CAudio::Instance()->Load(AUDIO_PLANTS, "sounds\\plants_sound.mp3");
 
-	// Sleep(500);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	Sleep(500);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
 	// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 	//
@@ -134,11 +135,11 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	
 
 	if (point.x > 470 && point.y > 100 && point.x < 790 && point.y < 260) {
-		
+		//adventure1.ShowBitmap();
 		flag_menutogame = 1;
-		
+
 		CAudio::Instance()->Play(AUDIO_MENUTOGAME, false);
-		//Sleep(3000);
+		Sleep(6000);
 
 		GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 	}
@@ -312,7 +313,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	sun_flower_card.LoadBitmap();
 	pea_shooter_card.LoadBitmap();
 	CAudio::Instance()->Load(AUDIO_START, "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
-
+	normalzombie.LoadBitmapA();
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 	//
@@ -381,6 +382,7 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {	
 	if (generateSunFlowerFlag && !checkmyMap(point.x, point.y)) {
+		CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		int tx = getXmyMapLocation(point.x, point.y);
 		int ty = getYmyMapLocation(point.x, point.y);
 		setmyMap(point.x, point.y);
@@ -390,7 +392,8 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		sunflower_vector.push_back(sunflower);
 		generateSunFlowerFlag = false;
 	}
-	if (generatePeaShooterFlag && !checkmyMap(point.x, point.y)) {
+	else if (generatePeaShooterFlag && !checkmyMap(point.x, point.y)) {
+		CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		int tx = getXmyMapLocation(point.x, point.y);
 		int ty = getYmyMapLocation(point.x, point.y);
 		setmyMap(point.x, point.y);
@@ -416,11 +419,17 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		generateSunFlowerFlag = true;
 		sun_flower_card_delay_flag = 150;
 	}
-	if (point.x > pea_shooter_card.GetX() && point.y > pea_shooter_card.GetY() && point.x < pea_shooter_card.GetX() + 65 && point.y < pea_shooter_card.GetY() + 90 && pea_shooter_card.IsAlive()) {
+	else if (point.x > pea_shooter_card.GetX() && point.y > pea_shooter_card.GetY() && point.x < pea_shooter_card.GetX() + 65 && point.y < pea_shooter_card.GetY() + 90 && pea_shooter_card.IsAlive()) {
 		pea_shooter_card.SetIsAlive(false);
 		sun_amount -= pea_shooter_card.GetSunCost();
 		generatePeaShooterFlag = true;
 		peashooter_card_delay_flag = 150;
+	}
+	if (sun_flower_card.GetSunCost() > sun_amount) {
+		sun_flower_card.SetIsAlive(false);
+	}
+	else if (pea_shooter_card.GetSunCost() > sun_amount) {
+		pea_shooter_card.SetIsAlive(false);
 	}
 }
 
@@ -477,6 +486,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	for (YPeaShooter &ps : peashooter_vector) {
 		ps.OnMove();
 	}
+	normalzombie.OnMove();
+
 	// Suntry
 	// sun.OnMove();
 	if (flag==2) {
@@ -581,6 +592,7 @@ void CGameStateRun::OnShow()
 	for (size_t i = 0; i < peashooter_vector.size(); i++) {
 		peashooter_vector.at(i).OnShow();
 	}
+	normalzombie.OnShow();
 
 	// sun amount
 	if (flag == 2) {

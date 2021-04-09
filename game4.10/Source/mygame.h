@@ -60,7 +60,8 @@ namespace game_framework {
 		AUDIO_START,				// 0
 		AUDIO_MAIN,
 		AUDIO_MENUTOGAME,
-		AUDIO_SUNPICK
+		AUDIO_SUNPICK,
+		AUDIO_PLANTS
 	};
 
 	
@@ -185,7 +186,7 @@ namespace game_framework {
 		int peashooter_card_delay_flag;
 		std::vector<YSunFlower>	sunflower_vector;
 		std::vector<YPeaShooter>	peashooter_vector;
-		
+		YNormalZombie	normalzombie;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
