@@ -20,7 +20,7 @@ namespace game_framework {
 			int i = rand() % 5;		// 0~4
 			int a[5] = { 78, 182, 270, 368, 464 };
 			y = a[i] -30;
-			x = 1500;
+			x = 900;
 			blood = 15;
 			is_alive = true;
 			//LoadBitmap();
@@ -55,55 +55,49 @@ namespace game_framework {
 				zombie_die_animation.AddBitmap(filenamed[i], RGB(255, 255, 255));
 		}
 
-		void OnMove() {
+		void OnMove(YMap & map) {
 			static int delay;
-			//int tx = getXmyMapLocation(x, y);
-			//
-			// question
-			//if (checkmyMap(x-10, y)) {		// zombie and plants are in the same place
-			//	zombie_attack_animation.OnMove();
-			//}
-			//else if (is_alive) {
-			//	x -= 1;
-			//	zombie_animation.OnMove();
-			//}
-			//else {
-			//	zombie_die_animation.OnMove();
-			//}
-
-			if (is_alive && delay%2 == 0) {
-				x -= 1;
-				zombie_animation.OnMove();
-				delay = 0;
+		
+			if (map.checkmyMap(x+90, y+35) && is_alive) {
+				zombie_attack_animation.OnMove();
+			}
+			else if (is_alive) {
+				if (delay % 2 == 0) {
+					x -= 1;
+					zombie_animation.OnMove();
+					delay = 0;
+				}
+			}
+			else if(!is_alive){
+				if (delay % 2 == 0) {
+					zombie_die_animation.OnMove();
+					delay = 0;
+				}
 			}
 			delay++;
 		}
 
-		void OnShow() {
-			//static int disappear_time = 80;
-			//
-			// question
-			//if (checkmyMap(x - 10, y)) {
-			//zombie_attack_animation.OnShow();
-			//}
-			//else if (is_alive) {
-			//	// try
-			//	zombie_animation.SetTopLeft(x, y);
-			//	zombie_animation.OnShow();
-			//}
-			//else if (!is_alive && disappear_time > 0) {
-			//	zombie_die_animation.SetTopLeft(x, y);
-			//	zombie_die_animation.OnShow();
-			//	disappear_time--;
-			//}
-			//else if (!is_alive && disappear_time <= 0) {}
+		void OnShow(YMap & map) {
+			static int disappear_time = 300;
 			
-			if (is_alive) {
+			//question
+			if (map.checkmyMap(x+90, y+35) && is_alive) {
+				zombie_attack_animation.SetTopLeft(x, y);
+				zombie_attack_animation.OnShow();
+			}
+			else if (is_alive) {
 				// try
 				zombie_animation.SetTopLeft(x, y);
 				zombie_animation.OnShow();
 			}
-
+			else if (!is_alive) {
+				if (disappear_time > 0) {
+					zombie_die_animation.SetTopLeft(x, y);
+					zombie_die_animation.OnShow();
+					disappear_time--;
+				}				
+			}
+			
 		}
 		
 		void attack() {

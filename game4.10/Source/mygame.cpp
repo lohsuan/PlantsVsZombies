@@ -139,7 +139,7 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 		flag_menutogame = 1;
 
 		CAudio::Instance()->Play(AUDIO_MENUTOGAME, false);
-		Sleep(6000);
+		//Sleep(6000);
 
 		GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 	}
@@ -485,7 +485,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	for (YPeaShooter &ps : peashooter_vector) {
 		ps.OnMove();
 	}
-	normalzombie.OnMove();
+	normalzombie.OnMove(map);
 
 	// Suntry
 	// sun.OnMove();
@@ -591,7 +591,7 @@ void CGameStateRun::OnShow()
 	for (size_t i = 0; i < peashooter_vector.size(); i++) {
 		peashooter_vector.at(i).OnShow();
 	}
-	normalzombie.OnShow();
+	normalzombie.OnShow(map);
 
 	// sun amount
 	if (flag == 2) {

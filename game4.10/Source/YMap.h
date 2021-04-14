@@ -7,8 +7,15 @@ namespace game_framework {
 		int mymap[9][5];
 
 	public:
+		
 		YMap() {
 			mymap[9][5] = { 0 };
+			/*mymap[7][4] = 1;
+			mymap[7][3] = 1;
+			mymap[7][2] = 1;
+			mymap[7][1] = 1;
+			mymap[7][0] = 1;*/
+
 		}
 		void setmyMap(int x, int y) {
 
@@ -167,7 +174,7 @@ namespace game_framework {
 			}
 		}
 
-		bool checkmyMap(int x, int y) {
+		bool checkmyMap(const int x, const int y) {
 
 			if (x >= 100 && x < 190) {
 				if (y > 78 && y < 182) {
@@ -195,7 +202,7 @@ namespace game_framework {
 						return true;
 					return false;
 				}
-				return true;
+				return false;
 			}
 			else if (x >= 190 && x < 260) {
 				if (y > 78 && y < 182) {
@@ -223,7 +230,7 @@ namespace game_framework {
 						return true;
 					return false;
 				}
-				return true;
+				return false;
 			}
 			else if (x >= 260 && x < 340) {
 				if (y > 78 && y < 182) {
@@ -251,7 +258,7 @@ namespace game_framework {
 						return true;
 					return false;
 				}
-				return true;
+				return false;
 			}
 			else if (x >= 340 && x < 425) {
 				if (y > 78 && y < 182) {
@@ -279,7 +286,7 @@ namespace game_framework {
 						return true;
 					return false;
 				}
-				return true;
+				return false;
 			}
 			else if (x >= 425 && x < 505) {
 				if (y > 78 && y < 182) {
@@ -307,7 +314,7 @@ namespace game_framework {
 						return true;
 					return false;
 				}
-				return true;
+				return false;
 			}
 			else if (x >= 505 && x < 585) {
 				if (y > 78 && y < 182) {
@@ -335,7 +342,7 @@ namespace game_framework {
 						return true;
 					return false;
 				}
-				return true;
+				return false;
 			}
 			else if (x >= 585 && x < 660) {
 				if (y > 78 && y < 182) {
@@ -363,7 +370,7 @@ namespace game_framework {
 						return true;
 					return false;
 				}
-				return true;
+				return false;
 			}
 			else if (x >= 660 && x < 747) {
 				if (y > 78 && y < 182) {
@@ -391,7 +398,7 @@ namespace game_framework {
 						return true;
 					return false;
 				}
-				return true;
+				return false;
 			}
 			else if (x >= 747 && x < 840) {
 				if (y > 78 && y < 182) {
@@ -419,10 +426,10 @@ namespace game_framework {
 						return true;
 					return false;
 				}
-				return true;
+				return false;
 			}
 
-			return true;
+			return false;
 
 		}
 
