@@ -42,6 +42,7 @@
 #define MYGAME_H
 
 #include <vector>
+#include <string>
 #include "CEraser.h"
 #include "CBall.h"
 #include "CBouncingBall.h"
@@ -184,9 +185,12 @@ namespace game_framework {
 		YPeaShooterCard  pea_shooter_card;
 		int sun_flower_card_delay_flag;
 		int peashooter_card_delay_flag;
-		std::vector<YSunFlower>	sunflower_vector;
+		std::vector<YSunFlower>		sunflower_vector;
 		std::vector<YPeaShooter>	peashooter_vector;
 		YNormalZombie	normalzombie;
+		//std::vector<YNormalZombie>	normalzombie_vector;
+
+
 		YMap			map;
 	};
 

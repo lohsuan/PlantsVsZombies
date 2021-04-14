@@ -14,13 +14,25 @@ namespace game_framework {
 		friend class CGameStateRun;
 		//friend class YSunFlower;
 		//friend class YPeaShooter;
-
-		YNormalZombie() {
+		YNormalZombie() {			
 			srand((int)time(NULL));
 			int i = rand() % 5;		// 0~4
+			Map_Y_Location = i;		// 0~4
+			int a[5] = { 78, 182, 270, 368, 464 };
+			y = a[i] - 30;
+			x = 900;
+			blood = 15;
+			is_alive = true;
+			//LoadBitmap();
+		}
+
+		YNormalZombie(int x) {
+			srand((int)time(NULL));
+			int i = rand() % 5;		// 0~4
+			Map_Y_Location = i;		// 0~4
 			int a[5] = { 78, 182, 270, 368, 464 };
 			y = a[i] -30;
-			x = 900;
+			this->x = x;
 			blood = 15;
 			is_alive = true;
 			//LoadBitmap();
@@ -55,20 +67,20 @@ namespace game_framework {
 				zombie_die_animation.AddBitmap(filenamed[i], RGB(255, 255, 255));
 		}
 
-		void OnMove(YMap & map) {
+		void OnMove(std::string mode) {
 			static int delay;
 		
-			if (map.checkmyMap(x+90, y+35) && is_alive) {
+			if (mode == "attack") {
 				zombie_attack_animation.OnMove();
 			}
-			else if (is_alive) {
+			else if (mode == "walk") {
 				if (delay % 2 == 0) {
 					x -= 1;
 					zombie_animation.OnMove();
 					delay = 0;
 				}
 			}
-			else if(!is_alive){
+			else if(mode == "die"){
 				if (delay % 2 == 0) {
 					zombie_die_animation.OnMove();
 					delay = 0;
@@ -76,21 +88,42 @@ namespace game_framework {
 			}
 			delay++;
 		}
+		//void OnMove(YMap & map) {
+		//	static int delay;
 
-		void OnShow(YMap & map) {
+		//	if (map.checkmyMap(x + 90, y + 35) && is_alive) {
+		//		zombie_attack_animation.OnMove();
+		//	}
+		//	else if (is_alive) {
+		//		if (delay % 2 == 0) {
+		//			x -= 1;
+		//			zombie_animation.OnMove();
+		//			delay = 0;
+		//		}
+		//	}
+		//	else if (!is_alive) {
+		//		if (delay % 2 == 0) {
+		//			zombie_die_animation.OnMove();
+		//			delay = 0;
+		//		}
+		//	}
+		//	delay++;
+		//}
+
+		void OnShow(std::string mode) {
 			static int disappear_time = 300;
 			
 			//question
-			if (map.checkmyMap(x+90, y+35) && is_alive) {
+			if (mode == "attack") {
 				zombie_attack_animation.SetTopLeft(x, y);
 				zombie_attack_animation.OnShow();
 			}
-			else if (is_alive) {
+			else if (mode == "walk") {
 				// try
 				zombie_animation.SetTopLeft(x, y);
 				zombie_animation.OnShow();
 			}
-			else if (!is_alive) {
+			else if (mode == "die") {
 				if (disappear_time > 0) {
 					zombie_die_animation.SetTopLeft(x, y);
 					zombie_die_animation.OnShow();
@@ -109,6 +142,9 @@ namespace game_framework {
 		}
 		void SetIsAlive(bool alive) {
 			is_alive = alive;
+		}
+		void  SetX(int x) {
+			this->x = x;
 		}
 		int  GetX() {
 			return int(x);
@@ -131,7 +167,7 @@ namespace game_framework {
 		int x, y;
 		bool is_alive;
 		int blood;
-
+		int Map_Y_Location;
 		CAnimation zombie_animation;
 		CAnimation zombie_attack_animation;
 		CAnimation zombie_die_animation;

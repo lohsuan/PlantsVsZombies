@@ -264,6 +264,15 @@ CGameStateRun::CGameStateRun(CGame *g)
 	generatePeaShooterFlag = false;
 	sun_flower_card_delay_flag = 0;
 	peashooter_card_delay_flag = 0;
+
+	//123
+	//normalzombie_vector.push_back(YNormalZombie(900));
+	//normalzombie_vector.push_back(YNormalZombie(1000));
+	//normalzombie_vector.push_back(YNormalZombie(1300));
+	//normalzombie_vector.push_back(YNormalZombie(1600));
+	//normalzombie_vector.push_back(YNormalZombie(2000));
+	//normalzombie_vector.push_back(YNormalZombie(2100));
+	//normalzombie_vector.push_back(YNormalZombie(2150));
 }
 
 
@@ -312,7 +321,14 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	sun_flower_card.LoadBitmap();
 	pea_shooter_card.LoadBitmap();
 	CAudio::Instance()->Load(AUDIO_START, "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
-	normalzombie.LoadBitmapA();
+	
+	normalzombie.LoadBitmap();
+
+	//123
+	/*for (YNormalZombie & normalzombie : normalzombie_vector) {
+		normalzombie.LoadBitmap();
+	}*/
+
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 	//
@@ -458,9 +474,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	chooser.SetTopLeft(0, 0);
 
-	//
 	// 移動背景圖的座標
-	//
 	if (picX > -400 && flag == 0) {
 		picX -= 4;
 	}// (-400,0)
@@ -485,7 +499,31 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	for (YPeaShooter &ps : peashooter_vector) {
 		ps.OnMove();
 	}
-	normalzombie.OnMove(map);
+
+	if (map.checkmyMap(normalzombie.GetX() + 90, normalzombie.GetY() + 35) && normalzombie.IsAlive()) {
+		normalzombie.OnMove(std::string("attack"));
+
+	}
+	else if (normalzombie.IsAlive()) {
+		normalzombie.OnMove(std::string("walk"));
+	}
+	else if (!normalzombie.IsAlive()) {
+		normalzombie.OnMove(std::string("die"));
+	}
+
+	// 123
+	//for (YNormalZombie & normalzombie : normalzombie_vector) {
+	//	if (map.checkmyMap(normalzombie.GetX() + 90, normalzombie.GetY() + 35) && normalzombie.IsAlive()) {
+	//		normalzombie.OnMove(std::string("attack"));
+
+	//	}
+	//	else if (normalzombie.IsAlive()) {
+	//		normalzombie.OnMove(std::string("walk"));
+	//	}
+	//	else if (!normalzombie.IsAlive()) {
+	//		normalzombie.OnMove(std::string("die"));
+	//	}
+	//}
 
 	// Suntry
 	// sun.OnMove();
@@ -591,7 +629,31 @@ void CGameStateRun::OnShow()
 	for (size_t i = 0; i < peashooter_vector.size(); i++) {
 		peashooter_vector.at(i).OnShow();
 	}
-	normalzombie.OnShow(map);
+	//123
+	if (map.checkmyMap(normalzombie.GetX() + 90, normalzombie.GetY() + 35) && normalzombie.IsAlive()) {
+		normalzombie.OnShow(std::string("attack"));
+
+	}
+	else if (normalzombie.IsAlive()) {
+		normalzombie.OnShow(std::string("walk"));
+	}
+	else if (!normalzombie.IsAlive()) {
+		normalzombie.OnShow(std::string("die"));
+	}
+
+
+	//for (YNormalZombie & normalzombie : normalzombie_vector) {
+	//	if (map.checkmyMap(normalzombie.GetX() + 90, normalzombie.GetY() + 35) && normalzombie.IsAlive()) {
+	//		normalzombie.OnShow(std::string("attack"));
+
+	//	}
+	//	else if (normalzombie.IsAlive()) {
+	//		normalzombie.OnShow(std::string("walk"));
+	//	}
+	//	else if (!normalzombie.IsAlive()) {
+	//		normalzombie.OnShow(std::string("die"));
+	//	}
+	//}
 
 	// sun amount
 	if (flag == 2) {
