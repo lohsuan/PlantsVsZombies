@@ -6,7 +6,7 @@
 #include <mmsystem.h>
 #include "gamelib.h"
 #include "YPlants.h"
-#include "mygame.h"
+#include "YMap.h"
 
 namespace game_framework {
 	class YNormalZombie {

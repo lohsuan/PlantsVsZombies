@@ -150,11 +150,11 @@ namespace game_framework {
 		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 		// question
-		void setmyMap(int x, int y);
-		bool checkmyMap(int x, int y); // return true if plant are there
-		int  getXmyMapLocation(int x, int y);
-		int  getYmyMapLocation(int x, int y);
-		int	 mymap[9][5];
+		//void setmyMap(int x, int y);
+		//bool checkmyMap(int x, int y); // return true if plant are there
+		//int  getXmyMapLocation(int x, int y);
+		//int  getYmyMapLocation(int x, int y);
+		//int	 mymap[9][5];
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
@@ -187,6 +187,7 @@ namespace game_framework {
 		std::vector<YSunFlower>	sunflower_vector;
 		std::vector<YPeaShooter>	peashooter_vector;
 		YNormalZombie	normalzombie;
+		YMap			map;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
