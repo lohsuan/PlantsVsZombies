@@ -18,12 +18,22 @@ namespace game_framework {
 		YNormalZombie() {
 			srand((int)time(NULL));
 			int i = rand() % 5;		// 0~4
+			Map_Y_Location = i;		// 0~4
 			int a[5] = { 78, 182, 270, 368, 464 };
 			y = a[i] -30;
 			x = 900;
 			blood = 15;
 			is_alive = true;
-			//LoadBitmap();
+		}
+		YNormalZombie(int x, int my) {
+			//srand((int)time(NULL));
+			//int i = rand() % 5;		// 0~4
+			Map_Y_Location = my;		// 0~4
+			int a[5] = { 78, 182, 270, 368, 464 };
+			y = a[my] - 30;
+			this->x = x;
+			blood = 15;
+			is_alive = true;
 		}
 		~YNormalZombie() {
 
@@ -110,6 +120,9 @@ namespace game_framework {
 		void SetIsAlive(bool alive) {
 			is_alive = alive;
 		}
+		void  SetX(int x) {
+			this->x = x;
+		}
 		int  GetX() {
 			return int(x);
 		}
@@ -125,13 +138,15 @@ namespace game_framework {
 		int  GetBlood() {
 			return blood;
 		}
-
+		int GetMapYLocation() {
+			return Map_Y_Location;
+		}
 
 	private:
 		int x, y;
 		bool is_alive;
 		int blood;
-
+		int Map_Y_Location;
 		CAnimation zombie_animation;
 		CAnimation zombie_attack_animation;
 		CAnimation zombie_die_animation;
