@@ -14,25 +14,13 @@ namespace game_framework {
 		friend class CGameStateRun;
 		//friend class YSunFlower;
 		//friend class YPeaShooter;
-		YNormalZombie() {			
-			srand((int)time(NULL));
-			int i = rand() % 5;		// 0~4
-			Map_Y_Location = i;		// 0~4
-			int a[5] = { 78, 182, 270, 368, 464 };
-			y = a[i] - 30;
-			x = 900;
-			blood = 15;
-			is_alive = true;
-			//LoadBitmap();
-		}
 
-		YNormalZombie(int x) {
+		YNormalZombie() {
 			srand((int)time(NULL));
 			int i = rand() % 5;		// 0~4
-			Map_Y_Location = i;		// 0~4
 			int a[5] = { 78, 182, 270, 368, 464 };
 			y = a[i] -30;
-			this->x = x;
+			x = 900;
 			blood = 15;
 			is_alive = true;
 			//LoadBitmap();
@@ -88,27 +76,6 @@ namespace game_framework {
 			}
 			delay++;
 		}
-		//void OnMove(YMap & map) {
-		//	static int delay;
-
-		//	if (map.checkmyMap(x + 90, y + 35) && is_alive) {
-		//		zombie_attack_animation.OnMove();
-		//	}
-		//	else if (is_alive) {
-		//		if (delay % 2 == 0) {
-		//			x -= 1;
-		//			zombie_animation.OnMove();
-		//			delay = 0;
-		//		}
-		//	}
-		//	else if (!is_alive) {
-		//		if (delay % 2 == 0) {
-		//			zombie_die_animation.OnMove();
-		//			delay = 0;
-		//		}
-		//	}
-		//	delay++;
-		//}
 
 		void OnShow(std::string mode) {
 			static int disappear_time = 300;
@@ -143,9 +110,6 @@ namespace game_framework {
 		void SetIsAlive(bool alive) {
 			is_alive = alive;
 		}
-		void  SetX(int x) {
-			this->x = x;
-		}
 		int  GetX() {
 			return int(x);
 		}
@@ -167,7 +131,7 @@ namespace game_framework {
 		int x, y;
 		bool is_alive;
 		int blood;
-		int Map_Y_Location;
+
 		CAnimation zombie_animation;
 		CAnimation zombie_attack_animation;
 		CAnimation zombie_die_animation;
