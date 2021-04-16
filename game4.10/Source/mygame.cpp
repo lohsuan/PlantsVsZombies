@@ -253,7 +253,7 @@ void CGameStateOver::OnShow()
 CGameStateRun::CGameStateRun(CGame *g)
 : CGameState(g), NUMBALLS(28)
 {
-	ball = new CBall [NUMBALLS];
+	//ball = new CBall [NUMBALLS];
 	picX = picY = 0;
 	flag = 0;
 	
@@ -279,7 +279,7 @@ CGameStateRun::CGameStateRun(CGame *g)
 
 CGameStateRun::~CGameStateRun()
 {
-	delete [] ball;
+	//delete [] ball;
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -300,9 +300,9 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//c_practice.LoadBitmap();
 	background.LoadBitmap("Bitmaps/Background.bmp");			// 載入背景的圖形
 
-	int i;
+/*	int i;
 	for (i = 0; i < NUMBALLS; i++)
-		ball[i].LoadBitmap();								// 載入第i個球的圖形
+		ball[i].LoadBitmap();*/								// 載入第i個球的圖形
 	eraser.LoadBitmap();
 
 	//
@@ -342,13 +342,13 @@ void CGameStateRun::OnBeginState()
 	const int HITS_LEFT_Y = 0;
 	const int BACKGROUND_X = 0;
 	const int ANIMATION_SPEED = 15;
-	for (int i = 0; i < NUMBALLS; i++) {				// 設定球的起始座標
-		int x_pos = i % BALL_PER_ROW;
-		int y_pos = i / BALL_PER_ROW;
-		ball[i].SetXY(x_pos * BALL_GAP + BALL_XY_OFFSET, y_pos * BALL_GAP + BALL_XY_OFFSET);
-		ball[i].SetDelay(x_pos);
-		ball[i].SetIsAlive(true);
-	}
+	//for (int i = 0; i < NUMBALLS; i++) {				// 設定球的起始座標
+	//	int x_pos = i % BALL_PER_ROW;
+	//	int y_pos = i / BALL_PER_ROW;
+	//	ball[i].SetXY(x_pos * BALL_GAP + BALL_XY_OFFSET, y_pos * BALL_GAP + BALL_XY_OFFSET);
+	//	ball[i].SetDelay(x_pos);
+	//	ball[i].SetIsAlive(true);
+	//}
 	eraser.Initialize();
 	//background.SetTopLeft(BACKGROUND_X,0);				// 設定背景的起始座標
 	help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
