@@ -250,58 +250,58 @@ namespace game_framework {
 
 		};
 
-	//class YPeaShooterBullet {
-	//public:
-	//	YPeaShooterBullet(int x, int y) {
-	//		this->x = x+30;
-	//		this->y = y;
-	//		is_alive = true;
-	//	}
+	class YPeaShooterBullet {
+	public:
+		YPeaShooterBullet(int x, int y) {
+			this->x = x+30;
+			this->y = y;
+			is_alive = true;
+		}
 
-	//	void LoadBitmap()
-	//	{
-	//		peashooter_bullet.LoadBitmap(".\\bitmaps\\PeaShooter\\PeaNormal_0.bmp", RGB(255, 255, 255));
-	//	}
-	//	void OnMove()
-	//	{
-	//		if (x < 900) {
-	//			x += 1;
-	//		}
-	//		is_alive = false;
-	//	}
+		void LoadBitmap()
+		{
+			peashooter_bullet.LoadBitmap(".\\bitmaps\\PeaShooter\\PeaNormal_0.bmp", RGB(255, 255, 255));
+		}
+		void OnMove()
+		{
+			x += 1;
+			if (x > 800) {
+				is_alive = false;
+			};
+		}
 
-	//	void OnShow()
-	//	{
-	//		if (is_alive)
-	//		{
-	//			peashooter_bullet.SetTopLeft(x, y);
-	//			peashooter_bullet.ShowBitmap();
-	//		}
-	//	}
+		void OnShow()
+		{
+			if (is_alive)
+			{
+				peashooter_bullet.SetTopLeft(x, y);
+				peashooter_bullet.ShowBitmap();
+			}
+		}
 
-	//	bool IsAlive()
-	//	{
-	//		return is_alive;
-	//	}
-	//	void SetIsAlive(bool alive)
-	//	{
-	//		is_alive = alive;
-	//	}
+		bool IsAlive()
+		{
+			return is_alive;
+		}
+		void SetIsAlive(bool alive)
+		{
+			is_alive = alive;
+		}
 
-	//	int GetX()
-	//	{
-	//		return x;
-	//	}
-	//	int GetY()
-	//	{
-	//		return y;
-	//	}
+		int GetX()
+		{
+			return x;
+		}
+		int GetY()
+		{
+			return y;
+		}
 
-	//private:
-	//	int x, y;
-	//	bool is_alive;
-	//	CMovingBitmap peashooter_bullet;
-	//};
+	private:
+		int x, y;
+		bool is_alive;
+		CMovingBitmap peashooter_bullet;
+	};
 
 
 	class YPeaShooter
@@ -328,12 +328,12 @@ namespace game_framework {
 
 		void OnMove()
 		{
-			//static int delay = 50;
-			//if (delay == 0) {
-			//	fireBullet();
-			//	delay = 100;
-			//}
-			//delay--;
+			static int delay = 50;
+			if (delay == 0) {
+				fireBullet();
+				delay = 100;
+			}
+			delay--;
 
 			// can move only when I pass reference 
 			/*for (YPeaShooterBullet &b : bullets_vector) {
@@ -341,10 +341,10 @@ namespace game_framework {
 					b.OnMove();
 			}*/
 
-			//for (size_t i = 0; i < bullets_vector.size(); i++) {
-			//	if (bullets_vector.at(i).IsAlive())
-			//		bullets_vector.at(i).OnMove();
-			//}
+			for (size_t i = 0; i < bullets_vector.size(); i++) {
+				if (bullets_vector.at(i).IsAlive())
+					bullets_vector.at(i).OnMove();
+			}
 
 		}
 
@@ -359,10 +359,10 @@ namespace game_framework {
 				if (b.IsAlive())
 					b.OnShow();
 			}*/
-			//for (size_t i = 0; i < bullets_vector.size(); i++) {
-			//	if (bullets_vector.at(i).IsAlive())
-			//		bullets_vector.at(i).OnShow();
-			//}
+			for (size_t i = 0; i < bullets_vector.size(); i++) {
+				if (bullets_vector.at(i).IsAlive())
+					bullets_vector.at(i).OnShow();
+			}
 		}
 		bool IsAlive()
 		{
@@ -391,11 +391,11 @@ namespace game_framework {
 		{
 			return blood;
 		}
-		//void fireBullet() {
-		//	YPeaShooterBullet bullet(GetX(), GetY());
-		//	bullet.LoadBitmap();
-		//	bullets_vector.push_back(bullet);
-		//}
+		void fireBullet() {
+			YPeaShooterBullet bullet(x, y);
+			bullet.LoadBitmap();
+			bullets_vector.push_back(bullet);
+		}
 
 	private:
 		int x, y;
@@ -405,7 +405,7 @@ namespace game_framework {
 		// try
 		//CAnimation peashooter_animation;
 		CMovingBitmap peashooter_animation;
-		//std::vector<YPeaShooterBullet> bullets_vector;
+		std::vector<YPeaShooterBullet> bullets_vector;
 
 	};
 

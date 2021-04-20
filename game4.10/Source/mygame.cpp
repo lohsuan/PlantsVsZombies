@@ -264,15 +264,15 @@ CGameStateRun::CGameStateRun(CGame *g)
 	generatePeaShooterFlag = false;
 	sun_flower_card_delay_flag = 0;
 	peashooter_card_delay_flag = 0;
-	//normalzombie_vector.push_back(YNormalZombie(950, 1));
-	//normalzombie_vector.push_back(YNormalZombie(1000, 3));
-	//normalzombie_vector.push_back(YNormalZombie(1300, 2));
-	//normalzombie_vector.push_back(YNormalZombie(1600, 3));
-	//normalzombie_vector.push_back(YNormalZombie(2000, 4));
-	//normalzombie_vector.push_back(YNormalZombie(2100, 1));
-	//normalzombie_vector.push_back(YNormalZombie(2150, 2));
-	//normalzombie_vector.push_back(YNormalZombie(2150, 0));
-	//normalzombie_vector.push_back(YNormalZombie(2200, 1));
+	normalzombie_vector.push_back(YNormalZombie(950, 1));
+	normalzombie_vector.push_back(YNormalZombie(1000, 3));
+	normalzombie_vector.push_back(YNormalZombie(1300, 2));
+	normalzombie_vector.push_back(YNormalZombie(1600, 3));
+	normalzombie_vector.push_back(YNormalZombie(2000, 4));
+	normalzombie_vector.push_back(YNormalZombie(2100, 1));
+	normalzombie_vector.push_back(YNormalZombie(2150, 2));
+	normalzombie_vector.push_back(YNormalZombie(2150, 0));
+	normalzombie_vector.push_back(YNormalZombie(2200, 1));
 
 }
 
@@ -300,9 +300,11 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//c_practice.LoadBitmap();
 	background.LoadBitmap("Bitmaps/Background.bmp");			// 載入背景的圖形
 
-	//int i;
-/*	for (i = 0; i < NUMBALLS; i++)
-		ball[i].LoadBitmap();	*/							// 載入第i個球的圖形
+
+/*	int i;
+	for (i = 0; i < NUMBALLS; i++)
+		ball[i].LoadBitmap();*/								// 載入第i個球的圖形
+
 	eraser.LoadBitmap();
 
 	//
@@ -323,9 +325,9 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	pea_shooter_card.LoadBitmap();
 	CAudio::Instance()->Load(AUDIO_START, "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
 	//normalzombie.LoadBitmapA();
-	//for (YNormalZombie & normalzombie : normalzombie_vector) {
-	//	normalzombie.LoadBitmap();
-	//}
+	for (YNormalZombie & normalzombie : normalzombie_vector) {
+		normalzombie.LoadBitmap();
+	}
 
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
@@ -342,13 +344,13 @@ void CGameStateRun::OnBeginState()
 	const int HITS_LEFT_Y = 0;
 	const int BACKGROUND_X = 0;
 	const int ANIMATION_SPEED = 15;
-	for (int i = 0; i < NUMBALLS; i++) {				// 設定球的起始座標
-		int x_pos = i % BALL_PER_ROW;
-		int y_pos = i / BALL_PER_ROW;
-		ball[i].SetXY(x_pos * BALL_GAP + BALL_XY_OFFSET, y_pos * BALL_GAP + BALL_XY_OFFSET);
-		ball[i].SetDelay(x_pos);
-		ball[i].SetIsAlive(true);
-	}
+	//for (int i = 0; i < NUMBALLS; i++) {				// 設定球的起始座標
+	//	int x_pos = i % BALL_PER_ROW;
+	//	int y_pos = i / BALL_PER_ROW;
+	//	ball[i].SetXY(x_pos * BALL_GAP + BALL_XY_OFFSET, y_pos * BALL_GAP + BALL_XY_OFFSET);
+	//	ball[i].SetDelay(x_pos);
+	//	ball[i].SetIsAlive(true);
+	//}
 	eraser.Initialize();
 	//background.SetTopLeft(BACKGROUND_X,0);				// 設定背景的起始座標
 	help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
@@ -514,18 +516,18 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			ps.OnMove();
 		}
 		
-		//for (YNormalZombie & normalzombie : normalzombie_vector) {
-		//	if (map.checkmyMap(normalzombie.GetX() + 90, normalzombie.GetY() + 35) && normalzombie.IsAlive()) {
-		//		normalzombie.OnMove(std::string("attack"));
+		for (YNormalZombie & normalzombie : normalzombie_vector) {
+			if (map.checkmyMap(normalzombie.GetX() + 90, normalzombie.GetY() + 35) && normalzombie.IsAlive()) {
+				normalzombie.OnMove(std::string("attack"));
 
-		//	}
-		//	else if (normalzombie.IsAlive()) {
-		//		normalzombie.OnMove(std::string("walk"));
-		//	}
-		//	else if (!normalzombie.IsAlive()) {
-		//		normalzombie.OnMove(std::string("die"));
-		//	}
-		//}
+			}
+			else if (normalzombie.IsAlive()) {
+				normalzombie.OnMove(std::string("walk"));
+			}
+			else if (!normalzombie.IsAlive()) {
+				normalzombie.OnMove(std::string("die"));
+			}
+		}
 
 	}
 
@@ -616,18 +618,18 @@ void CGameStateRun::OnShow()
 			peashooter_vector.at(i).OnShow();
 		}
 
-		//for (YNormalZombie & normalzombie : normalzombie_vector) {
-		//	if (map.checkmyMap(normalzombie.GetX() + 90, normalzombie.GetY() + 35) && normalzombie.IsAlive()) {
-		//		normalzombie.OnShow(std::string("attack"));
+		for (YNormalZombie & normalzombie : normalzombie_vector) {
+			if (map.checkmyMap(normalzombie.GetX() + 90, normalzombie.GetY() + 35) && normalzombie.IsAlive()) {
+				normalzombie.OnShow(std::string("attack"));
 
-		//	}
-		//	else if (normalzombie.IsAlive()) {
-		//		normalzombie.OnShow(std::string("walk"));
-		//	}
-		//	else if (!normalzombie.IsAlive()) {
-		//		normalzombie.OnShow(std::string("die"));
-		//	}
-		//}
+			}
+			else if (normalzombie.IsAlive()) {
+				normalzombie.OnShow(std::string("walk"));
+			}
+			else if (!normalzombie.IsAlive()) {
+				normalzombie.OnShow(std::string("die"));
+			}
+		}
 
 		sun.OnShow();
 		chooser.ShowBitmap();
