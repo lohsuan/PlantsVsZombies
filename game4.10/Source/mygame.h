@@ -187,8 +187,9 @@ namespace game_framework {
 		std::vector<YSunFlower>	sunflower_vector;
 		std::vector<YPeaShooter>	peashooter_vector;
 		//YNormalZombie	normalzombie;
-		std::vector<YNormalZombie>	normalzombie_vector;
+		//std::vector<YNormalZombie>	normalzombie_vector;
 		YMap			map;
+		bool			animation_flag;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
