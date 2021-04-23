@@ -524,7 +524,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		for (YNormalZombie & normalzombie : normalzombie_vector) {
 			if (map.checkmyMap(normalzombie.GetX() + 90, normalzombie.GetY() + 35) && normalzombie.IsAlive()) {
 				normalzombie.OnMove(std::string("attack"));
-
 			}
 			else if (normalzombie.IsAlive()) {
 				normalzombie.OnMove(std::string("walk"));
@@ -533,23 +532,23 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				normalzombie.OnMove(std::string("die"));
 			}
 
-			if ( (normalzombie.GetY() == 55 &&  normalzombie.GetX() < car0.GetX()-25) || !car0_flag) {
+			if ( (normalzombie.GetY() == 48 &&  normalzombie.GetX() < car0.GetX() - 30) || !car0_flag) {
 				car0_flag = false;
 				car0.OnMove();
 			}
-			if ((normalzombie.GetY() == 152 && normalzombie.GetX() < car1.GetX()-25) || !car1_flag) {
+			if ((normalzombie.GetY() == 152 && normalzombie.GetX() < car1.GetX() - 30) || !car1_flag) {
 				car1_flag = false;
 				car1.OnMove();
 			}
-			if ((normalzombie.GetY() == 240 && normalzombie.GetX() < car2.GetX()-25) || !car2_flag) {
+			if ((normalzombie.GetY() == 240 && normalzombie.GetX() < car2.GetX() - 30) || !car2_flag) {
 				car2_flag = false;
 				car2.OnMove();
 			}
-			if ((normalzombie.GetY() == 338 && normalzombie.GetX() < car3.GetX()-25) || !car3_flag) {
+			if ((normalzombie.GetY() == 338 && normalzombie.GetX() < car3.GetX() - 30) || !car3_flag) {
 				car3_flag = false;
 				car3.OnMove();
 			}
-			if ((normalzombie.GetY() == 434 && normalzombie.GetX() < car4.GetX()-25) || !car4_flag) {
+			if ((normalzombie.GetY() == 434 && normalzombie.GetX() < car4.GetX() - 30) || !car4_flag) {
 				car4_flag = false;
 				car4.OnMove();
 			}

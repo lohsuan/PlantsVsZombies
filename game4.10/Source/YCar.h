@@ -13,7 +13,7 @@ namespace game_framework {
 	public:
 		YCar(int i) {
 			x = 50;
-			int a[5] = { 85, 182, 270, 368, 464 };
+			int a[5] = { 85, 182, 290, 390, 484 };
 			y = a[i];			// i: 0~4
 			is_alive = true;
 		}
