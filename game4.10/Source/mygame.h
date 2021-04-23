@@ -50,6 +50,7 @@
 #include "YPlants.h"
 #include "YMap.h"
 #include "YZombies.h"
+#include "YCar.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -190,6 +191,20 @@ namespace game_framework {
 		std::vector<YNormalZombie>	normalzombie_vector;
 		YMap			map;
 		bool			animation_flag;
+
+		YCar car0 = YCar(0);
+		YCar car1 = YCar(1);
+		YCar car2 = YCar(2);
+		YCar car3 = YCar(3);
+		YCar car4 = YCar(4);
+		bool car0_flag = true;
+		bool car1_flag = true;
+		bool car2_flag = true;
+		bool car3_flag = true;
+		bool car4_flag = true;
+
+		//YCar cars[5] = { car0, car1, car2, car3, car4 };
+		
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

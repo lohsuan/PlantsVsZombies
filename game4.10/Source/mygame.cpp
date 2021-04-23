@@ -328,6 +328,11 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	for (YNormalZombie & normalzombie : normalzombie_vector) {
 		normalzombie.LoadBitmap();
 	}
+	car0.LoadBitmap();
+	car1.LoadBitmap();
+	car2.LoadBitmap();
+	car3.LoadBitmap();
+	car4.LoadBitmap();
 
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
@@ -527,6 +532,27 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			else if (!normalzombie.IsAlive()) {
 				normalzombie.OnMove(std::string("die"));
 			}
+
+			if ( (normalzombie.GetY() == 55 &&  normalzombie.GetX() < car0.GetX()-25) || !car0_flag) {
+				car0_flag = false;
+				car0.OnMove();
+			}
+			if ((normalzombie.GetY() == 152 && normalzombie.GetX() < car1.GetX()-25) || !car1_flag) {
+				car1_flag = false;
+				car1.OnMove();
+			}
+			if ((normalzombie.GetY() == 240 && normalzombie.GetX() < car2.GetX()-25) || !car2_flag) {
+				car2_flag = false;
+				car2.OnMove();
+			}
+			if ((normalzombie.GetY() == 338 && normalzombie.GetX() < car3.GetX()-25) || !car3_flag) {
+				car3_flag = false;
+				car3.OnMove();
+			}
+			if ((normalzombie.GetY() == 434 && normalzombie.GetX() < car4.GetX()-25) || !car4_flag) {
+				car4_flag = false;
+				car4.OnMove();
+			}
 		}
 
 	}
@@ -635,11 +661,15 @@ void CGameStateRun::OnShow()
 		chooser.ShowBitmap();
 		sun_flower_card.OnShow();
 		pea_shooter_card.OnShow();
+		car0.OnShow();
+		car1.OnShow();
+		car2.OnShow();
+		car3.OnShow();
+		car4.OnShow();
+
 	}
 
 	
-
-
 
 	// sun amount
 	if (flag == 2) {
