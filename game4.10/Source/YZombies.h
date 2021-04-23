@@ -11,7 +11,7 @@
 namespace game_framework {
 	class YNormalZombie {
 	public:
-		friend class CGameStateRun;
+		//friend class CGameStateRun;
 		//friend class YSunFlower;
 		//friend class YPeaShooter;
 
@@ -24,6 +24,7 @@ namespace game_framework {
 			x = 900;
 			blood = 15;
 			is_alive = true;
+			zombie_die_delay_time = 200;
 		}
 		YNormalZombie(int x, int my) {
 			//srand((int)time(NULL));
@@ -34,6 +35,7 @@ namespace game_framework {
 			this->x = x;
 			blood = 15;
 			is_alive = true;
+			zombie_die_delay_time = 200;
 		}
 		~YNormalZombie() {
 
@@ -78,7 +80,7 @@ namespace game_framework {
 					delay = 0;
 				}
 			}
-			else if(mode == "die"){
+			else if(mode == "die" ){
 				if (delay % 2 == 0) {
 					zombie_die_animation.OnMove();
 					delay = 0;
@@ -88,7 +90,6 @@ namespace game_framework {
 		}
 
 		void OnShow(std::string mode) {
-			static int disappear_time = 300;
 			
 			//question
 			if (mode == "attack") {
@@ -101,11 +102,11 @@ namespace game_framework {
 				zombie_animation.OnShow();
 			}
 			else if (mode == "die") {
-				if (disappear_time > 0) {
+				if (zombie_die_delay_time > 0) {
 					zombie_die_animation.SetTopLeft(x, y);
 					zombie_die_animation.OnShow();
-					disappear_time--;
-				}				
+					zombie_die_delay_time--;
+				}
 			}
 			
 		}
@@ -150,6 +151,7 @@ namespace game_framework {
 		CAnimation zombie_animation;
 		CAnimation zombie_attack_animation;
 		CAnimation zombie_die_animation;
+		int zombie_die_delay_time = 200;
 	};
 
 

@@ -531,7 +531,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			else if (!normalzombie.IsAlive()) {
 				normalzombie.OnMove(std::string("die"));
 			}
-
+			// zombie walk to car -> car move
 			if ( (normalzombie.GetY() == 48 &&  normalzombie.GetX() < car0.GetX() - 30) || !car0_flag) {
 				car0_flag = false;
 				car0.OnMove();
@@ -552,7 +552,26 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				car4_flag = false;
 				car4.OnMove();
 			}
+			// car hits zombies
+			if ((normalzombie.GetY() == 48 && normalzombie.GetX() < car0.GetX() - 30)) {
+				normalzombie.SetIsAlive(false);
+			}
+			if ((normalzombie.GetY() == 152 && normalzombie.GetX() < car1.GetX() - 30)) {
+				normalzombie.SetIsAlive(false);
+			}
+			if ((normalzombie.GetY() == 240 && normalzombie.GetX() < car2.GetX() - 30)) {
+				normalzombie.SetIsAlive(false);
+			}
+			if ((normalzombie.GetY() == 338 && normalzombie.GetX() < car3.GetX() - 30)) {
+				normalzombie.SetIsAlive(false);
+			}
+			if ((normalzombie.GetY() == 434 && normalzombie.GetX() < car4.GetX() - 30)){
+				normalzombie.SetIsAlive(false);
+			}
+		
 		}
+		
+
 
 	}
 
