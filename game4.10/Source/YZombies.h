@@ -24,7 +24,7 @@ namespace game_framework {
 			x = 900;
 			blood = 15;
 			is_alive = true;
-			zombie_die_delay_time = 200;
+			zombie_die_delay_time = 230;
 		}
 		YNormalZombie(int x, int my) {
 			//srand((int)time(NULL));
@@ -35,7 +35,7 @@ namespace game_framework {
 			this->x = x;
 			blood = 15;
 			is_alive = true;
-			zombie_die_delay_time = 200;
+			zombie_die_delay_time = 230;
 		}
 		~YNormalZombie() {
 
@@ -62,9 +62,25 @@ namespace game_framework {
 			for (int i = 0; i < 7; i++)
 				zombie_attack_animation.AddBitmap(filenamea[i], RGB(255, 255, 255));
 
-			char *filenamed[10] = {".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_0.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_1.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_2.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_3.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_4.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_5.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_6.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_7.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_8.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_9.bmp"};
-			for (int i = 0; i < 10; i++)
+			char *filenamed[12] = {".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_0.bmp",
+				".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_1.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_2.bmp",
+				".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_3.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_4.bmp",
+				".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_5.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_6.bmp",
+				".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_7.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_8.bmp",
+				".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_9.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_10.bmp",
+			".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_11.bmp" };
+			for (int i = 0; i < 12; i++)
 				zombie_die_animation.AddBitmap(filenamed[i], RGB(255, 255, 255));
+
+			char *filenamedh[12] = { ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieHead_0.bmp",
+				".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieHead_1.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieHead_2.bmp",
+				".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieHead_3.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieHead_4.bmp",
+				".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieHead_5.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieHead_6.bmp",
+				".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieHead_7.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieHead_8.bmp",
+				".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieHead_9.bmp", ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieHead_10.bmp",
+			".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieHead_11.bmp" };
+			for (int i = 0; i < 12; i++)
+				zombie_die_animation_head.AddBitmap(filenamedh[i], RGB(255, 255, 255));
 		}
 
 		void OnMove(std::string mode) {
@@ -83,6 +99,7 @@ namespace game_framework {
 			else if(mode == "die" ){
 				if (delay % 2 == 0) {
 					zombie_die_animation.OnMove();
+					zombie_die_animation_head.OnMove();
 					delay = 0;
 				}
 			}
@@ -105,6 +122,8 @@ namespace game_framework {
 				if (zombie_die_delay_time > 0) {
 					zombie_die_animation.SetTopLeft(x, y);
 					zombie_die_animation.OnShow();
+					zombie_die_animation_head.SetTopLeft(x+50, y);
+					zombie_die_animation_head.OnShow();
 					zombie_die_delay_time--;
 				}
 			}
@@ -151,6 +170,7 @@ namespace game_framework {
 		CAnimation zombie_animation;
 		CAnimation zombie_attack_animation;
 		CAnimation zombie_die_animation;
+		CAnimation zombie_die_animation_head;
 		int zombie_die_delay_time = 200;
 	};
 

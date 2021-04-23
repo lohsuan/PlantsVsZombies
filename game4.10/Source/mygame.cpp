@@ -264,6 +264,8 @@ CGameStateRun::CGameStateRun(CGame *g)
 	generatePeaShooterFlag = false;
 	sun_flower_card_delay_flag = 0;
 	peashooter_card_delay_flag = 0;
+	normalzombie_vector.push_back(YNormalZombie(150, 1));
+	normalzombie_vector.push_back(YNormalZombie(180, 2));
 	normalzombie_vector.push_back(YNormalZombie(950, 1));
 	normalzombie_vector.push_back(YNormalZombie(1000, 3));
 	normalzombie_vector.push_back(YNormalZombie(1300, 2));
