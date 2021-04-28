@@ -264,17 +264,17 @@ CGameStateRun::CGameStateRun(CGame *g)
 	generatePeaShooterFlag = false;
 	sun_flower_card_delay_flag = 0;
 	peashooter_card_delay_flag = 0;
-	normalzombie_vector.push_back(YNormalZombie(150, 1));
-	normalzombie_vector.push_back(YNormalZombie(180, 2));
-	normalzombie_vector.push_back(YNormalZombie(950, 1));
-	normalzombie_vector.push_back(YNormalZombie(1000, 3));
-	normalzombie_vector.push_back(YNormalZombie(1300, 2));
-	normalzombie_vector.push_back(YNormalZombie(1600, 3));
-	normalzombie_vector.push_back(YNormalZombie(2000, 4));
-	normalzombie_vector.push_back(YNormalZombie(2100, 1));
-	normalzombie_vector.push_back(YNormalZombie(2150, 2));
-	normalzombie_vector.push_back(YNormalZombie(2150, 0));
-	normalzombie_vector.push_back(YNormalZombie(2200, 1));
+	//normalzombie_vector.push_back(YNormalZombie(200, 1));
+	normalzombie_vector.push_back(YNormalZombie(560, 2));
+	normalzombie_vector.push_back(YNormalZombie(250, 1));
+	normalzombie_vector.push_back(YNormalZombie(500, 3));
+	//normalzombie_vector.push_back(YNormalZombie(1300, 2));
+	//normalzombie_vector.push_back(YNormalZombie(1600, 3));
+	//normalzombie_vector.push_back(YNormalZombie(2000, 4));
+	//normalzombie_vector.push_back(YNormalZombie(2100, 1));
+	//normalzombie_vector.push_back(YNormalZombie(2150, 2));
+	//normalzombie_vector.push_back(YNormalZombie(2150, 0));
+	//normalzombie_vector.push_back(YNormalZombie(2200, 1));
 
 }
 
@@ -521,6 +521,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		for (YPeaShooter &ps : peashooter_vector) {
 			ps.OnMove();
+			
 		}
 		
 		for (YNormalZombie & normalzombie : normalzombie_vector) {
@@ -570,7 +571,13 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			if ((normalzombie.GetY() == 434 && normalzombie.GetX() < car4.GetX() - 30)){
 				normalzombie.SetIsAlive(false);
 			}
-		
+			for (YPeaShooter &p : peashooter_vector) {
+				int temp_y = map.getYmyMapLocation(normalzombie.GetX(), normalzombie.GetY() +30);
+				if (p.checkBulletCollideWithZombie(normalzombie.GetX(), temp_y)) {
+					normalzombie.LostBlood(1);
+				}
+			}
+				 
 		}
 		
 

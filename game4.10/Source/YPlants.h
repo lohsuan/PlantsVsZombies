@@ -344,6 +344,9 @@ namespace game_framework {
 			for (size_t i = 0; i < bullets_vector.size(); i++) {
 				if (bullets_vector.at(i).IsAlive())
 					bullets_vector.at(i).OnMove();
+				else {
+					bullets_vector.erase(bullets_vector.begin()+i);
+				}
 			}
 
 		}
@@ -395,6 +398,18 @@ namespace game_framework {
 			YPeaShooterBullet bullet(x, y);
 			bullet.LoadBitmap();
 			bullets_vector.push_back(bullet);
+		}
+
+		bool checkBulletCollideWithZombie(int zx, int mapy) {
+			//int map[5] = { 78, 182, 270, 368, 464 };
+			if (!bullets_vector.empty() && bullets_vector.at(0).GetY() - 20 == mapy) {
+				int t = bullets_vector.at(0).GetX();
+				if (t > zx+20) {
+					bullets_vector.at(0).SetIsAlive(false);
+					return true;
+				}
+			}
+			return false;
 		}
 
 	private:

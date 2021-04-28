@@ -149,7 +149,7 @@ namespace game_framework {
 		int  GetY() {
 			return int(y);
 		}
-		void SetBlood(int attack_blood) {
+		void LostBlood(int attack_blood) {
 			blood = blood - attack_blood;
 			if (blood == 0) {
 				is_alive = false;
