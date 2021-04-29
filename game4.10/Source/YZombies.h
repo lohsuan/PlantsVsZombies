@@ -22,7 +22,7 @@ namespace game_framework {
 			int a[5] = { 78, 182, 270, 368, 464 };
 			y = a[i] -30;
 			x = 900;
-			blood = 15;
+			blood = 10;
 			is_alive = true;
 			zombie_die_delay_time = 230;
 		}
@@ -33,7 +33,7 @@ namespace game_framework {
 			int a[5] = { 78, 182, 270, 368, 464 };
 			y = a[my] - 30;
 			this->x = x;
-			blood = 15;
+			blood = 10;
 			is_alive = true;
 			zombie_die_delay_time = 230;
 		}
@@ -125,6 +125,9 @@ namespace game_framework {
 					zombie_die_animation_head.SetTopLeft(x+50, y);
 					zombie_die_animation_head.OnShow();
 					zombie_die_delay_time--;
+				}
+				else {
+					x = 1000;
 				}
 			}
 			

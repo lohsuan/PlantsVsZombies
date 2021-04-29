@@ -524,57 +524,60 @@ void CGameStateRun::OnMove()							// ²¾°Ê¹CÀ¸¤¸¯À
 			
 		}
 		
-		for (YNormalZombie & normalzombie : normalzombie_vector) {
-			if (map.checkmyMap(normalzombie.GetX() + 90, normalzombie.GetY() + 35) && normalzombie.IsAlive()) {
-				normalzombie.OnMove(std::string("attack"));
+		for (size_t i = 0; i < normalzombie_vector.size(); i++) {
+			if (map.checkmyMap(normalzombie_vector.at(i).GetX() + 90, normalzombie_vector.at(i).GetY() + 35) && normalzombie_vector.at(i).IsAlive()) {
+				normalzombie_vector.at(i).OnMove(std::string("attack"));
 			}
-			else if (normalzombie.IsAlive()) {
-				normalzombie.OnMove(std::string("walk"));
+			else if (normalzombie_vector.at(i).IsAlive()) {
+				normalzombie_vector.at(i).OnMove(std::string("walk"));
 			}
-			else if (!normalzombie.IsAlive()) {
-				normalzombie.OnMove(std::string("die"));
+			else if (!normalzombie_vector.at(i).IsAlive()) {
+				normalzombie_vector.at(i).OnMove(std::string("die"));
 			}
 			// zombie walk to car -> car move
-			if ( (normalzombie.GetY() == 48 &&  normalzombie.GetX() < car0.GetX() - 30) || !car0_flag) {
+			if ( (normalzombie_vector.at(i).GetY() == 48 && normalzombie_vector.at(i).GetX() < car0.GetX() - 30) || !car0_flag) {
 				car0_flag = false;
 				car0.OnMove();
 			}
-			if ((normalzombie.GetY() == 152 && normalzombie.GetX() < car1.GetX() - 30) || !car1_flag) {
+			if ((normalzombie_vector.at(i).GetY() == 152 && normalzombie_vector.at(i).GetX() < car1.GetX() - 30) || !car1_flag) {
 				car1_flag = false;
 				car1.OnMove();
 			}
-			if ((normalzombie.GetY() == 240 && normalzombie.GetX() < car2.GetX() - 30) || !car2_flag) {
+			if ((normalzombie_vector.at(i).GetY() == 240 && normalzombie_vector.at(i).GetX() < car2.GetX() - 30) || !car2_flag) {
 				car2_flag = false;
 				car2.OnMove();
 			}
-			if ((normalzombie.GetY() == 338 && normalzombie.GetX() < car3.GetX() - 30) || !car3_flag) {
+			if ((normalzombie_vector.at(i).GetY() == 338 && normalzombie_vector.at(i).GetX() < car3.GetX() - 30) || !car3_flag) {
 				car3_flag = false;
 				car3.OnMove();
 			}
-			if ((normalzombie.GetY() == 434 && normalzombie.GetX() < car4.GetX() - 30) || !car4_flag) {
+			if ((normalzombie_vector.at(i).GetY() == 434 && normalzombie_vector.at(i).GetX() < car4.GetX() - 30) || !car4_flag) {
 				car4_flag = false;
 				car4.OnMove();
 			}
 			// car hits zombies
-			if ((normalzombie.GetY() == 48 && normalzombie.GetX() < car0.GetX() - 30)) {
-				normalzombie.SetIsAlive(false);
+			if ((normalzombie_vector.at(i).GetY() == 48 && normalzombie_vector.at(i).GetX() < car0.GetX() - 30)) {
+				normalzombie_vector.at(i).SetIsAlive(false);
 			}
-			if ((normalzombie.GetY() == 152 && normalzombie.GetX() < car1.GetX() - 30)) {
-				normalzombie.SetIsAlive(false);
+			if ((normalzombie_vector.at(i).GetY() == 152 && normalzombie_vector.at(i).GetX() < car1.GetX() - 30)) {
+				normalzombie_vector.at(i).SetIsAlive(false);
 			}
-			if ((normalzombie.GetY() == 240 && normalzombie.GetX() < car2.GetX() - 30)) {
-				normalzombie.SetIsAlive(false);
+			if ((normalzombie_vector.at(i).GetY() == 240 && normalzombie_vector.at(i).GetX() < car2.GetX() - 30)) {
+				normalzombie_vector.at(i).SetIsAlive(false);
 			}
-			if ((normalzombie.GetY() == 338 && normalzombie.GetX() < car3.GetX() - 30)) {
-				normalzombie.SetIsAlive(false);
+			if ((normalzombie_vector.at(i).GetY() == 338 && normalzombie_vector.at(i).GetX() < car3.GetX() - 30)) {
+				normalzombie_vector.at(i).SetIsAlive(false);
 			}
-			if ((normalzombie.GetY() == 434 && normalzombie.GetX() < car4.GetX() - 30)){
-				normalzombie.SetIsAlive(false);
+			if ((normalzombie_vector.at(i).GetY() == 434 && normalzombie_vector.at(i).GetX() < car4.GetX() - 30)){
+				normalzombie_vector.at(i).SetIsAlive(false);
 			}
 			for (YPeaShooter &p : peashooter_vector) {
-				int temp_y = map.getYmyMapLocation(normalzombie.GetX(), normalzombie.GetY() +30);
-				if (p.checkBulletCollideWithZombie(normalzombie.GetX(), temp_y)) {
-					normalzombie.LostBlood(1);
+				int temp_y = map.getYmyMapLocation(normalzombie_vector.at(i).GetX(), normalzombie_vector.at(i).GetY() +30);
+				if (p.checkBulletCollideWithZombie(normalzombie_vector.at(i).GetX(), temp_y)) {
+					normalzombie_vector.at(i).LostBlood(1);
+					if (normalzombie_vector.at(i).GetX() > 900) {
+						normalzombie_vector.erase(normalzombie_vector.begin() + i);
+					}
 				}
 			}
 				 
@@ -672,15 +675,17 @@ void CGameStateRun::OnShow()
 		}
 
 		for (YNormalZombie & normalzombie : normalzombie_vector) {
-			if (map.checkmyMap(normalzombie.GetX() + 90, normalzombie.GetY() + 35) && normalzombie.IsAlive()) {
-				normalzombie.OnShow(std::string("attack"));
+			if (normalzombie.GetX() < 950) {
+				if (map.checkmyMap(normalzombie.GetX() + 90, normalzombie.GetY() + 35) && normalzombie.IsAlive()) {
+					normalzombie.OnShow(std::string("attack"));
 
-			}
-			else if (normalzombie.IsAlive()) {
-				normalzombie.OnShow(std::string("walk"));
-			}
-			else if (!normalzombie.IsAlive()) {
-				normalzombie.OnShow(std::string("die"));
+				}
+				else if (normalzombie.IsAlive()) {
+					normalzombie.OnShow(std::string("walk"));
+				}
+				else if (!normalzombie.IsAlive()) {
+					normalzombie.OnShow(std::string("die"));
+				}
 			}
 		}
 

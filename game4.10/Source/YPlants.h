@@ -264,7 +264,7 @@ namespace game_framework {
 		}
 		void OnMove()
 		{
-			x += 1;
+			x += 3;
 			if (x > 800) {
 				is_alive = false;
 			};
