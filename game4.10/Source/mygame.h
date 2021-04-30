@@ -189,9 +189,7 @@ namespace game_framework {
 		int peashooter_card_delay_flag;
 		std::vector<YSunFlower>	sunflower_vector;
 		std::vector<YPeaShooter>	peashooter_vector;
-		//YNormalZombie	normalzombie;
 		//std::vector<YNormalZombie>	normalzombie_vector;
-		//std::shared_ptr<YNormalZombie> normalzombie_sp;
 		std::vector<shared_ptr<YNormalZombie>>	normalzombie_vector;
 		YMap			map;
 		bool			animation_flag;
