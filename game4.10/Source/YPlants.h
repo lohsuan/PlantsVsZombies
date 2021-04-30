@@ -423,9 +423,6 @@ namespace game_framework {
 		std::vector<YPeaShooterBullet> bullets_vector;
 
 	};
-
-
-
 }
 
 #endif

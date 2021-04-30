@@ -119,6 +119,55 @@ namespace game_framework {
 		bool is_alive;
 		int	 cost;
 	};
+
+	class YShovelCard
+	{
+	public:
+		YShovelCard() {
+			x = 520;
+			y = 0;
+			//is_alive = false;
+			//cost = 0;
+		}
+		//void OnLButtonDown(UINT nFlags, CPoint point) {
+		//	if (point.x > x  && point.y > y && point.x < x + 65 && point.y < y + 90) {
+		//		is_alive = false;
+		//	}
+		//}
+
+		/*bool IsAlive() {
+			return is_alive;
+		}*/
+
+		void LoadBitmap() {
+			card.LoadBitmap("Bitmaps/Shovel.bmp");
+		}
+		void OnMove() {
+
+		}
+		void OnShow() {
+			card.SetTopLeft(520, 0);
+			card.ShowBitmap();
+		}
+		/*void SetIsAlive(bool alive) {
+			is_alive = alive;
+		}
+		int GetSunCost() {
+			return cost;
+		}*/
+		int GetX() {
+			return x;
+		}
+		int GetY() {
+			return y;
+		}
+	private:
+		CMovingBitmap card;
+		int  x, y;
+		//bool is_alive;
+		//int	 cost;
+	};
+
 }
 
 #endif

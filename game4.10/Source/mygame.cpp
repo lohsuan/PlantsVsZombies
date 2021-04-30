@@ -297,11 +297,12 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	// 開始載入資料
 	//
 	// practice.LoadBitmap(IDB_SNOWGIEDRAW);
-	chooser.LoadBitmap("Bitmaps/ChooserBackground.bmp"); //zozo
+	chooser.LoadBitmap("Bitmaps/ChooserBackground.bmp");
 	//gamemap.LoadBitmap();							// 載入地圖的圖形  //practiceGreenBlue
 	//c_practice.LoadBitmap();
 	background.LoadBitmap("Bitmaps/Background.bmp");			// 載入背景的圖形
-
+	//shovel.LoadBitmap("Bitmaps/Shovel.bmp");
+	shovel_card.LoadBitmap();
 
 /*	int i;
 	for (i = 0; i < NUMBALLS; i++)
@@ -480,6 +481,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	//c_practice.OnMove();
 
 	chooser.SetTopLeft(0, 0);
+	//shovel.SetTopLeft(520, 0);
 
 	//
 	// 移動背景圖的座標
@@ -691,6 +693,7 @@ void CGameStateRun::OnShow()
 
 		sun.OnShow();
 		chooser.ShowBitmap();
+		shovel_card.OnShow();
 		sun_flower_card.OnShow();
 		pea_shooter_card.OnShow();
 		car0.OnShow();
