@@ -264,8 +264,8 @@ CGameStateRun::CGameStateRun(CGame *g)
 	generatePeaShooterFlag = false;
 	sun_flower_card_delay_flag = 0;
 	peashooter_card_delay_flag = 0;
-	normalzombie_vector.clear();
-	normalzombie_vector.push_back(YNormalZombie(200, 1));
+	//normalzombie_vector.clear();
+	//normalzombie_vector.push_back(YNormalZombie(200, 1));
 	//normalzombie_vector.push_back(YNormalZombie(560, 2));
 	//normalzombie_vector.push_back(YNormalZombie(250, 1));
 	//normalzombie_vector.push_back(YNormalZombie(500, 3));
@@ -276,6 +276,9 @@ CGameStateRun::CGameStateRun(CGame *g)
 	//normalzombie_vector.push_back(YNormalZombie(2150, 2));
 	//normalzombie_vector.push_back(YNormalZombie(2150, 0));
 	//normalzombie_vector.push_back(YNormalZombie(2200, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(200, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(560, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(500, 3));
 
 }
 
@@ -329,8 +332,11 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	pea_shooter_card.LoadBitmap();
 	CAudio::Instance()->Load(AUDIO_START, "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
 	//normalzombie.LoadBitmapA();
-	for (YNormalZombie & normalzombie : normalzombie_vector) {
-		normalzombie.LoadBitmap();
+	//for (YNormalZombie & normalzombie : normalzombie_vector) {
+	//	normalzombie.LoadBitmap();
+	//}
+	for (auto normalzombie_sp : normalzombie_vector) {
+		normalzombie_sp->LoadBitmap();
 	}
 	car0.LoadBitmap();
 	car1.LoadBitmap();
@@ -529,12 +535,10 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		
 		for (size_t i = 0; i < normalzombie_vector.size(); i++) {
-			
+
 			for (size_t j = 0; j < sunflower_vector.size(); j++) {
-				if (sunflower_vector.at(j).checkPlantCollideWithZombie(normalzombie_vector.at(i).GetX() + 90, normalzombie_vector.at(i).GetY() + 30)) {
-					//normalzombie_vector.at(i).OnMove(std::string("attack"));
-					//sunflower_vector.at(j).LostBlood(1);
-					sunflower_vector.at(j).LostBlood(normalzombie_vector.at(i).GetAttackPower());
+				if (sunflower_vector.at(j).checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX() + 90, normalzombie_vector.at(i)->GetY() + 30)) {
+					sunflower_vector.at(j).LostBlood(normalzombie_vector.at(i)->GetAttackPower());
 					if (sunflower_vector.at(j).GetBlood() < 1) {
 						sunflower_vector.at(j).SetIsAlive(false);
 						map.unsetmyMap(sunflower_vector.at(j).GetX(), sunflower_vector.at(j).GetY());
@@ -542,71 +546,66 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					}
 				}
 			}
-			
-			if (map.checkmyMap(normalzombie_vector.at(i).GetX() + 90, normalzombie_vector.at(i).GetY() + 35) && normalzombie_vector.at(i).IsAlive()) {
-				normalzombie_vector.at(i).OnMove(std::string("attack"));
+
+			if (map.checkmyMap(normalzombie_vector.at(i)->GetX() + 90, normalzombie_vector.at(i)->GetY() + 35) && normalzombie_vector.at(i)->IsAlive()) {
+				normalzombie_vector.at(i)->OnMove(std::string("attack"));
 			}
-			
-			/*if (map.checkmyMap(normalzombie_vector.at(i).GetX() + 90, normalzombie_vector.at(i).GetY() + 35) && normalzombie_vector.at(i).IsAlive()) {
-				normalzombie_vector.at(i).OnMove(std::string("attack"));
-			}*/
-			else if (normalzombie_vector.at(i).IsAlive()) {
-				normalzombie_vector.at(i).OnMove(std::string("walk"));
+
+			else if (normalzombie_vector.at(i)->IsAlive()) {
+				normalzombie_vector.at(i)->OnMove(std::string("walk"));
 			}
-			else if (!normalzombie_vector.at(i).IsAlive()) {
-				normalzombie_vector.at(i).OnMove(std::string("die"));
+			else if (!normalzombie_vector.at(i)->IsAlive()) {
+				normalzombie_vector.at(i)->OnMove(std::string("die"));
 			}
 
 			// zombie walk to car -> car move
-			if ( (normalzombie_vector.at(i).GetY() == 48 && normalzombie_vector.at(i).GetX() < car0.GetX() - 30) || !car0_flag) {
+			if ((normalzombie_vector.at(i)->GetY() == 48 && normalzombie_vector.at(i)->GetX() < car0.GetX() - 30) || !car0_flag) {
 				car0_flag = false;
 				car0.OnMove();
 			}
-			if ((normalzombie_vector.at(i).GetY() == 152 && normalzombie_vector.at(i).GetX() < car1.GetX() - 30) || !car1_flag) {
+			if ((normalzombie_vector.at(i)->GetY() == 152 && normalzombie_vector.at(i)->GetX() < car1.GetX() - 30) || !car1_flag) {
 				car1_flag = false;
 				car1.OnMove();
 			}
-			if ((normalzombie_vector.at(i).GetY() == 240 && normalzombie_vector.at(i).GetX() < car2.GetX() - 30) || !car2_flag) {
+			if ((normalzombie_vector.at(i)->GetY() == 240 && normalzombie_vector.at(i)->GetX() < car2.GetX() - 30) || !car2_flag) {
 				car2_flag = false;
 				car2.OnMove();
 			}
-			if ((normalzombie_vector.at(i).GetY() == 338 && normalzombie_vector.at(i).GetX() < car3.GetX() - 30) || !car3_flag) {
+			if ((normalzombie_vector.at(i)->GetY() == 338 && normalzombie_vector.at(i)->GetX() < car3.GetX() - 30) || !car3_flag) {
 				car3_flag = false;
 				car3.OnMove();
 			}
-			if ((normalzombie_vector.at(i).GetY() == 434 && normalzombie_vector.at(i).GetX() < car4.GetX() - 30) || !car4_flag) {
+			if ((normalzombie_vector.at(i)->GetY() == 434 && normalzombie_vector.at(i)->GetX() < car4.GetX() - 30) || !car4_flag) {
 				car4_flag = false;
 				car4.OnMove();
 			}
 			// car hits zombies
-			if ((normalzombie_vector.at(i).GetY() == 48 && normalzombie_vector.at(i).GetX() < car0.GetX() - 30)) {
-				normalzombie_vector.at(i).SetIsAlive(false);
+			if ((normalzombie_vector.at(i)->GetY() == 48 && normalzombie_vector.at(i)->GetX() < car0.GetX() - 30)) {
+				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
-			if ((normalzombie_vector.at(i).GetY() == 152 && normalzombie_vector.at(i).GetX() < car1.GetX() - 30)) {
-				normalzombie_vector.at(i).SetIsAlive(false);
+			if ((normalzombie_vector.at(i)->GetY() == 152 && normalzombie_vector.at(i)->GetX() < car1.GetX() - 30)) {
+				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
-			if ((normalzombie_vector.at(i).GetY() == 240 && normalzombie_vector.at(i).GetX() < car2.GetX() - 30)) {
-				normalzombie_vector.at(i).SetIsAlive(false);
+			if ((normalzombie_vector.at(i)->GetY() == 240 && normalzombie_vector.at(i)->GetX() < car2.GetX() - 30)) {
+				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
-			if ((normalzombie_vector.at(i).GetY() == 338 && normalzombie_vector.at(i).GetX() < car3.GetX() - 30)) {
-				normalzombie_vector.at(i).SetIsAlive(false);
+			if ((normalzombie_vector.at(i)->GetY() == 338 && normalzombie_vector.at(i)->GetX() < car3.GetX() - 30)) {
+				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
-			if ((normalzombie_vector.at(i).GetY() == 434 && normalzombie_vector.at(i).GetX() < car4.GetX() - 30)){
-				normalzombie_vector.at(i).SetIsAlive(false);
+			if ((normalzombie_vector.at(i)->GetY() == 434 && normalzombie_vector.at(i)->GetX() < car4.GetX() - 30)) {
+				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
 			for (YPeaShooter &p : peashooter_vector) {
-				int temp_y = map.getYmyMapLocation(normalzombie_vector.at(i).GetX(), normalzombie_vector.at(i).GetY() +30);
-				if (p.checkBulletCollideWithZombie(normalzombie_vector.at(i).GetX(), temp_y)) {
-					normalzombie_vector.at(i).LostBlood(1);
+				int temp_y = map.getYmyMapLocation(normalzombie_vector.at(i)->GetX(), normalzombie_vector.at(i)->GetY() + 30);
+				if (p.checkBulletCollideWithZombie(normalzombie_vector.at(i)->GetX(), temp_y)) {
+					normalzombie_vector.at(i)->LostBlood(1);
 				}
 			}
-			if (normalzombie_vector.at(i).GetX() > 900 && !normalzombie_vector.at(i).IsAlive()) {
+			if (normalzombie_vector.at(i)->GetX() > 900 && !normalzombie_vector.at(i)->IsAlive()) {
 				normalzombie_vector.erase(normalzombie_vector.begin() + i);
 			}
-				 
-		}
-		
 
+		}
 	}
 
 	// sunflowercardtry
@@ -641,7 +640,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	//
 	// 判斷擦子是否碰到球
 	//
-
 	//for (int i = 0; i < NUMBALLS; i++)
 	//	if (ball[i].IsAlive() && ball[i].HitEraser(&eraser)) {
 	//		ball[i].SetIsAlive(false);
@@ -691,16 +689,16 @@ void CGameStateRun::OnShow()
 		for (size_t i = 0; i < peashooter_vector.size(); i++) {
 			peashooter_vector.at(i).OnShow();
 		}
-		for (YNormalZombie & normalzombie : normalzombie_vector) {
-			if (normalzombie.GetX() < 950) {
-				if (map.checkmyMap(normalzombie.GetX() + 90, normalzombie.GetY() + 35) && normalzombie.IsAlive()) {
-					normalzombie.OnShow(std::string("attack"));
+		for (auto normalzombie : normalzombie_vector) {
+			if (normalzombie->GetX() < 950) {
+				if (map.checkmyMap(normalzombie->GetX() + 90, normalzombie->GetY() + 35) && normalzombie->IsAlive()) {
+					normalzombie->OnShow(std::string("attack"));
 				}
-				else if (normalzombie.IsAlive()) {
-					normalzombie.OnShow(std::string("walk"));
+				else if (normalzombie->IsAlive()) {
+					normalzombie->OnShow(std::string("walk"));
 				}
-				else if (!normalzombie.IsAlive()) {
-					normalzombie.OnShow(std::string("die"));
+				else if (!normalzombie->IsAlive()) {
+					normalzombie->OnShow(std::string("die"));
 				}
 			}
 		}

@@ -41,6 +41,7 @@
 #ifndef MYGAME_H
 #define MYGAME_H
 
+#include <memory>
 #include <vector>
 #include "CEraser.h"
 #include "CBall.h"
@@ -189,7 +190,9 @@ namespace game_framework {
 		std::vector<YSunFlower>	sunflower_vector;
 		std::vector<YPeaShooter>	peashooter_vector;
 		//YNormalZombie	normalzombie;
-		std::vector<YNormalZombie>	normalzombie_vector;
+		//std::vector<YNormalZombie>	normalzombie_vector;
+		//std::shared_ptr<YNormalZombie> normalzombie_sp;
+		std::vector<shared_ptr<YNormalZombie>>	normalzombie_vector;
 		YMap			map;
 		bool			animation_flag;
 
