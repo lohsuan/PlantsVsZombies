@@ -198,19 +198,18 @@ namespace game_framework {
 				, ".\\bitmaps\\SunFlower\\SunFlower_4.bmp",".\\bitmaps\\SunFlower\\SunFlower_5.bmp"
 				, ".\\bitmaps\\SunFlower\\SunFlower_6.bmp",".\\bitmaps\\SunFlower\\SunFlower_7.bmp"
 			};
-			//for (int i = 0; i < 8; i++)
-				sun_flower_animation.LoadBitmap(filename[0], RGB(255, 255, 255));
+			for (int i = 0; i < 8; i++)
+				sun_flower_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 		}
 
 		void OnMove() {
-			//sun_flower_animation.OnMove();
+			sun_flower_animation.OnMove();
 		}
 
 		void OnShow() {
 			if (IsAlive()) {
-				// try
 				sun_flower_animation.SetTopLeft(x, y);
-				sun_flower_animation.ShowBitmap();
+				sun_flower_animation.OnShow();
 
 			}
 		}
@@ -254,8 +253,8 @@ namespace game_framework {
 		int sun_make_time;
 		
 		// try
-		//CAnimation sun_flower_animation;
-		CMovingBitmap sun_flower_animation;
+		CAnimation sun_flower_animation;
+		//CMovingBitmap sun_flower_animation;
 
 		};
 
@@ -330,24 +329,19 @@ namespace game_framework {
 		{
 			// try
 			char *filename[6] = { ".\\bitmaps\\PeaShooter\\PeaShooter_0.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_1.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_2.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_3.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_4.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_5.bmp" };
-			//for (int i = 0; i < 6; i++)
-				peashooter_animation.LoadBitmap(filename[0], RGB(255, 255, 255));
+			for (int i = 0; i < 6; i++)
+				peashooter_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 		}
 
 		void OnMove()
 		{
+			peashooter_animation.OnMove();
 			static int delay = 30;
 			if (delay == 0) {
 				fireBullet();
 				delay = 80;
 			}
 			delay--;
-
-			// can move only when I pass reference 
-			/*for (YPeaShooterBullet &b : bullets_vector) {
-				if (b.IsAlive())
-					b.OnMove();
-			}*/
 
 			for (size_t i = 0; i < bullets_vector.size(); i++) {
 				if (bullets_vector.at(i).IsAlive())
@@ -364,7 +358,7 @@ namespace game_framework {
 			if (is_alive)
 			{
 				peashooter_animation.SetTopLeft(x, y);
-				peashooter_animation.ShowBitmap();
+				peashooter_animation.OnShow();
 			}
 			/*for (YPeaShooterBullet &b : bullets_vector) {
 				if (b.IsAlive())
@@ -431,8 +425,8 @@ namespace game_framework {
 		int blood;
 
 		// try
-		//CAnimation peashooter_animation;
-		CMovingBitmap peashooter_animation;
+		CAnimation peashooter_animation;
+		//CMovingBitmap peashooter_animation;
 		std::vector<YPeaShooterBullet> bullets_vector;
 
 	};

@@ -35,14 +35,14 @@ namespace game_framework {
 			this->x = x;
 			blood = 10;
 			is_alive = true;
-			zombie_die_delay_time = 230;
+			zombie_die_delay_time = 115;
 		}
 		~YNormalZombie() {
 
 		}
 
 		void LoadBitmap() {
-			// try
+
 			char *filename[10] = {".\\bitmaps\\NormalZombie\\Zombie\\Zombie_0.bmp",
 				".\\bitmaps\\NormalZombie\\Zombie\\Zombie_1.bmp", ".\\bitmaps\\NormalZombie\\Zombie\\Zombie_2.bmp",
 				".\\bitmaps\\NormalZombie\\Zombie\\Zombie_3.bmp", ".\\bitmaps\\NormalZombie\\Zombie\\Zombie_4.bmp",
@@ -51,12 +51,6 @@ namespace game_framework {
 				".\\bitmaps\\NormalZombie\\Zombie\\Zombie_9.bmp"};
 			for (int i = 0; i < 10; i++)
 				zombie_animation.AddBitmap(filename[i], RGB(255, 255, 255));
-
-		//	char *filename[10] = { ".\\bitmaps\\Sun\\sun0.bmp",".\\bitmaps\\Sun\\sun1.bmp",".\\bitmaps\\Sun\\sun2.bmp",".\\bitmaps\\Sun\\sun3.bmp"
-		//, ".\\bitmaps\\Sun\\sun4.bmp",".\\bitmaps\\Sun\\sun5.bmp",".\\bitmaps\\Sun\\sun6.bmp",".\\bitmaps\\Sun\\sun7.bmp" };
-		//	for (int i = 0; i < 8; i++)
-		//		zombie_animation.AddBitmap(filename[i], RGB(255, 255, 255));
-
 
 			char *filenamea[7] = {".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_0.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_1.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_2.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_3.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_4.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_5.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_6.bmp"};
 			for (int i = 0; i < 7; i++)
@@ -97,11 +91,8 @@ namespace game_framework {
 				}
 			}
 			else if(mode == "die" ){
-				if (delay % 2 == 0) {
-					zombie_die_animation.OnMove();
-					zombie_die_animation_head.OnMove();
-					delay = 0;
-				}
+				zombie_die_animation.OnMove();
+				zombie_die_animation_head.OnMove();
 			}
 			delay++;
 		}

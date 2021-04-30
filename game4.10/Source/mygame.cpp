@@ -417,9 +417,11 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		int ty = map.getYmyMapLocation(point.x, point.y);
 		map.setmyMap(point.x, point.y);
 
-		YSunFlower sunflower(tx, ty);
-		sunflower.LoadBitmap();
-		sunflower_vector.push_back(sunflower);
+		//YSunFlower sunflower(tx, ty);
+		//sunflower.LoadBitmap();
+		auto sp = make_shared<YSunFlower>(tx, ty);
+		sp->LoadBitmap();
+		sunflower_vector.push_back(sp);
 		generateSunFlowerFlag = false;
 	}
 	else if (generatePeaShooterFlag && !map.checkmyMap(point.x, point.y) && point.x >100 && point.x<840 && point.y>78 && point.y < 571) {
@@ -428,9 +430,11 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		int ty = map.getYmyMapLocation(point.x, point.y);
 		map.setmyMap(point.x, point.y);
 		
-		YPeaShooter peashooter(tx, ty);
-		peashooter.LoadBitmap();
-		peashooter_vector.push_back(peashooter);
+		//YPeaShooter peashooter(tx, ty);
+		//peashooter.LoadBitmap();
+		auto sp = make_shared<YPeaShooter>(tx, ty);
+		sp->LoadBitmap();
+		peashooter_vector.push_back(sp);
 		generatePeaShooterFlag = false;
 	}
 
@@ -526,22 +530,22 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			peashooter_card_delay_flag--;
 		}
 
-		for (YSunFlower &sf : sunflower_vector) {
-			sf.OnMove();
+		for (auto sf : sunflower_vector) {
+			sf->OnMove();
 		}
-		for (YPeaShooter &ps : peashooter_vector) {
-			ps.OnMove();
+		for (auto ps : peashooter_vector) {
+			ps->OnMove();
 			
 		}
 		
 		for (size_t i = 0; i < normalzombie_vector.size(); i++) {
 
 			for (size_t j = 0; j < sunflower_vector.size(); j++) {
-				if (sunflower_vector.at(j).checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX() + 90, normalzombie_vector.at(i)->GetY() + 30)) {
-					sunflower_vector.at(j).LostBlood(normalzombie_vector.at(i)->GetAttackPower());
-					if (sunflower_vector.at(j).GetBlood() < 1) {
-						sunflower_vector.at(j).SetIsAlive(false);
-						map.unsetmyMap(sunflower_vector.at(j).GetX(), sunflower_vector.at(j).GetY());
+				if (sunflower_vector.at(j)->checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX() + 90, normalzombie_vector.at(i)->GetY() + 30)) {
+					sunflower_vector.at(j)->LostBlood(normalzombie_vector.at(i)->GetAttackPower());
+					if (sunflower_vector.at(j)->GetBlood() < 1) {
+						sunflower_vector.at(j)->SetIsAlive(false);
+						map.unsetmyMap(sunflower_vector.at(j)->GetX(), sunflower_vector.at(j)->GetY());
 						sunflower_vector.erase(sunflower_vector.begin() + j);
 					}
 				}
@@ -595,9 +599,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			if ((normalzombie_vector.at(i)->GetY() == 434 && normalzombie_vector.at(i)->GetX() < car4.GetX() - 30)) {
 				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
-			for (YPeaShooter &p : peashooter_vector) {
+			for (auto p : peashooter_vector) {
 				int temp_y = map.getYmyMapLocation(normalzombie_vector.at(i)->GetX(), normalzombie_vector.at(i)->GetY() + 30);
-				if (p.checkBulletCollideWithZombie(normalzombie_vector.at(i)->GetX(), temp_y)) {
+				if (p->checkBulletCollideWithZombie(normalzombie_vector.at(i)->GetX(), temp_y)) {
 					normalzombie_vector.at(i)->LostBlood(1);
 				}
 			}
@@ -684,10 +688,10 @@ void CGameStateRun::OnShow()
 	if (flag == 2 ) {
 
 		for (size_t i = 0; i < sunflower_vector.size(); i++) {
-			sunflower_vector.at(i).OnShow();
+			sunflower_vector.at(i)->OnShow();
 		}
 		for (size_t i = 0; i < peashooter_vector.size(); i++) {
-			peashooter_vector.at(i).OnShow();
+			peashooter_vector.at(i)->OnShow();
 		}
 		for (auto normalzombie : normalzombie_vector) {
 			if (normalzombie->GetX() < 950) {

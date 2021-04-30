@@ -187,10 +187,13 @@ namespace game_framework {
 		YPeaShooterCard  pea_shooter_card;
 		int sun_flower_card_delay_flag;
 		int peashooter_card_delay_flag;
-		std::vector<YSunFlower>	sunflower_vector;
-		std::vector<YPeaShooter>	peashooter_vector;
+		//std::vector<YSunFlower>	sunflower_vector;
+		//std::vector<YPeaShooter>	peashooter_vector;
 		//std::vector<YNormalZombie>	normalzombie_vector;
+		std::vector<shared_ptr<YSunFlower>>	sunflower_vector;
+		std::vector<shared_ptr<YPeaShooter>>	peashooter_vector;
 		std::vector<shared_ptr<YNormalZombie>>	normalzombie_vector;
+
 		YMap			map;
 		bool			animation_flag;
 
