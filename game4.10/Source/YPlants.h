@@ -182,7 +182,7 @@ namespace game_framework {
 		YSunFlower(int x, int y) {
 			this->x = x + 8;
 			this->y = y + 13;
-			blood = 5;
+			blood = 200;
 			sun_make_time = 7;
 			is_alive = true;
 
@@ -214,6 +214,15 @@ namespace game_framework {
 
 			}
 		}
+		bool checkPlantCollideWithZombie(int zx, int zy) {
+			if (zy == y - 13) {
+				if(x > zx-100 && x < zx-40){
+					return true;
+				}
+			}
+			return false;
+		}
+
 		bool IsAlive() {
 			return is_alive;
 		}
@@ -227,7 +236,7 @@ namespace game_framework {
 		int  GetY() {
 			return y;
 		}
-		void SetBlood(int attack_blood) {
+		void LostBlood(int attack_blood) {
 			blood = blood - attack_blood;
 			if (blood == 0) {
 				is_alive = false;
@@ -243,7 +252,7 @@ namespace game_framework {
 		bool is_alive;
 		int blood;
 		int sun_make_time;
-
+		
 		// try
 		//CAnimation sun_flower_animation;
 		CMovingBitmap sun_flower_animation;
@@ -278,7 +287,6 @@ namespace game_framework {
 				peashooter_bullet.ShowBitmap();
 			}
 		}
-
 		bool IsAlive()
 		{
 			return is_alive;
@@ -328,10 +336,10 @@ namespace game_framework {
 
 		void OnMove()
 		{
-			static int delay = 50;
+			static int delay = 30;
 			if (delay == 0) {
 				fireBullet();
-				delay = 100;
+				delay = 80;
 			}
 			delay--;
 
@@ -399,12 +407,17 @@ namespace game_framework {
 			bullet.LoadBitmap();
 			bullets_vector.push_back(bullet);
 		}
-
+		void LostBlood(int attack_blood) {
+			blood = blood - attack_blood;
+			if (blood == 0) {
+				is_alive = false;
+			}
+		}
 		bool checkBulletCollideWithZombie(int zx, int mapy) {
 			//int map[5] = { 78, 182, 270, 368, 464 };
 			if (!bullets_vector.empty() && bullets_vector.at(0).GetY() - 20 == mapy) {
 				int t = bullets_vector.at(0).GetX();
-				if (t > zx+20) {
+				if ( bullets_vector.at(0).GetX() > zx + 20 && bullets_vector.at(0).GetX() < zx + 80) {
 					bullets_vector.at(0).SetIsAlive(false);
 					return true;
 				}

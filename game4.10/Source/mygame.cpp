@@ -264,10 +264,11 @@ CGameStateRun::CGameStateRun(CGame *g)
 	generatePeaShooterFlag = false;
 	sun_flower_card_delay_flag = 0;
 	peashooter_card_delay_flag = 0;
-	//normalzombie_vector.push_back(YNormalZombie(200, 1));
-	normalzombie_vector.push_back(YNormalZombie(560, 2));
-	normalzombie_vector.push_back(YNormalZombie(250, 1));
-	normalzombie_vector.push_back(YNormalZombie(500, 3));
+	normalzombie_vector.clear();
+	normalzombie_vector.push_back(YNormalZombie(200, 1));
+	//normalzombie_vector.push_back(YNormalZombie(560, 2));
+	//normalzombie_vector.push_back(YNormalZombie(250, 1));
+	//normalzombie_vector.push_back(YNormalZombie(500, 3));
 	//normalzombie_vector.push_back(YNormalZombie(1300, 2));
 	//normalzombie_vector.push_back(YNormalZombie(1600, 3));
 	//normalzombie_vector.push_back(YNormalZombie(2000, 4));
@@ -440,6 +441,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		sun_amount -= sun_flower_card.GetSunCost();
 		generateSunFlowerFlag = true;
 		sun_flower_card_delay_flag = 150;
+
 	}
 	else if (point.x > pea_shooter_card.GetX() && point.y > pea_shooter_card.GetY() && point.x < pea_shooter_card.GetX() + 65 && point.y < pea_shooter_card.GetY() + 90 && pea_shooter_card.IsAlive()) {
 		pea_shooter_card.SetIsAlive(false);
@@ -525,15 +527,34 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		
 		for (size_t i = 0; i < normalzombie_vector.size(); i++) {
+			
+			for (size_t j = 0; j < sunflower_vector.size(); j++) {
+				if (sunflower_vector.at(j).checkPlantCollideWithZombie(normalzombie_vector.at(i).GetX() + 90, normalzombie_vector.at(i).GetY() + 30)) {
+					//normalzombie_vector.at(i).OnMove(std::string("attack"));
+					//sunflower_vector.at(j).LostBlood(1);
+					sunflower_vector.at(j).LostBlood(normalzombie_vector.at(i).GetAttackPower());
+					if (sunflower_vector.at(j).GetBlood() < 1) {
+						sunflower_vector.at(j).SetIsAlive(false);
+						map.unsetmyMap(sunflower_vector.at(j).GetX(), sunflower_vector.at(j).GetY());
+						sunflower_vector.erase(sunflower_vector.begin() + j);
+					}
+				}
+			}
+			
 			if (map.checkmyMap(normalzombie_vector.at(i).GetX() + 90, normalzombie_vector.at(i).GetY() + 35) && normalzombie_vector.at(i).IsAlive()) {
 				normalzombie_vector.at(i).OnMove(std::string("attack"));
 			}
+			
+			/*if (map.checkmyMap(normalzombie_vector.at(i).GetX() + 90, normalzombie_vector.at(i).GetY() + 35) && normalzombie_vector.at(i).IsAlive()) {
+				normalzombie_vector.at(i).OnMove(std::string("attack"));
+			}*/
 			else if (normalzombie_vector.at(i).IsAlive()) {
 				normalzombie_vector.at(i).OnMove(std::string("walk"));
 			}
 			else if (!normalzombie_vector.at(i).IsAlive()) {
 				normalzombie_vector.at(i).OnMove(std::string("die"));
 			}
+
 			// zombie walk to car -> car move
 			if ( (normalzombie_vector.at(i).GetY() == 48 && normalzombie_vector.at(i).GetX() < car0.GetX() - 30) || !car0_flag) {
 				car0_flag = false;
@@ -575,19 +596,16 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				int temp_y = map.getYmyMapLocation(normalzombie_vector.at(i).GetX(), normalzombie_vector.at(i).GetY() +30);
 				if (p.checkBulletCollideWithZombie(normalzombie_vector.at(i).GetX(), temp_y)) {
 					normalzombie_vector.at(i).LostBlood(1);
-					if (normalzombie_vector.at(i).GetX() > 900) {
-						normalzombie_vector.erase(normalzombie_vector.begin() + i);
-					}
 				}
+			}
+			if (normalzombie_vector.at(i).GetX() > 900 && !normalzombie_vector.at(i).IsAlive()) {
+				normalzombie_vector.erase(normalzombie_vector.begin() + i);
 			}
 				 
 		}
 		
 
-
 	}
-
-
 
 	// sunflowercardtry
 	if (sun_amount >= sun_flower_card.GetSunCost() && sun_flower_card_delay_flag == 0) {
@@ -596,13 +614,19 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	if (sun_amount >= pea_shooter_card.GetSunCost() && peashooter_card_delay_flag == 0) {
 		pea_shooter_card.SetIsAlive(true);
 	}
+	
+	// go to game state over
+	if (normalzombie_vector.empty()) {
+		CAudio::Instance()->Stop(AUDIO_START);
+		GotoGameState(GAME_STATE_OVER);
+	}
+
+	// 修改cursor樣式
+	//if (generateSunFlowerFlag) {
+	//	SetCursor(AfxGetApp()->LoadCursor(".\\bitmaps\\SunFlower\\SunFlower_0.bmp"));
+	//}
 
 	// gamemap.OnMove();
-	//
-	// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
-	//
-	// SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
-
 	//
 	// 移動球
 	//
@@ -636,12 +660,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 void CGameStateRun::OnShow()
 {
-	//
-	//  注意：Show裡面千萬不要移動任何物件的座標，移動座標的工作應由Move做才對，
-	//        否則當視窗重新繪圖時(OnDraw)，物件就會移動，看起來會很怪。換個術語
-	//        說，Move負責MVC中的Model，Show負責View，而View不應更動Model。
-	//
-
 	background.ShowBitmap();				// 貼上背景圖
 	
 	//gamemap.OnShow();					// 貼上地圖，注意順序 //practiceGreenBlue
@@ -663,22 +681,18 @@ void CGameStateRun::OnShow()
 	//corner.SetTopLeft(SIZE_X-corner.Width(), SIZE_Y-corner.Height());
 	//corner.ShowBitmap();
 	
-	// suntry
 	if (flag == 2 ) {
 
 		for (size_t i = 0; i < sunflower_vector.size(); i++) {
 			sunflower_vector.at(i).OnShow();
 		}
-
 		for (size_t i = 0; i < peashooter_vector.size(); i++) {
 			peashooter_vector.at(i).OnShow();
 		}
-
 		for (YNormalZombie & normalzombie : normalzombie_vector) {
 			if (normalzombie.GetX() < 950) {
 				if (map.checkmyMap(normalzombie.GetX() + 90, normalzombie.GetY() + 35) && normalzombie.IsAlive()) {
 					normalzombie.OnShow(std::string("attack"));
-
 				}
 				else if (normalzombie.IsAlive()) {
 					normalzombie.OnShow(std::string("walk"));
