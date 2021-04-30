@@ -133,9 +133,6 @@ namespace game_framework {
 			
 		}
 		
-		void attack() {
-
-		}
 
 		bool IsAlive() {
 			return is_alive;
@@ -165,6 +162,10 @@ namespace game_framework {
 			return Map_Y_Location;
 		}
 
+		int GetAttackPower() {
+			return attack_power;
+		}
+
 	private:
 		int x, y;
 		bool is_alive;
@@ -175,6 +176,7 @@ namespace game_framework {
 		CAnimation zombie_die_animation;
 		CAnimation zombie_die_animation_head;
 		int zombie_die_delay_time = 200;
+		int attack_power = 1;
 	};
 
 
