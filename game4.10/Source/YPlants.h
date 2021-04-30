@@ -344,8 +344,8 @@ namespace game_framework {
 			delay--;
 
 			for (size_t i = 0; i < bullets_vector.size(); i++) {
-				if (bullets_vector.at(i).IsAlive())
-					bullets_vector.at(i).OnMove();
+				if (bullets_vector.at(i)->IsAlive())
+					bullets_vector.at(i)->OnMove();
 				else {
 					bullets_vector.erase(bullets_vector.begin()+i);
 				}
@@ -365,8 +365,8 @@ namespace game_framework {
 					b.OnShow();
 			}*/
 			for (size_t i = 0; i < bullets_vector.size(); i++) {
-				if (bullets_vector.at(i).IsAlive())
-					bullets_vector.at(i).OnShow();
+				if (bullets_vector.at(i)->IsAlive())
+					bullets_vector.at(i)->OnShow();
 			}
 		}
 		bool IsAlive()
@@ -397,9 +397,9 @@ namespace game_framework {
 			return blood;
 		}
 		void fireBullet() {
-			YPeaShooterBullet bullet(x, y);
-			bullet.LoadBitmap();
-			bullets_vector.push_back(bullet);
+			auto sp = make_shared<YPeaShooterBullet>(x, y);
+			sp->LoadBitmap();
+			bullets_vector.push_back(sp);
 		}
 		void LostBlood(int attack_blood) {
 			blood = blood - attack_blood;
@@ -409,10 +409,10 @@ namespace game_framework {
 		}
 		bool checkBulletCollideWithZombie(int zx, int mapy) {
 			//int map[5] = { 78, 182, 270, 368, 464 };
-			if (!bullets_vector.empty() && bullets_vector.at(0).GetY() - 20 == mapy) {
-				int t = bullets_vector.at(0).GetX();
-				if ( bullets_vector.at(0).GetX() > zx + 20 && bullets_vector.at(0).GetX() < zx + 80) {
-					bullets_vector.at(0).SetIsAlive(false);
+			if (!bullets_vector.empty() && bullets_vector.at(0)->GetY() - 20 == mapy) {
+				int t = bullets_vector.at(0)->GetX();
+				if ( bullets_vector.at(0)->GetX() > zx + 20 && bullets_vector.at(0)->GetX() < zx + 80) {
+					bullets_vector.at(0)->SetIsAlive(false);
 					return true;
 				}
 			}
@@ -423,12 +423,8 @@ namespace game_framework {
 		int x, y;
 		bool is_alive;
 		int blood;
-
-		// try
+		std::vector<shared_ptr<YPeaShooterBullet>> bullets_vector;
 		CAnimation peashooter_animation;
-		//CMovingBitmap peashooter_animation;
-		std::vector<YPeaShooterBullet> bullets_vector;
-
 	};
 }
 
