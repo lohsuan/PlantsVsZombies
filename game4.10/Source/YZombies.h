@@ -98,14 +98,11 @@ namespace game_framework {
 		}
 
 		void OnShow(std::string mode) {
-			
-			//question
 			if (mode == "attack") {
 				zombie_attack_animation.SetTopLeft(x, y);
 				zombie_attack_animation.OnShow();
 			}
 			else if (mode == "walk") {
-				// try
 				zombie_animation.SetTopLeft(x, y);
 				zombie_animation.OnShow();
 			}

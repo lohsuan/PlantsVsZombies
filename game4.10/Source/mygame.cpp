@@ -259,7 +259,6 @@ CGameStateRun::CGameStateRun(CGame *g)
 	
 	// suntry
 	sun_amount = 1000;			// 一開始50個sun
-	sun_interval_time = 5;		// 5 second
 	generateSunFlowerFlag = false;
 	generatePeaShooterFlag = false;
 	sun_flower_card_delay_flag = 0;
@@ -417,8 +416,6 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		int ty = map.getYmyMapLocation(point.x, point.y);
 		map.setmyMap(point.x, point.y);
 
-		//YSunFlower sunflower(tx, ty);
-		//sunflower.LoadBitmap();
 		auto sp = make_shared<YSunFlower>(tx, ty);
 		sp->LoadBitmap();
 		sunflower_vector.push_back(sp);
@@ -430,29 +427,25 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		int ty = map.getYmyMapLocation(point.x, point.y);
 		map.setmyMap(point.x, point.y);
 		
-		//YPeaShooter peashooter(tx, ty);
-		//peashooter.LoadBitmap();
 		auto sp = make_shared<YPeaShooter>(tx, ty);
 		sp->LoadBitmap();
 		peashooter_vector.push_back(sp);
 		generatePeaShooterFlag = false;
 	}
 
-	// suntry
+	// sun
 	if (point.x > sun.GetX() - 5 && point.y - 5 > sun.GetY() && point.x < sun.GetX() + 80 && point.y < sun.GetY() + 80 && sun.IsAlive()) {
 		CAudio::Instance()->Play(AUDIO_SUNPICK, false);
 		sun.SetIsAlive(false);
 		sun_amount += 25;
 		sun.SetY(-500);
 	}
-	// sunflowercardtry
-
+	// card
 	if (point.x > sun_flower_card.GetX() && point.y > sun_flower_card.GetY() && point.x < sun_flower_card.GetX() + 65 && point.y < sun_flower_card.GetY() + 90 && sun_flower_card.IsAlive()) {
 		sun_flower_card.SetIsAlive(false);
 		sun_amount -= sun_flower_card.GetSunCost();
 		generateSunFlowerFlag = true;
 		sun_flower_card_delay_flag = 150;
-
 	}
 	else if (point.x > pea_shooter_card.GetX() && point.y > pea_shooter_card.GetY() && point.x < pea_shooter_card.GetX() + 65 && point.y < pea_shooter_card.GetY() + 90 && pea_shooter_card.IsAlive()) {
 		pea_shooter_card.SetIsAlive(false);
@@ -495,9 +488,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	chooser.SetTopLeft(0, 0);
 	//shovel.SetTopLeft(520, 0);
 
-	//
-	// 移動背景圖的座標
-	//
+
 	if (picX > -400 && flag == 0) {
 		picX -= 4;
 	}// (-400,0)
@@ -517,7 +508,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 
 
-	// Suntry
 	if (flag==2) {
 		sun.OnMove();
 
@@ -554,13 +544,13 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			if (map.checkmyMap(normalzombie_vector.at(i)->GetX() + 90, normalzombie_vector.at(i)->GetY() + 35) && normalzombie_vector.at(i)->IsAlive()) {
 				normalzombie_vector.at(i)->OnMove(std::string("attack"));
 			}
-
-			else if (normalzombie_vector.at(i)->IsAlive()) {
-				normalzombie_vector.at(i)->OnMove(std::string("walk"));
-			}
 			else if (!normalzombie_vector.at(i)->IsAlive()) {
 				normalzombie_vector.at(i)->OnMove(std::string("die"));
 			}
+			else{
+				normalzombie_vector.at(i)->OnMove(std::string("walk"));
+			}
+			
 
 			// zombie walk to car -> car move
 			if ((normalzombie_vector.at(i)->GetY() == 48 && normalzombie_vector.at(i)->GetX() < car0.GetX() - 30) || !car0_flag) {
@@ -612,7 +602,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 	}
 
-	// sunflowercardtry
+	// card
 	if (sun_amount >= sun_flower_card.GetSunCost() && sun_flower_card_delay_flag == 0) {
 		sun_flower_card.SetIsAlive(true);
 	}
@@ -664,7 +654,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 void CGameStateRun::OnShow()
 {
-	background.ShowBitmap();				// 貼上背景圖
+	background.ShowBitmap();
 	
 	//gamemap.OnShow();					// 貼上地圖，注意順序 //practiceGreenBlue
 	//help.ShowBitmap();					// 貼上說明圖
@@ -698,11 +688,11 @@ void CGameStateRun::OnShow()
 				if (map.checkmyMap(normalzombie->GetX() + 90, normalzombie->GetY() + 35) && normalzombie->IsAlive()) {
 					normalzombie->OnShow(std::string("attack"));
 				}
-				else if (normalzombie->IsAlive()) {
-					normalzombie->OnShow(std::string("walk"));
-				}
 				else if (!normalzombie->IsAlive()) {
 					normalzombie->OnShow(std::string("die"));
+				}
+				else {
+					normalzombie->OnShow(std::string("walk"));
 				}
 			}
 		}

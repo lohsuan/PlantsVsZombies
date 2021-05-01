@@ -180,16 +180,12 @@ namespace game_framework {
 		int				flag;
 		YSun			sun;
 		int				sun_amount;			// show on the board
-		int				sun_interval_time;
 		bool			generateSunFlowerFlag;
 		bool			generatePeaShooterFlag;
 		YSunFlowerCard  sun_flower_card;
 		YPeaShooterCard  pea_shooter_card;
 		int sun_flower_card_delay_flag;
 		int peashooter_card_delay_flag;
-		//std::vector<YSunFlower>	sunflower_vector;
-		//std::vector<YPeaShooter>	peashooter_vector;
-		//std::vector<YNormalZombie>	normalzombie_vector;
 		std::vector<shared_ptr<YSunFlower>>	sunflower_vector;
 		std::vector<shared_ptr<YPeaShooter>>	peashooter_vector;
 		std::vector<shared_ptr<YNormalZombie>>	normalzombie_vector;
@@ -208,8 +204,6 @@ namespace game_framework {
 		bool car3_flag = true;
 		bool car4_flag = true;
 
-		//YCar cars[5] = { car0, car1, car2, car3, car4 };
-		
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

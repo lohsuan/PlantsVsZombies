@@ -9,11 +9,6 @@ namespace game_framework {
 	public:
 		
 		YMap() :mymap{ 0 } {
-			/*mymap[7][4] = 1;
-			mymap[7][3] = 1;
-			mymap[7][2] = 1;
-			mymap[7][1] = 1;
-			mymap[7][0] = 1;*/
 
 		}
 		void setmyMap(int x, int y) {
