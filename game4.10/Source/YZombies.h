@@ -78,7 +78,7 @@ namespace game_framework {
 		}
 
 		void OnMove(std::string mode) {
-			static int delay;
+
 		
 			if (mode == "attack") {
 				zombie_attack_animation.OnMove();
@@ -165,6 +165,7 @@ namespace game_framework {
 		CAnimation zombie_die_animation_head;
 		int zombie_die_delay_time = 200;
 		int attack_power = 1;
+		int delay = 0;
 	};
 
 

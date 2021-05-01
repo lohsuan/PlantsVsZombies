@@ -146,6 +146,7 @@ namespace game_framework {
 	public:
 		YPeaShooter(int x, int y)
 		{
+			delay = 30;
 			this->x = x + 20;
 			this->y = y + 20;
 			blood = 5;
@@ -165,7 +166,7 @@ namespace game_framework {
 		void OnMove()
 		{
 			peashooter_animation.OnMove();
-			static int delay = 30;
+			
 			if (delay == 0) {
 				fireBullet();
 				delay = 80;
@@ -249,6 +250,7 @@ namespace game_framework {
 		int blood;
 		std::vector<shared_ptr<YPeaShooterBullet>> bullets_vector;
 		CAnimation peashooter_animation;
+		int delay;
 	};
 }
 
