@@ -20,12 +20,9 @@ namespace game_framework {
 			blood = 200;
 			sun_make_time = 7;
 			is_alive = true;
-
 		}
 		~YSunFlower() {
-
 		}
-
 		void LoadBitmap() {
 			char *filename[8] = { ".\\bitmaps\\SunFlower\\SunFlower_0.bmp",".\\bitmaps\\SunFlower\\SunFlower_1.bmp"
 				, ".\\bitmaps\\SunFlower\\SunFlower_2.bmp",".\\bitmaps\\SunFlower\\SunFlower_3.bmp"
@@ -35,11 +32,9 @@ namespace game_framework {
 			for (int i = 0; i < 8; i++)
 				sun_flower_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 		}
-
 		void OnMove() {
 			sun_flower_animation.OnMove();
 		}
-
 		void OnShow() {
 			if (IsAlive()) {
 				sun_flower_animation.SetTopLeft(x, y);
@@ -49,17 +44,15 @@ namespace game_framework {
 		}
 		bool checkPlantCollideWithZombie(int zx, int zy) {
 			if (zy == y - 13) {
-				if(x > zx-100 && x < zx-40){
+				if(x > zx - 52 && x < zx - 32){
 					return true;
 				}
 			}
 			return false;
 		}
-
 		bool IsAlive() {
 			return is_alive;
 		}
-
 		void SetIsAlive(bool alive) {
 			is_alive = alive;
 		}
@@ -78,7 +71,6 @@ namespace game_framework {
 		int  GetBlood() {
 			return blood;
 		}
-
 
 	private:
 		int x, y;
@@ -149,20 +141,18 @@ namespace game_framework {
 			delay = 30;
 			this->x = x + 20;
 			this->y = y + 20;
-			blood = 5;
+			blood = 200;
 			is_alive = true;
 		}
 		~YPeaShooter()
 		{
 		}
-
 		void LoadBitmap()
 		{
 			char *filename[6] = { ".\\bitmaps\\PeaShooter\\PeaShooter_0.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_1.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_2.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_3.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_4.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_5.bmp" };
 			for (int i = 0; i < 6; i++)
 				peashooter_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 		}
-
 		void OnMove()
 		{
 			peashooter_animation.OnMove();
@@ -182,7 +172,6 @@ namespace game_framework {
 			}
 
 		}
-
 		void OnShow()
 		{
 			if (is_alive)
@@ -238,6 +227,14 @@ namespace game_framework {
 				int t = bullets_vector.at(0)->GetX();
 				if ( bullets_vector.at(0)->GetX() > zx + 20 && bullets_vector.at(0)->GetX() < zx + 80) {
 					bullets_vector.at(0)->SetIsAlive(false);
+					return true;
+				}
+			}
+			return false;
+		}
+		bool checkPlantCollideWithZombie(int zx, int zy) {
+			if (zy == y - 20) {
+				if (x > zx - 40 && x < zx - 20) {
 					return true;
 				}
 			}

@@ -531,7 +531,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		for (size_t i = 0; i < normalzombie_vector.size(); i++) {
 
 			for (size_t j = 0; j < sunflower_vector.size(); j++) {
-				if (sunflower_vector.at(j)->checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX() + 90, normalzombie_vector.at(i)->GetY() + 30)) {
+				if (sunflower_vector.at(j)->checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX() + 70, normalzombie_vector.at(i)->GetY() + 30)) {
 					sunflower_vector.at(j)->LostBlood(normalzombie_vector.at(i)->GetAttackPower());
 					if (sunflower_vector.at(j)->GetBlood() < 1) {
 						sunflower_vector.at(j)->SetIsAlive(false);
@@ -541,7 +541,21 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				}
 			}
 
-			if (map.checkmyMap(normalzombie_vector.at(i)->GetX() + 90, normalzombie_vector.at(i)->GetY() + 35) && normalzombie_vector.at(i)->IsAlive()) {
+			for (size_t j = 0; j < peashooter_vector.size(); j++) {
+				if (peashooter_vector.at(j)->checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX() + 70, normalzombie_vector.at(i)->GetY() + 30)) {
+					peashooter_vector.at(j)->LostBlood(normalzombie_vector.at(i)->GetAttackPower());
+					if (peashooter_vector.at(j)->GetBlood() < 1) {
+						peashooter_vector.at(j)->SetIsAlive(false);
+						map.unsetmyMap(peashooter_vector.at(j)->GetX(), peashooter_vector.at(j)->GetY());
+						peashooter_vector.erase(peashooter_vector.begin() + j);
+					}
+				}
+			}
+
+			if (map.checkmyMap(normalzombie_vector.at(i)->GetX() + 70, normalzombie_vector.at(i)->GetY() + 35) 
+				&& map.checkmyMap(normalzombie_vector.at(i)->GetX() + 90, normalzombie_vector.at(i)->GetY() + 35) 
+				&& normalzombie_vector.at(i)->IsAlive()) {
+				int t = normalzombie_vector.at(i)->GetX() + 70;
 				normalzombie_vector.at(i)->OnMove(std::string("attack"));
 			}
 			else if (!normalzombie_vector.at(i)->IsAlive()) {
@@ -685,7 +699,10 @@ void CGameStateRun::OnShow()
 		}
 		for (auto normalzombie : normalzombie_vector) {
 			if (normalzombie->GetX() < 950) {
-				if (map.checkmyMap(normalzombie->GetX() + 90, normalzombie->GetY() + 35) && normalzombie->IsAlive()) {
+				if (map.checkmyMap(normalzombie->GetX() + 70, normalzombie->GetY() + 35)
+					&& map.checkmyMap(normalzombie->GetX() + 90, normalzombie->GetY() + 35)
+					&& normalzombie->IsAlive()) 
+				{
 					normalzombie->OnShow(std::string("attack"));
 				}
 				else if (!normalzombie->IsAlive()) {
