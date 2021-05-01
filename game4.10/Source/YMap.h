@@ -8,8 +8,7 @@ namespace game_framework {
 
 	public:
 		
-		YMap() {
-			mymap[9][5] = { 0 };
+		YMap() :mymap{ 0 } {
 			/*mymap[7][4] = 1;
 			mymap[7][3] = 1;
 			mymap[7][2] = 1;
