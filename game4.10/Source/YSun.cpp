@@ -19,13 +19,6 @@ namespace game_framework {
 		is_alive = true;
 	}
 
-	void YSun::OnLButtonDown(UINT nFlags, CPoint point) {
-		if (point.x > x - 5 && point.y - 5 > y && point.x < x + 80 && point.y < y + 80) {
-			is_alive = false;
-
-		}
-	}
-
 	bool YSun::IsAlive() {
 		return is_alive;
 	}
@@ -48,7 +41,7 @@ namespace game_framework {
 		if (GetY() < GetFloor())
 			y = y + 2;
 
-		sunanimation.OnMove();		// ����@��animation.OnMove()�Aanimation�~�|����
+		sunanimation.OnMove();
 	}
 
 	void YSun::OnShow() {
@@ -80,8 +73,6 @@ namespace game_framework {
 	int	YSun::GetFloor() {
 		return floor;
 	}
-	//CMovingBitmap sun;			// �y����
-	//int x, y;					// ��ߪ��y��
-	//bool is_alive;
+
 }
 

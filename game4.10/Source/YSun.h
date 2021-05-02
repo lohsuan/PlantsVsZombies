@@ -7,7 +7,6 @@ namespace game_framework {
 	{
 	public:
 		YSun();
-		void OnLButtonDown(UINT nFlags, CPoint point);
 		bool IsAlive();											// 是否活著
 		void LoadBitmap();										// 載入圖形
 		void OnMove();											// 移動

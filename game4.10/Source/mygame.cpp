@@ -514,18 +514,14 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (sun_flower_card_delay_flag > 0) {
 			sun_flower_card_delay_flag--;
 		}
-
-
 		if (peashooter_card_delay_flag > 0) {
 			peashooter_card_delay_flag--;
 		}
-
 		for (auto sf : sunflower_vector) {
 			sf->OnMove();
 		}
 		for (auto ps : peashooter_vector) {
 			ps->OnMove();
-			
 		}
 		
 		for (size_t i = 0; i < normalzombie_vector.size(); i++) {
@@ -552,10 +548,10 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				}
 			}
 
-			if (map.checkmyMap(normalzombie_vector.at(i)->GetX() + 70, normalzombie_vector.at(i)->GetY() + 35) 
-				&& map.checkmyMap(normalzombie_vector.at(i)->GetX() + 90, normalzombie_vector.at(i)->GetY() + 35) 
+			if (map.checkmyMap(normalzombie_vector.at(i)->GetX() + 80, normalzombie_vector.at(i)->GetY() + 35) 
+				&& !map.checkmyMap(normalzombie_vector.at(i)->GetX() + 90, normalzombie_vector.at(i)->GetY() + 35) 
 				&& normalzombie_vector.at(i)->IsAlive()) {
-				int t = normalzombie_vector.at(i)->GetX() + 70;
+				//int t = normalzombie_vector.at(i)->GetX() + 70;
 				normalzombie_vector.at(i)->OnMove(std::string("attack"));
 			}
 			else if (!normalzombie_vector.at(i)->IsAlive()) {
@@ -699,8 +695,8 @@ void CGameStateRun::OnShow()
 		}
 		for (auto normalzombie : normalzombie_vector) {
 			if (normalzombie->GetX() < 950) {
-				if (map.checkmyMap(normalzombie->GetX() + 70, normalzombie->GetY() + 35)
-					&& map.checkmyMap(normalzombie->GetX() + 90, normalzombie->GetY() + 35)
+				if (map.checkmyMap(normalzombie->GetX() + 80, normalzombie->GetY() + 35)
+					&& !map.checkmyMap(normalzombie->GetX() + 90, normalzombie->GetY() + 35)
 					&& normalzombie->IsAlive()) 
 				{
 					normalzombie->OnShow(std::string("attack"));

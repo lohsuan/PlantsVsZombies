@@ -9,8 +9,7 @@
 #include "YZombies.h"
 
 namespace game_framework {
-
-
+	
 	class YSunFlower
 	{
 	public:
@@ -18,7 +17,7 @@ namespace game_framework {
 			this->x = x + 8;
 			this->y = y + 13;
 			blood = 200;
-			sun_make_time = 7;
+			sun_make_time = 50;
 			is_alive = true;
 		}
 		~YSunFlower() {
@@ -34,17 +33,20 @@ namespace game_framework {
 		}
 		void OnMove() {
 			sun_flower_animation.OnMove();
+			if (sun_make_time == 0) {
+				sunanimation.OnMove();
+				
+			}
 		}
 		void OnShow() {
 			if (IsAlive()) {
 				sun_flower_animation.SetTopLeft(x, y);
 				sun_flower_animation.OnShow();
-
 			}
 		}
 		bool checkPlantCollideWithZombie(int zx, int zy) {
 			if (zy == y - 13) {
-				if(x > zx - 52 && x < zx - 32){
+				if(x > zx - 72 && x < zx - 52){
 					return true;
 				}
 			}
@@ -78,6 +80,7 @@ namespace game_framework {
 		int blood;
 		int sun_make_time;
 		CAnimation sun_flower_animation;
+		CAnimation sunanimation;
 	};
 
 	class YPeaShooterBullet {
@@ -234,7 +237,7 @@ namespace game_framework {
 		}
 		bool checkPlantCollideWithZombie(int zx, int zy) {
 			if (zy == y - 20) {
-				if (x > zx - 40 && x < zx - 20) {
+				if (x > zx - 60 && x < zx - 40) {
 					return true;
 				}
 			}
