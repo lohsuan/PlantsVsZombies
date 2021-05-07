@@ -261,6 +261,7 @@ CGameStateRun::CGameStateRun(CGame *g)
 	sun_amount = 1000;			// 一開始50個sun
 	generateSunFlowerFlag = false;
 	generatePeaShooterFlag = false;
+	shovelFlag = false;
 	sun_flower_card_delay_flag = 0;
 	peashooter_card_delay_flag = 0;
 	//normalzombie_vector.clear();
@@ -432,6 +433,14 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		peashooter_vector.push_back(sp);
 		generatePeaShooterFlag = false;
 	}
+	else if (shovelFlag /*&& map.checkmyMap(point.x, point.y)*/ && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
+		//CAudio::Instance()->Play(AUDIO_PLANTS, false);
+		//int tx = map.getXmyMapLocation(point.x, point.y);
+		//int ty = map.getYmyMapLocation(point.x, point.y);
+		map.unsetmyMap(point.x, point.y);
+
+		shovelFlag = false;
+	}
 
 	// sun
 	if (point.x > sun.GetX() - 5 && point.y - 5 > sun.GetY() && point.x < sun.GetX() + 80 && point.y < sun.GetY() + 80 && sun.IsAlive()) {
@@ -453,6 +462,11 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		generatePeaShooterFlag = true;
 		peashooter_card_delay_flag = 150;
 	}
+	else if (point.x > shovel_card.GetX() && point.y > shovel_card.GetY() && point.x < shovel_card.GetX() + 82 && point.y < shovel_card.GetY() + 82) {
+		shovelFlag = true;
+		shovel_card.SetIsAlive(false);
+	}
+
 	if (sun_flower_card.GetSunCost() > sun_amount) {
 		sun_flower_card.SetIsAlive(false);
 	}
@@ -517,11 +531,20 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (peashooter_card_delay_flag > 0) {
 			peashooter_card_delay_flag--;
 		}
-		for (auto sf : sunflower_vector) {
-			sf->OnMove();
+		for (size_t i = 0; i < sunflower_vector.size(); i++) {
+			if (!map.checkmyMap(sunflower_vector.at(i)->GetX(), sunflower_vector.at(i)->GetY())) {
+				sunflower_vector.erase(sunflower_vector.begin() + i);	//if map is zero, delete the plant
+			}else{
+				sunflower_vector.at(i)->OnMove();
+			}
 		}
-		for (auto ps : peashooter_vector) {
-			ps->OnMove();
+		for (size_t i = 0; i < peashooter_vector.size(); i++) {
+			if (!map.checkmyMap(peashooter_vector.at(i)->GetX(), peashooter_vector.at(i)->GetY())) {
+				peashooter_vector.erase(peashooter_vector.begin() + i);	//if map is zero, delete the plant
+			}
+			else {
+				peashooter_vector.at(i)->OnMove();
+			}
 		}
 		
 		for (size_t i = 0; i < normalzombie_vector.size(); i++) {
@@ -618,6 +641,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	}
 	if (sun_amount >= pea_shooter_card.GetSunCost() && peashooter_card_delay_flag == 0) {
 		pea_shooter_card.SetIsAlive(true);
+	}
+	if (!shovelFlag) {
+		shovel_card.SetIsAlive(true);
 	}
 	
 	// go to game state over

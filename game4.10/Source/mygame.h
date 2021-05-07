@@ -174,7 +174,7 @@ namespace game_framework {
 		CInteger		hits_left;	// 剩下的撞擊數
 		CBouncingBall   bball;		// 反覆彈跳的球
 		CMovingBitmap	chooser; // practice;
-		YShovelCard			shovel_card;
+		YShovelCard		shovel_card;
 		
 		int				picX, picY;
 		int				flag;
@@ -182,6 +182,7 @@ namespace game_framework {
 		int				sun_amount;			// show on the board
 		bool			generateSunFlowerFlag;
 		bool			generatePeaShooterFlag;
+		bool			shovelFlag;
 		YSunFlowerCard  sun_flower_card;
 		YPeaShooterCard  pea_shooter_card;
 		int sun_flower_card_delay_flag;

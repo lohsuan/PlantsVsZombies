@@ -126,14 +126,15 @@ namespace game_framework {
 		YShovelCard() {
 			x = 520;
 			y = 0;
-			//is_alive = false;
+			is_alive = true;
 			//cost = 0;
 		}
-		//void OnLButtonDown(UINT nFlags, CPoint point) {
-		//	if (point.x > x  && point.y > y && point.x < x + 65 && point.y < y + 90) {
-		//		is_alive = false;
-		//	}
-		//}
+
+		/*void OnLButtonDown(UINT nFlags, CPoint point) {
+			if (point.x > x  && point.y > y && point.x < x + 82 && point.y < y + 82) {
+				
+			}
+		}*/
 
 		/*bool IsAlive() {
 			return is_alive;
@@ -141,18 +142,25 @@ namespace game_framework {
 
 		void LoadBitmap() {
 			card.LoadBitmap("Bitmaps/Shovel.bmp");
+			card_die.LoadBitmap("Bitmaps/Shovel1.bmp");
 		}
 		void OnMove() {
 
 		}
 		void OnShow() {
 			card.SetTopLeft(520, 0);
-			card.ShowBitmap();
+			card_die.SetTopLeft(520, 0);
+			if (is_alive == true) {
+				card.ShowBitmap();
+			}
+			else {
+				card_die.ShowBitmap();
+			}
 		}
-		/*void SetIsAlive(bool alive) {
+		void SetIsAlive(bool alive) {
 			is_alive = alive;
 		}
-		int GetSunCost() {
+		/*int GetSunCost() {
 			return cost;
 		}*/
 		int GetX() {
@@ -163,8 +171,9 @@ namespace game_framework {
 		}
 	private:
 		CMovingBitmap card;
+		CMovingBitmap card_die;
 		int  x, y;
-		//bool is_alive;
+		bool is_alive;
 		//int	 cost;
 	};
 
