@@ -210,6 +210,7 @@ namespace game_framework {
 		bool car2_sound_flag;
 		bool car3_sound_flag;
 		bool car4_sound_flag;
+		bool zombie_home_flag;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

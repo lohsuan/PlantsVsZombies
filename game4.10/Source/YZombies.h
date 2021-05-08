@@ -131,6 +131,9 @@ namespace game_framework {
 		void  SetX(int x) {
 			this->x = x;
 		}
+		void  SetY(int y) {
+			this->y = y;
+		}
 		int  GetX() {
 			return int(x);
 		}

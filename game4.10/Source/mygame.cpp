@@ -365,11 +365,12 @@ void CGameStateRun::OnBeginState()
 	car2_sound_flag = true;
 	car3_sound_flag = true;
 	car4_sound_flag = true;
-
+	zombie_home_flag = true;
+	normalzombie_vector.clear();
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(150, 1));
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(260, 2));
 	//normalzombie_vector.push_back(make_shared<YNormalZombie>(500, 3));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
 
 	for (auto normalzombie_sp : normalzombie_vector) {
 		normalzombie_sp->LoadBitmap();
@@ -507,7 +508,13 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	else if (picX < -150) {
 		//flag = 1;
 		picX += 4;
-	}// (-150,0)
+	}
+	else if (flag == 4 && picX == 0) {
+		picX = 0;
+	}
+	else if (flag == 4) {
+		picX += 2;
+	}
 	else {
 		flag = 2;
 		picX = -150;
@@ -645,27 +652,44 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			if (normalzombie_vector.at(i)->GetX() > 900 && !normalzombie_vector.at(i)->IsAlive()) {
 				normalzombie_vector.erase(normalzombie_vector.begin() + i);
 			}
+			if (normalzombie_vector.at(i)->GetX() < 0 && normalzombie_vector.at(i)->IsAlive()) {
+				CAudio::Instance()->Stop(AUDIO_START);
+				flag = 4;
+			}
+		}
 
+		// card
+		if (sun_amount >= sun_flower_card.GetSunCost() && sun_flower_card_delay_flag == 0) {
+			sun_flower_card.SetIsAlive(true);
+		}
+		if (sun_amount >= pea_shooter_card.GetSunCost() && peashooter_card_delay_flag == 0) {
+			pea_shooter_card.SetIsAlive(true);
+		}
+		if (!shovelFlag) {
+			shovel_card.SetIsAlive(true);
+		}
+
+		// go to game state over
+		if (normalzombie_vector.empty()) {
+			CAudio::Instance()->Stop(AUDIO_START);
+			GotoGameState(GAME_STATE_OVER);
 		}
 	}
 
-	// card
-	if (sun_amount >= sun_flower_card.GetSunCost() && sun_flower_card_delay_flag == 0) {
-		sun_flower_card.SetIsAlive(true);
-	}
-	if (sun_amount >= pea_shooter_card.GetSunCost() && peashooter_card_delay_flag == 0) {
-		pea_shooter_card.SetIsAlive(true);
-	}
-	if (!shovelFlag) {
-		shovel_card.SetIsAlive(true);
-	}
-	
-	// go to game state over
-	if (normalzombie_vector.empty()) {
-		CAudio::Instance()->Stop(AUDIO_START);
-		GotoGameState(GAME_STATE_OVER);
+	if (flag == 4) {
+		if (zombie_home_flag) {
+			normalzombie_vector.at(0)->SetX(30);
+			normalzombie_vector.at(0)->SetY(300);
+			zombie_home_flag = false;
+		}
+		normalzombie_vector.at(0)->OnMove(std::string("walk"));
+		if (normalzombie_vector.at(0)->GetX() < -5) {
+			CAudio::Instance()->Play(AUDIO_MENUTOGAME, false);
+			GotoGameState(GAME_STATE_OVER);
+		}
 	}
 
+	
 	// 修改cursor樣式
 	//if (generateSunFlowerFlag) {
 	//	SetCursor(AfxGetApp()->LoadCursor(".\\bitmaps\\SunFlower\\SunFlower_0.bmp"));
@@ -700,23 +724,9 @@ void CGameStateRun::OnShow()
 {
 	background.ShowBitmap();
 	
-	//gamemap.OnShow();					// 貼上地圖，注意順序 //practiceGreenBlue
-	//help.ShowBitmap();					// 貼上說明圖
-	//hits_left.ShowBitmap();
-	
-	/* teacher's ball
-	for (int i=0; i < NUMBALLS; i++)
-		ball[i].OnShow();				// 貼上第i號球
-	bball.OnShow();						// 貼上彈跳的球
-	*/
-
-	//
-	//  貼上左上及右下角落的圖
-	//
-	//corner.SetTopLeft(0,0);
-	//corner.ShowBitmap();
-	//corner.SetTopLeft(SIZE_X-corner.Width(), SIZE_Y-corner.Height());
-	//corner.ShowBitmap();
+	if (flag == 4) {
+		normalzombie_vector.at(0)->OnShow(std::string("walk"));
+	}
 	
 	if (flag == 2 ) {
 
