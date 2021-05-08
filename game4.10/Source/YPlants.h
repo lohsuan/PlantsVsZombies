@@ -16,7 +16,7 @@ namespace game_framework {
 		YSunFlower(int x, int y) {
 			this->x = x + 8;
 			this->y = y + 13;
-			blood = 200;
+			blood = 300;
 			sun_make_time = 60*5;
 			is_alive = true;
 			YSun temp(this->x, this->y);
@@ -58,7 +58,7 @@ namespace game_framework {
 		}
 		bool checkPlantCollideWithZombie(int zx, int zy) {
 			if (zy == y - 13) {
-				if(x > zx - 72 && x < zx - 52){
+				if(x > zx - 72 && x < zx - 48){
 					return true;
 				}
 			}
@@ -172,7 +172,7 @@ namespace game_framework {
 			delay = 30;
 			this->x = x + 20;
 			this->y = y + 20;
-			blood = 200;
+			blood = 300;
 			is_alive = true;
 		}
 		~YPeaShooter()
@@ -265,7 +265,7 @@ namespace game_framework {
 		}
 		bool checkPlantCollideWithZombie(int zx, int zy) {
 			if (zy == y - 20) {
-				if (x > zx - 60 && x < zx - 40) {
+				if (x > zx - 60 && x < zx - 35) {
 					return true;
 				}
 			}

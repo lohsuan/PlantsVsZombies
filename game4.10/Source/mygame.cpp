@@ -256,15 +256,7 @@ CGameStateRun::CGameStateRun(CGame *g)
 {
 	ball = new CBall [NUMBALLS];
 	picX = picY = 0;
-	flag = 0;
 	
-	// suntry
-	sun_amount = 1000;			// 一開始50個sun
-	generateSunFlowerFlag = false;
-	generatePeaShooterFlag = false;
-	shovelFlag = false;
-	sun_flower_card_delay_flag = 0;
-	peashooter_card_delay_flag = 0;
 	//normalzombie_vector.clear();
 	//normalzombie_vector.push_back(YNormalZombie(200, 1));
 	//normalzombie_vector.push_back(YNormalZombie(560, 2));
@@ -277,9 +269,9 @@ CGameStateRun::CGameStateRun(CGame *g)
 	//normalzombie_vector.push_back(YNormalZombie(2150, 2));
 	//normalzombie_vector.push_back(YNormalZombie(2150, 0));
 	//normalzombie_vector.push_back(YNormalZombie(2200, 1));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(200, 1));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(560, 2));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(500, 3));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(200, 1));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(560, 2));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(500, 3));
 
 }
 
@@ -298,22 +290,12 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	ShowInitProgress(33);	// 接個前一個狀態的進度，此處進度視為33%
 	Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 
-	//
 	// 開始載入資料
-	//
-	// practice.LoadBitmap(IDB_SNOWGIEDRAW);
+
 	chooser.LoadBitmap("Bitmaps/ChooserBackground.bmp");
-	//gamemap.LoadBitmap();							// 載入地圖的圖形  //practiceGreenBlue
-	//c_practice.LoadBitmap();
+
 	background.LoadBitmap("Bitmaps/Background.bmp");			// 載入背景的圖形
-	//shovel.LoadBitmap("Bitmaps/Shovel.bmp");
 	shovel_card.LoadBitmap();
-
-/*	int i;
-	for (i = 0; i < NUMBALLS; i++)
-		ball[i].LoadBitmap();*/								// 載入第i個球的圖形
-
-	eraser.LoadBitmap();
 
 	//
 	// 完成部分Loading動作，提高進度
@@ -324,8 +306,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	// 繼續載入其他資料
 	//
 	help.LoadBitmap(IDB_HELP, RGB(255, 255, 255));				// 載入說明的圖形
-	corner.LoadBitmap(IDB_CORNER);							// 載入角落圖形
-	corner.ShowBitmap(background);							// 將corner貼到background
+	//corner.LoadBitmap(IDB_CORNER);							// 載入角落圖形
+	//corner.ShowBitmap(background);							// 將corner貼到background
 	bball.LoadBitmap();										// 載入圖形
 	hits_left.LoadBitmap();
 	sun.LoadBitmap();
@@ -333,14 +315,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	pea_shooter_card.LoadBitmap();
 	CAudio::Instance()->Load(AUDIO_START, "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
 
-	for (auto normalzombie_sp : normalzombie_vector) {
-		normalzombie_sp->LoadBitmap();
-	}
-	car0.LoadBitmap();
-	car1.LoadBitmap();
-	car2.LoadBitmap();
-	car3.LoadBitmap();
-	car4.LoadBitmap();
 
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
@@ -357,21 +331,49 @@ void CGameStateRun::OnBeginState()
 	const int HITS_LEFT_Y = 0;
 	const int BACKGROUND_X = 0;
 	const int ANIMATION_SPEED = 15;
-	//for (int i = 0; i < NUMBALLS; i++) {				// 設定球的起始座標
-	//	int x_pos = i % BALL_PER_ROW;
-	//	int y_pos = i / BALL_PER_ROW;
-	//	ball[i].SetXY(x_pos * BALL_GAP + BALL_XY_OFFSET, y_pos * BALL_GAP + BALL_XY_OFFSET);
-	//	ball[i].SetDelay(x_pos);
-	//	ball[i].SetIsAlive(true);
-	//}
-	eraser.Initialize();
-	//background.SetTopLeft(BACKGROUND_X,0);				// 設定背景的起始座標
+
 	help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
 	hits_left.SetInteger(HITS_LEFT);					// 指定剩下的撞擊數
 	hits_left.SetTopLeft(HITS_LEFT_X,HITS_LEFT_Y);		// 指定剩下撞擊數的座標
 	CAudio::Instance()->Stop(AUDIO_MAIN);
 	CAudio::Instance()->Play(AUDIO_START, true);		
+	
+	flag = 0;
+	sun_amount = 50;			// 一開始50個sun
+	generateSunFlowerFlag = false;
+	generatePeaShooterFlag = false;
+	shovelFlag = false;
+	sun_flower_card_delay_flag = 0;
+	peashooter_card_delay_flag = 0;
+	car0 = YCar(0);
+	car1 = YCar(1);
+	car2 = YCar(2);
+	car3 = YCar(3);
+	car4 = YCar(4);
+	car0.LoadBitmap();
+	car1.LoadBitmap();
+	car2.LoadBitmap();
+	car3.LoadBitmap();
+	car4.LoadBitmap();
+	car0_flag = true;
+	car1_flag = true;
+	car2_flag = true;
+	car3_flag = true;
+	car4_flag = true;
+	car0_sound_flag = true;
+	car1_sound_flag = true;
+	car2_sound_flag = true;
+	car3_sound_flag = true;
+	car4_sound_flag = true;
 
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(150, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(260, 2));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(500, 3));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
+
+	for (auto normalzombie_sp : normalzombie_vector) {
+		normalzombie_sp->LoadBitmap();
+	}
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -380,15 +382,6 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	const char KEY_UP    = 0x26; // keyboard上箭頭
 	const char KEY_RIGHT = 0x27; // keyboard右箭頭
 	const char KEY_DOWN  = 0x28; // keyboard下箭頭
-	if (nChar == KEY_LEFT)
-		eraser.SetMovingLeft(true);
-	if (nChar == KEY_RIGHT)
-		eraser.SetMovingRight(true);
-	if (nChar == KEY_UP)
-		eraser.SetMovingUp(true);
-	if (nChar == KEY_DOWN)
-		eraser.SetMovingDown(true);
-	//gamemap.OnKeyDown(nChar);
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -397,14 +390,6 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	const char KEY_UP    = 0x26; // keyboard上箭頭
 	const char KEY_RIGHT = 0x27; // keyboard右箭頭
 	const char KEY_DOWN  = 0x28; // keyboard下箭頭
-	if (nChar == KEY_LEFT)
-		eraser.SetMovingLeft(false);
-	if (nChar == KEY_RIGHT)
-		eraser.SetMovingRight(false);
-	if (nChar == KEY_UP)
-		eraser.SetMovingUp(false);
-	if (nChar == KEY_DOWN)
-		eraser.SetMovingDown(false);
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -489,7 +474,6 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 
 void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 {
-	//eraser.SetMovingLeft(false);
 }
 
 void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -499,12 +483,10 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 
 void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
-	//eraser.SetMovingRight(true);
 }
 
 void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 {
-	//eraser.SetMovingRight(false);
 }
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -598,7 +580,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			
 
 			// zombie walk to car -> car move
-			if ((normalzombie_vector.at(i)->GetY() == 48 && normalzombie_vector.at(i)->GetX() < car0.GetX() - 30) || !car0_flag) {
+			if (car0.IsAlive() && (normalzombie_vector.at(i)->GetY() == 48 && normalzombie_vector.at(i)->GetX() < car0.GetX() - 30) || !car0_flag) {
 				if (car0_sound_flag) {
 					CAudio::Instance()->Play(AUDIO_CAR, false);
 					car0_sound_flag = false;
@@ -606,7 +588,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				car0_flag = false;
 				car0.OnMove();
 			}
-			if ((normalzombie_vector.at(i)->GetY() == 152 && normalzombie_vector.at(i)->GetX() < car1.GetX() - 30) || !car1_flag) {
+			if (car1.IsAlive() && (normalzombie_vector.at(i)->GetY() == 152 && normalzombie_vector.at(i)->GetX() < car1.GetX() - 30) || !car1_flag) {
 				if (car1_sound_flag) {
 					CAudio::Instance()->Play(AUDIO_CAR, false);
 					car1_sound_flag = false;
@@ -614,7 +596,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				car1_flag = false;
 				car1.OnMove();
 			}
-			if ((normalzombie_vector.at(i)->GetY() == 240 && normalzombie_vector.at(i)->GetX() < car2.GetX() - 30) || !car2_flag) {
+			if (car2.IsAlive() && (normalzombie_vector.at(i)->GetY() == 240 && normalzombie_vector.at(i)->GetX() < car2.GetX() - 30) || !car2_flag) {
 				if (car2_sound_flag) {
 					CAudio::Instance()->Play(AUDIO_CAR, false);
 					car2_sound_flag = false;
@@ -622,7 +604,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				car2_flag = false;
 				car2.OnMove();
 			}
-			if ((normalzombie_vector.at(i)->GetY() == 338 && normalzombie_vector.at(i)->GetX() < car3.GetX() - 30) || !car3_flag) {
+			if (car3.IsAlive() && (normalzombie_vector.at(i)->GetY() == 338 && normalzombie_vector.at(i)->GetX() < car3.GetX() - 30) || !car3_flag) {
 				if (car3_sound_flag) {
 					CAudio::Instance()->Play(AUDIO_CAR, false);
 					car3_sound_flag = false;
@@ -630,7 +612,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				car3_flag = false;
 				car3.OnMove();
 			}
-			if ((normalzombie_vector.at(i)->GetY() == 434 && normalzombie_vector.at(i)->GetX() < car4.GetX() - 30) || !car4_flag) {
+			if (car4.IsAlive() && (normalzombie_vector.at(i)->GetY() == 434 && normalzombie_vector.at(i)->GetX() < car4.GetX() - 30) || !car4_flag) {
 				if (car4_sound_flag) {
 					CAudio::Instance()->Play(AUDIO_CAR, false);
 					car4_sound_flag = false;
@@ -639,19 +621,19 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				car4.OnMove();
 			}
 			// car hits zombies
-			if ((normalzombie_vector.at(i)->GetY() == 48 && normalzombie_vector.at(i)->GetX() < car0.GetX() - 30)) {
+			if (car0.IsAlive() && (normalzombie_vector.at(i)->GetY() == 48 && normalzombie_vector.at(i)->GetX() < car0.GetX() - 30)) {
 				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
-			if ((normalzombie_vector.at(i)->GetY() == 152 && normalzombie_vector.at(i)->GetX() < car1.GetX() - 30)) {
+			if (car1.IsAlive() && (normalzombie_vector.at(i)->GetY() == 152 && normalzombie_vector.at(i)->GetX() < car1.GetX() - 30)) {
 				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
-			if ((normalzombie_vector.at(i)->GetY() == 240 && normalzombie_vector.at(i)->GetX() < car2.GetX() - 30)) {
+			if (car2.IsAlive() && (normalzombie_vector.at(i)->GetY() == 240 && normalzombie_vector.at(i)->GetX() < car2.GetX() - 30)) {
 				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
-			if ((normalzombie_vector.at(i)->GetY() == 338 && normalzombie_vector.at(i)->GetX() < car3.GetX() - 30)) {
+			if (car3.IsAlive() && (normalzombie_vector.at(i)->GetY() == 338 && normalzombie_vector.at(i)->GetX() < car3.GetX() - 30)) {
 				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
-			if ((normalzombie_vector.at(i)->GetY() == 434 && normalzombie_vector.at(i)->GetX() < car4.GetX() - 30)) {
+			if (car4.IsAlive() && (normalzombie_vector.at(i)->GetY() == 434 && normalzombie_vector.at(i)->GetX() < car4.GetX() - 30)) {
 				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
 			for (auto p : peashooter_vector) {
@@ -696,10 +678,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	//for (int i = 0; i < NUMBALLS; i++)
 	//	ball[i].OnMove();
 	//
-	// 移動擦子
-	//
-	//eraser.OnMove();
-	//
+
 	// 判斷擦子是否碰到球
 	//
 	//for (int i = 0; i < NUMBALLS; i++)
@@ -714,10 +693,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	//			GotoGameState(GAME_STATE_OVER);
 	//		}
 	//	}
-	//
-	// 移動彈跳的球
-	//
-	//bball.OnMove();
+
 }
 
 void CGameStateRun::OnShow()
@@ -732,7 +708,6 @@ void CGameStateRun::OnShow()
 	for (int i=0; i < NUMBALLS; i++)
 		ball[i].OnShow();				// 貼上第i號球
 	bball.OnShow();						// 貼上彈跳的球
-	eraser.OnShow();					// 貼上擦子
 	*/
 
 	//

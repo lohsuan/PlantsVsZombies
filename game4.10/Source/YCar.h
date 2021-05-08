@@ -11,6 +11,10 @@
 namespace game_framework {
 	class YCar {
 	public:
+		YCar() {
+			x = 50;
+			is_alive = true;
+		}
 		YCar(int i) {
 			x = 50;
 			int a[5] = { 85, 182, 290, 390, 484 };
@@ -22,7 +26,7 @@ namespace game_framework {
 
 		}
 		void OnMove() {
-			if (x < 950)
+			if (x < 910)
 				x = x + 5;
 			else
 				is_alive = false;
@@ -44,6 +48,10 @@ namespace game_framework {
 		}
 		int GetY() {
 			return y;
+		}
+		int SetY(int i) {
+			int a[5] = { 85, 182, 290, 390, 484 };
+			this->y = a[i];
 		}
 
 	private:

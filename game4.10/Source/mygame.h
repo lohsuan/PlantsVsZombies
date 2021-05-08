@@ -195,21 +195,21 @@ namespace game_framework {
 		YMap			map;
 		bool			animation_flag;
 
-		YCar car0 = YCar(0);
-		YCar car1 = YCar(1);
-		YCar car2 = YCar(2);
-		YCar car3 = YCar(3);
-		YCar car4 = YCar(4);
-		bool car0_flag = true;
-		bool car1_flag = true;
-		bool car2_flag = true;
-		bool car3_flag = true;
-		bool car4_flag = true;
-		bool car0_sound_flag = true;
-		bool car1_sound_flag = true;
-		bool car2_sound_flag = true;
-		bool car3_sound_flag = true;
-		bool car4_sound_flag = true;
+		YCar car0;
+		YCar car1;
+		YCar car2;
+		YCar car3;
+		YCar car4;
+		bool car0_flag;
+		bool car1_flag;
+		bool car2_flag;
+		bool car3_flag;
+		bool car4_flag;
+		bool car0_sound_flag;
+		bool car1_sound_flag;
+		bool car2_sound_flag;
+		bool car3_sound_flag;
+		bool car4_sound_flag;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
