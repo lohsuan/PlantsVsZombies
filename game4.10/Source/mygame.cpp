@@ -98,6 +98,7 @@ void CGameStateInit::OnInit()
 	CAudio::Instance()->Load(AUDIO_MENUTOGAME, "sounds\\menutogame.mp3");
 	CAudio::Instance()->Load(AUDIO_SUNPICK, "sounds\\sun_pick.mp3");
 	CAudio::Instance()->Load(AUDIO_PLANTS, "sounds\\plants_sound.mp3");
+	CAudio::Instance()->Load(AUDIO_CAR, "sounds\\car.mp3");
 
 	Sleep(500);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
@@ -331,10 +332,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	sun_flower_card.LoadBitmap();
 	pea_shooter_card.LoadBitmap();
 	CAudio::Instance()->Load(AUDIO_START, "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
-	//normalzombie.LoadBitmapA();
-	//for (YNormalZombie & normalzombie : normalzombie_vector) {
-	//	normalzombie.LoadBitmap();
-	//}
+
 	for (auto normalzombie_sp : normalzombie_vector) {
 		normalzombie_sp->LoadBitmap();
 	}
@@ -601,22 +599,42 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 			// zombie walk to car -> car move
 			if ((normalzombie_vector.at(i)->GetY() == 48 && normalzombie_vector.at(i)->GetX() < car0.GetX() - 30) || !car0_flag) {
+				if (car0_sound_flag) {
+					CAudio::Instance()->Play(AUDIO_CAR, false);
+					car0_sound_flag = false;
+				}
 				car0_flag = false;
 				car0.OnMove();
 			}
 			if ((normalzombie_vector.at(i)->GetY() == 152 && normalzombie_vector.at(i)->GetX() < car1.GetX() - 30) || !car1_flag) {
+				if (car1_sound_flag) {
+					CAudio::Instance()->Play(AUDIO_CAR, false);
+					car1_sound_flag = false;
+				}
 				car1_flag = false;
 				car1.OnMove();
 			}
 			if ((normalzombie_vector.at(i)->GetY() == 240 && normalzombie_vector.at(i)->GetX() < car2.GetX() - 30) || !car2_flag) {
+				if (car2_sound_flag) {
+					CAudio::Instance()->Play(AUDIO_CAR, false);
+					car2_sound_flag = false;
+				}
 				car2_flag = false;
 				car2.OnMove();
 			}
 			if ((normalzombie_vector.at(i)->GetY() == 338 && normalzombie_vector.at(i)->GetX() < car3.GetX() - 30) || !car3_flag) {
+				if (car3_sound_flag) {
+					CAudio::Instance()->Play(AUDIO_CAR, false);
+					car3_sound_flag = false;
+				}
 				car3_flag = false;
 				car3.OnMove();
 			}
 			if ((normalzombie_vector.at(i)->GetY() == 434 && normalzombie_vector.at(i)->GetX() < car4.GetX() - 30) || !car4_flag) {
+				if (car4_sound_flag) {
+					CAudio::Instance()->Play(AUDIO_CAR, false);
+					car4_sound_flag = false;
+				}
 				car4_flag = false;
 				car4.OnMove();
 			}

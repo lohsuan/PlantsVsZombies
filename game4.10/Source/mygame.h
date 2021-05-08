@@ -63,7 +63,8 @@ namespace game_framework {
 		AUDIO_MAIN,
 		AUDIO_MENUTOGAME,
 		AUDIO_SUNPICK,
-		AUDIO_PLANTS
+		AUDIO_PLANTS,
+		AUDIO_CAR
 	};
 
 	
@@ -204,7 +205,11 @@ namespace game_framework {
 		bool car2_flag = true;
 		bool car3_flag = true;
 		bool car4_flag = true;
-
+		bool car0_sound_flag = true;
+		bool car1_sound_flag = true;
+		bool car2_sound_flag = true;
+		bool car3_sound_flag = true;
+		bool car4_sound_flag = true;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
