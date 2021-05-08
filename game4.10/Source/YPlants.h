@@ -17,8 +17,11 @@ namespace game_framework {
 			this->x = x + 8;
 			this->y = y + 13;
 			blood = 200;
-			sun_make_time = 50;
+			sun_make_time = 60*5;
 			is_alive = true;
+			YSun temp(this->x, this->y);
+			sun = temp;
+			sun.LoadBitmap();
 		}
 		~YSunFlower() {
 		}
@@ -32,16 +35,25 @@ namespace game_framework {
 				sun_flower_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 		}
 		void OnMove() {
-			sun_flower_animation.OnMove();
-			if (sun_make_time == 0) {
-				sunanimation.OnMove();
-				
+			if (sun_make_time > 0) {
+				sun_make_time--;
 			}
+			else {
+				sun.OnMove();
+				sun.SetIsAlive(true);
+			}
+			sun_flower_animation.OnMove();
 		}
 		void OnShow() {
 			if (IsAlive()) {
 				sun_flower_animation.SetTopLeft(x, y);
 				sun_flower_animation.OnShow();
+			}
+			if (sun_make_time > 0) {
+				sun_make_time--;
+			}
+			else {
+				sun.OnShow();
 			}
 		}
 		bool checkPlantCollideWithZombie(int zx, int zy) {
@@ -64,6 +76,15 @@ namespace game_framework {
 		int  GetY() {
 			return y;
 		}
+		bool GetSunIsAlive() {
+			return sun.IsAlive();
+		}
+		int GetSunX() {
+			return sun.GetSunFlowerSunX();
+		}
+		int GetSunY() {
+			return sun.GetSunFlowerSunY();
+		}
 		void LostBlood(int attack_blood) {
 			blood = blood - attack_blood;
 			if (blood == 0) {
@@ -73,14 +94,21 @@ namespace game_framework {
 		int  GetBlood() {
 			return blood;
 		}
+		void initSun() {
+			sun.SetIsAlive(false);
+			sun_make_time = 60 * 7;
+			YSun temp(this->x, this->y);
+			sun = temp;
+			sun.LoadBitmap();
+		}
 
 	private:
-		int x, y;
+		int x,y;
 		bool is_alive;
 		int blood;
 		int sun_make_time;
 		CAnimation sun_flower_animation;
-		CAnimation sunanimation;
+		YSun sun;
 	};
 
 	class YPeaShooterBullet {

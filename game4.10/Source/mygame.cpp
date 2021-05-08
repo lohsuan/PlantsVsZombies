@@ -443,11 +443,25 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	}
 
 	// sun
-	if (point.x > sun.GetX() - 5 && point.y - 5 > sun.GetY() && point.x < sun.GetX() + 80 && point.y < sun.GetY() + 80 && sun.IsAlive()) {
+	if (point.x > sun.GetX() && point.y > sun.GetY() && 
+		point.x < sun.GetX() + 75 && point.y < sun.GetY() + 75 && sun.IsAlive()) {
 		CAudio::Instance()->Play(AUDIO_SUNPICK, false);
 		sun.SetIsAlive(false);
 		sun_amount += 25;
 		sun.SetY(-500);
+	}
+
+	for (size_t i = 0; i < sunflower_vector.size(); i++) {
+		if (sunflower_vector.at(i)->GetSunIsAlive() && 
+			point.x > sunflower_vector.at(i)->GetSunX() && 
+			point.x < sunflower_vector.at(i)->GetSunX() + 75 && 
+			point.y > sunflower_vector.at(i)->GetSunY() &&
+			point.y < sunflower_vector.at(i)->GetSunY() + 75
+			) {
+			CAudio::Instance()->Play(AUDIO_SUNPICK, false);
+			sun_amount += 25;
+			sunflower_vector.at(i)->initSun();
+		}
 	}
 	// card
 	if (point.x > sun_flower_card.GetX() && point.y > sun_flower_card.GetY() && point.x < sun_flower_card.GetX() + 65 && point.y < sun_flower_card.GetY() + 90 && sun_flower_card.IsAlive()) {
