@@ -26,8 +26,8 @@ namespace game_framework {
 
 		}
 		void OnMove() {
-			if (x < 910)
-				x = x + 5;
+			if (x < 900)
+				x = x + 4;
 			else
 				is_alive = false;
 		}

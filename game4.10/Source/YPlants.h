@@ -280,6 +280,114 @@ namespace game_framework {
 		CAnimation peashooter_animation;
 		int delay;
 	};
+
+	class YWallNut
+	{
+	public:
+		YWallNut(int x, int y)
+		{
+			this->x = x + 20;
+			this->y = y + 20;
+			blood = 600;
+			is_alive = true;
+		}
+		~YWallNut()
+		{
+		}
+		void LoadBitmap()
+		{
+			char *filename[8] = { ".\\bitmaps\\WallNut\\WallNut\\WallNut_0.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_1.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_2.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_3.bmp",
+				".\\bitmaps\\WallNut\\WallNut\\WallNut_4.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_5.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_6.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_7.bmp" };
+			for (int i = 0; i < 8; i++)
+				wallnut_animation.AddBitmap(filename[i], RGB(255, 255, 255));
+			char *filename1[8] = { ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_0.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_1.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_2.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_3.bmp",
+				".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_4.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_5.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_6.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_7.bmp" };
+			for (int i = 0; i < 8; i++)
+				wallnut_cracked1_animation.AddBitmap(filename1[i], RGB(255, 255, 255));
+			char *filename2[8] = { ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_0.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_1.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_2.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_3.bmp",
+				".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_4.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_5.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_6.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_7.bmp" };
+			for (int i = 0; i < 8; i++)
+				wallnut_cracked2_animation.AddBitmap(filename2[i], RGB(255, 255, 255));
+		}
+		void OnMove()
+		{
+			if (blood > 400) {
+				wallnut_animation.OnMove();
+			}
+			else if (blood > 200) {
+				wallnut_cracked1_animation.OnMove();
+			}
+			else {
+				wallnut_cracked2_animation.OnMove();
+			}
+
+		}
+		void OnShow()
+		{
+			if (is_alive)
+			{
+				if (blood > 400) {
+					wallnut_animation.SetTopLeft(x, y);
+					wallnut_animation.OnShow();
+				}
+				else if (blood > 200) {
+					wallnut_cracked1_animation.SetTopLeft(x, y);
+					wallnut_cracked1_animation.OnShow();
+				}
+				else {
+					wallnut_cracked2_animation.SetTopLeft(x, y);
+					wallnut_cracked2_animation.OnShow();
+				}
+			}
+
+		}
+		bool IsAlive()
+		{
+			return is_alive;
+		}
+		void SetIsAlive(bool alive)
+		{
+			is_alive = alive;
+		}
+		int GetX()
+		{
+			return x;
+		}
+		int GetY()
+		{
+			return y;
+		}
+		int GetBlood()
+		{
+			return blood;
+		}
+
+		void LostBlood(int attack_blood) {
+			blood = blood - attack_blood;
+			if (blood == 0) {
+				is_alive = false;
+			}
+		}
+
+		bool checkPlantCollideWithZombie(int zx, int zy) {
+			if (zy == y - 20) {
+				if (x > zx - 60 && x < zx - 35) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+	private:
+		int x, y;
+		bool is_alive;
+		int blood;
+		CAnimation wallnut_animation;
+		CAnimation wallnut_cracked1_animation;
+		CAnimation wallnut_cracked2_animation;
+	};
+
+
 }
 
 #endif
