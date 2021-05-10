@@ -387,6 +387,88 @@ namespace game_framework {
 		CAnimation wallnut_cracked2_animation;
 	};
 
+	class YCherryBomb
+	{
+	public:
+		YCherryBomb(int x, int y)
+		{
+			counter = 9;
+			this->x = x;
+			this->y = y;
+			blood = 300;
+			is_alive = true;
+		}
+		~YCherryBomb()
+		{
+		}
+		void LoadBitmap()
+		{
+			char *filename[9] = { ".\\bitmaps\\CherryBomb\\CherryBomb_0.bmp", ".\\bitmaps\\CherryBomb\\CherryBomb_1.bmp", ".\\bitmaps\\CherryBomb\\CherryBomb_2.bmp",
+				".\\bitmaps\\CherryBomb\\CherryBomb_3.bmp", ".\\bitmaps\\CherryBomb\\CherryBomb_4.bmp", ".\\bitmaps\\CherryBomb\\CherryBomb_5.bmp",
+				".\\bitmaps\\CherryBomb\\CherryBomb_6.bmp", ".\\bitmaps\\CherryBomb\\Boom.bmp", ".\\bitmaps\\CherryBomb\\Boom.bmp" };
+			for (int i = 0; i < 9; i++)
+				cherrybomb_animation.AddBitmap(filename[i], RGB(255, 255, 255));
+		}
+		void OnMove()
+		{
+
+			if (counter == 0) {
+				bomb = true;
+			}
+			else if (counter < -20) {
+				is_alive = false;
+			}
+			else {
+				cherrybomb_animation.OnMove();
+			}
+			counter -= 1;
+
+		}
+		void OnShow()
+		{
+			if (!bomb)
+			{
+				peashooter_animation.SetTopLeft(x, y);
+				peashooter_animation.OnShow();
+			}
+
+		}
+		bool IsAlive()
+		{
+			return is_alive;
+		}
+		void SetIsAlive(bool alive)
+		{
+			is_alive = alive;
+		}
+		int GetX()
+		{
+			return x;
+		}
+		int GetY()
+		{
+			return y;
+		}
+		bool Bomb() {
+			return bomb;
+		}
+
+		bool checkNearbyZombies(int zx, int zy) {
+			if (y-120 < zy && zy < y+120) {
+				if (zx > x-120 && zx < x+120) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+	private:
+		int x, y;
+		bool is_alive;
+		CAnimation cherrybomb_animation;
+		int counter;
+		int bomb = false;
+	};
 
 }
 

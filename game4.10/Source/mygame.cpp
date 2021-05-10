@@ -298,6 +298,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	sun_flower_card.LoadBitmap();
 	pea_shooter_card.LoadBitmap();
 	wallnut_card.LoadBitmap();
+	cherrybomb_card.LoadBitmap();
 	CAudio::Instance()->Load(AUDIO_START, "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
@@ -330,13 +331,16 @@ void CGameStateRun::OnBeginState()
 	generateSunFlowerFlag = false;
 	generatePeaShooterFlag = false;
 	generateWallNutFlag = false;
+	generateCherryBombFlag = false;
 	sun_flower_card.SetIsAlive(false);
 	pea_shooter_card.SetIsAlive(false);
 	wallnut_card.SetIsAlive(false);
+	cherrybomb_card.SetIsAlive(false);
 	shovelFlag = false;
 	sun_flower_card_delay_flag = 0;
 	peashooter_card_delay_flag = 0;
 	wallnut_card_delay_flag = 0;
+	cherrybomb_card_delay_flag = 0;
 
 	car0 = YCar(0);
 	car1 = YCar(1);
@@ -475,6 +479,17 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		wallnut_vector.push_back(sp);
 		generateWallNutFlag = false;
 	}
+	else if (level > 2 && generateCherryBombFlag && !map.checkmyMap(point.x, point.y) && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
+		CAudio::Instance()->Play(AUDIO_PLANTS, false);
+		int tx = map.getXmyMapLocation(point.x, point.y);
+		int ty = map.getYmyMapLocation(point.x, point.y);
+		//map.setmyMap(point.x, point.y);
+
+		auto sp = make_shared<YCherryBomb>(tx, ty);
+		sp->LoadBitmap();
+		cherrybomb_vector.push_back(sp);
+		generateCherryBombFlag = false;
+	}
 	else if (shovelFlag /*&& map.checkmyMap(point.x, point.y)*/ && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
 		//CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		//int tx = map.getXmyMapLocation(point.x, point.y);
@@ -524,6 +539,12 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		generateWallNutFlag = true;
 		wallnut_card_delay_flag = 150;
 	}
+	else if (level > 2 && point.x > cherrybomb_card.GetX() && point.y > cherrybomb_card.GetY() && point.x < cherrybomb_card.GetX() + 65 && point.y < cherrybomb_card.GetY() + 90 && cherrybomb_card.IsAlive()) {
+		cherrybomb_card.SetIsAlive(false);
+		sun_amount -= cherrybomb_card.GetSunCost();
+		generateCherryBombFlag = true;
+		cherrybomb_card_delay_flag = 150;
+	}
 	else if (point.x > shovel_card.GetX() && point.y > shovel_card.GetY() && point.x < shovel_card.GetX() + 82 && point.y < shovel_card.GetY() + 82) {
 		shovelFlag = true;
 		shovel_card.SetIsAlive(false);
@@ -537,6 +558,9 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	}
 	else if (level > 1 && wallnut_card.GetSunCost() > sun_amount) {
 		wallnut_card.SetIsAlive(false);
+	}
+	else if (level > 2 && cherrybomb_card.GetSunCost() > sun_amount) {
+		cherrybomb_card.SetIsAlive(false);
 	}
 }
 
@@ -595,8 +619,11 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (peashooter_card_delay_flag > 0) {
 			peashooter_card_delay_flag--;
 		}
-		if (level>1 && wallnut_card_delay_flag > 0) {
+		if (level > 1 && wallnut_card_delay_flag > 0) {
 			wallnut_card_delay_flag--;
+		}
+		if (level > 2 && cherrybomb_card_delay_flag > 0) {
+			cherrybomb_card_delay_flag--;
 		}
 		for (size_t i = 0; i < sunflower_vector.size(); i++) {
 			if (!map.checkmyMap(sunflower_vector.at(i)->GetX(), sunflower_vector.at(i)->GetY())) {
@@ -621,6 +648,11 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				else {
 					wallnut_vector.at(i)->OnMove();
 				}
+			}
+		}
+		if (level > 2) {
+			for (size_t i = 0; i < cherrybomb_vector.size(); i++) {
+				cherrybomb_vector.at(i)->OnMove();
 			}
 		}
 
@@ -659,21 +691,46 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					}
 				}
 			}
-
-
-			if (map.checkmyMap(normalzombie_vector.at(i)->GetX() + 80, normalzombie_vector.at(i)->GetY() + 35) 
-				&& !map.checkmyMap(normalzombie_vector.at(i)->GetX() + 90, normalzombie_vector.at(i)->GetY() + 35) 
-				&& normalzombie_vector.at(i)->IsAlive()) {
-				//int t = normalzombie_vector.at(i)->GetX() + 70;
-				normalzombie_vector.at(i)->OnMove(std::string("attack"));
-			}
-			else if (!normalzombie_vector.at(i)->IsAlive()) {
-				normalzombie_vector.at(i)->OnMove(std::string("die"));
-			}
-			else{
-				normalzombie_vector.at(i)->OnMove(std::string("walk"));
-			}
 			
+			if (level > 2) {
+				if (!cherrybomb_vector.empty() && cherrybomb_vector.at(0)->Bomb() 
+					&& cherrybomb_vector.at(0)->checkNearbyZombies(normalzombie_vector.at(i)->GetX(), normalzombie_vector.at(i)->GetY())) {
+					normalzombie_vector.at(i)->OnMove(std::string("bomb"));
+				}
+				else if (map.checkmyMap(normalzombie_vector.at(i)->GetX() + 80, normalzombie_vector.at(i)->GetY() + 35)
+					&& !map.checkmyMap(normalzombie_vector.at(i)->GetX() + 90, normalzombie_vector.at(i)->GetY() + 35)
+					&& normalzombie_vector.at(i)->IsAlive()) {
+					//int t = normalzombie_vector.at(i)->GetX() + 70;
+					normalzombie_vector.at(i)->OnMove(std::string("attack"));
+				}
+				else if (!normalzombie_vector.at(i)->IsAlive()) {
+					normalzombie_vector.at(i)->OnMove(std::string("die"));
+				}
+				else {
+					normalzombie_vector.at(i)->OnMove(std::string("walk"));
+				}
+			}
+			else {
+				if (map.checkmyMap(normalzombie_vector.at(i)->GetX() + 80, normalzombie_vector.at(i)->GetY() + 35)
+					&& !map.checkmyMap(normalzombie_vector.at(i)->GetX() + 90, normalzombie_vector.at(i)->GetY() + 35)
+					&& normalzombie_vector.at(i)->IsAlive()) {
+					//int t = normalzombie_vector.at(i)->GetX() + 70;
+					normalzombie_vector.at(i)->OnMove(std::string("attack"));
+				}
+				else if (!normalzombie_vector.at(i)->IsAlive()) {
+					normalzombie_vector.at(i)->OnMove(std::string("die"));
+				}
+				else {
+					normalzombie_vector.at(i)->OnMove(std::string("walk"));
+				}
+			}
+			if (level > 2) {
+				for (size_t i = 0; i < cherrybomb_vector.size(); i++) {
+					if (!cherrybomb_vector.at(i)->IsAlive()) {
+						cherrybomb_vector.erase(cherrybomb_vector.begin() + i);	//if map is zero, delete the plant
+					}
+				}
+			}
 
 			// zombie walk to car -> car move
 			if (car0.IsAlive() && (normalzombie_vector.at(i)->GetY() == 48 && normalzombie_vector.at(i)->GetX() < car0.GetX() - 30) || !car0_flag) {
@@ -738,6 +795,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					normalzombie_vector.at(i)->LostBlood(1);
 				}
 			}
+
 			if (normalzombie_vector.at(i)->GetX() > 900 && !normalzombie_vector.at(i)->IsAlive()) {
 				normalzombie_vector.erase(normalzombie_vector.begin() + i);
 			}
@@ -760,6 +818,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		if (level>1 && sun_amount >= wallnut_card.GetSunCost() && wallnut_card_delay_flag == 0) {
 			wallnut_card.SetIsAlive(true);
+		}
+		if (level > 2 && sun_amount >= cherrybomb_card.GetSunCost() && cherrybomb_card_delay_flag == 0) {
+			cherrybomb_card.SetIsAlive(true);
 		}
 		if (!shovelFlag) {
 			shovel_card.SetIsAlive(true);
@@ -841,10 +902,14 @@ void CGameStateRun::OnShow()
 			}
 		}
 		for (auto normalzombie : normalzombie_vector) {
-			if (normalzombie->GetX() < 950) {
-				if (map.checkmyMap(normalzombie->GetX() + 80, normalzombie->GetY() + 35)
+			if (level > 2) {
+				if (!cherrybomb_vector.empty() && cherrybomb_vector.at(0)->Bomb()
+					&& cherrybomb_vector.at(0)->checkNearbyZombies(normalzombie->GetX(), normalzombie->GetY())) {
+					normalzombie->OnShow(std::string("bomb"));
+				}
+				else if (map.checkmyMap(normalzombie->GetX() + 80, normalzombie->GetY() + 35)
 					&& !map.checkmyMap(normalzombie->GetX() + 90, normalzombie->GetY() + 35)
-					&& normalzombie->IsAlive()) 
+					&& normalzombie->IsAlive())
 				{
 					normalzombie->OnShow(std::string("attack"));
 				}
@@ -855,6 +920,23 @@ void CGameStateRun::OnShow()
 					normalzombie->OnShow(std::string("walk"));
 				}
 			}
+			else {
+				if (normalzombie->GetX() < 950) {
+					if (map.checkmyMap(normalzombie->GetX() + 80, normalzombie->GetY() + 35)
+						&& !map.checkmyMap(normalzombie->GetX() + 90, normalzombie->GetY() + 35)
+						&& normalzombie->IsAlive())
+					{
+						normalzombie->OnShow(std::string("attack"));
+					}
+					else if (!normalzombie->IsAlive()) {
+						normalzombie->OnShow(std::string("die"));
+					}
+					else {
+						normalzombie->OnShow(std::string("walk"));
+					}
+				}
+			}
+
 		}
 
 		sun.OnShow();
@@ -864,6 +946,9 @@ void CGameStateRun::OnShow()
 		pea_shooter_card.OnShow();
 		if (level > 1) {
 			wallnut_card.OnShow();
+		}
+		if (level > 2) {
+			cherrybomb_card.OnShow();
 		}
 		car0.OnShow();
 		car1.OnShow();

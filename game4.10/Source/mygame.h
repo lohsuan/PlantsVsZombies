@@ -184,18 +184,22 @@ namespace game_framework {
 		bool			generateSunFlowerFlag;
 		bool			generatePeaShooterFlag;
 		bool			generateWallNutFlag;
+		bool			generateCherryBombFlag;
 		bool			shovelFlag;
-		YSunFlowerCard  sun_flower_card;
+		YSunFlowerCard   sun_flower_card;
 		YPeaShooterCard  pea_shooter_card;
-		YWallNutCard  wallnut_card;
+		YWallNutCard	 wallnut_card;
+		YCherryBombCard  cherrybomb_card;
 
 		int sun_flower_card_delay_flag;
 		int peashooter_card_delay_flag;
 		int wallnut_card_delay_flag;
+		int cherrybomb_card_delay_flag;
 
 		std::vector<shared_ptr<YSunFlower>>	sunflower_vector;
 		std::vector<shared_ptr<YPeaShooter>>	peashooter_vector;
 		std::vector<shared_ptr<YWallNut>>	wallnut_vector;
+		std::vector<shared_ptr<YCherryBomb>>	cherrybomb_vector;
 
 		std::vector<shared_ptr<YNormalZombie>>	normalzombie_vector;
 

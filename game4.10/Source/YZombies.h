@@ -75,11 +75,23 @@ namespace game_framework {
 			".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieHead_11.bmp" };
 			for (int i = 0; i < 12; i++)
 				zombie_die_animation_head.AddBitmap(filenamedh[i], RGB(255, 255, 255));
+
+			char *filenamedb[20] = { ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_0.bmp",
+				".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_1.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_2.bmp",
+				".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_3.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_4.bmp",
+				".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_5.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_6.bmp",
+				".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_7.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_8.bmp",
+				".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_9.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_10.bmp",
+			".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_11.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_12.bmp",
+				".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_13.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_14.bmp",
+				".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_15.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_16.bmp",
+			".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_17.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_18.bmp",
+			".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_19.bmp" };
+			for (int i = 0; i < 20; i++)
+				zombie_die_animation_bomb.AddBitmap(filenamedb[i], RGB(255, 255, 255));
 		}
 
 		void OnMove(std::string mode) {
-
-		
 			if (mode == "attack") {
 				zombie_attack_animation.OnMove();
 			}
@@ -90,9 +102,12 @@ namespace game_framework {
 					delay = 0;
 				}
 			}
-			else if(mode == "die" ){
+			else if (mode == "die") {
 				zombie_die_animation.OnMove();
 				zombie_die_animation_head.OnMove();
+			}
+			else if (mode == "bomb") {
+				zombie_die_animation_bomb.OnMove();
 			}
 			delay++;
 		}
@@ -113,6 +128,16 @@ namespace game_framework {
 					zombie_die_animation_head.SetTopLeft(x+50, y);
 					zombie_die_animation_head.OnShow();
 					zombie_die_delay_time--;
+				}
+				else {
+					x = 1000;
+				}
+			}
+			else if (mode == "bomb") {
+				if (zombie_bomb_die_delay_time > 0) {
+					zombie_die_animation_bomb.SetTopLeft(x, y);
+					zombie_die_animation_bomb.OnShow();
+					zombie_bomb_die_delay_time--;
 				}
 				else {
 					x = 1000;
@@ -166,6 +191,9 @@ namespace game_framework {
 		CAnimation zombie_attack_animation;
 		CAnimation zombie_die_animation;
 		CAnimation zombie_die_animation_head;
+		CAnimation zombie_die_animation_bomb;
+
+		int zombie_bomb_die_delay_time = 330;
 		int zombie_die_delay_time = 200;
 		int attack_power = 1;
 		int delay = 0;
