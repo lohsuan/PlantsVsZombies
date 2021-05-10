@@ -11,6 +11,14 @@ namespace game_framework {
 		YMap() :mymap{ 0 } {
 
 		}
+		void clear() {
+			for (int i = 0; i < 9; i++) {
+				for (int j = 0; j < 5; j++) {
+					mymap[i][j] = 0;
+				}
+			}
+		}
+
 		void setmyMap(int x, int y) {
 
 			if (x >= 100 && x < 190) {

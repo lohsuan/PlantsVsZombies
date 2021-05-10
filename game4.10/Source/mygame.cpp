@@ -67,6 +67,7 @@
 namespace game_framework {
 
 	int CGameState::victoryflag = 0;
+	int CGameState::level = 0;
 
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲開頭畫面物件
@@ -237,7 +238,7 @@ void CGameStateOver::OnShow()
 	if (victoryflag) {
 		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
 		CFont f, *fp;
-		f.CreatePointFont(500, "Algerian");	// 產生 font f; 160表示16 point的字
+		f.CreatePointFont(350, "Algerian");	// 產生 font f; 160表示16 point的字
 		fp = pDC->SelectObject(&f);					// 選用 font f
 		// pDC->SetBkColor(RGB(0,0,0));
 		pDC->SetBkMode(TRANSPARENT);
@@ -263,23 +264,6 @@ CGameStateRun::CGameStateRun(CGame *g)
 {
 	ball = new CBall [NUMBALLS];
 	picX = picY = 0;
-	
-	//normalzombie_vector.clear();
-	//normalzombie_vector.push_back(YNormalZombie(200, 1));
-	//normalzombie_vector.push_back(YNormalZombie(560, 2));
-	//normalzombie_vector.push_back(YNormalZombie(250, 1));
-	//normalzombie_vector.push_back(YNormalZombie(500, 3));
-	//normalzombie_vector.push_back(YNormalZombie(1300, 2));
-	//normalzombie_vector.push_back(YNormalZombie(1600, 3));
-	//normalzombie_vector.push_back(YNormalZombie(2000, 4));
-	//normalzombie_vector.push_back(YNormalZombie(2100, 1));
-	//normalzombie_vector.push_back(YNormalZombie(2150, 2));
-	//normalzombie_vector.push_back(YNormalZombie(2150, 0));
-	//normalzombie_vector.push_back(YNormalZombie(2200, 1));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(200, 1));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(560, 2));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(500, 3));
-
 }
 
 
@@ -300,18 +284,11 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	// 開始載入資料
 
 	chooser.LoadBitmap("Bitmaps/ChooserBackground.bmp");
-
-	background.LoadBitmap("Bitmaps/Background.bmp");			// 載入背景的圖形
+	background.LoadBitmap("Bitmaps/Background.bmp");
 	shovel_card.LoadBitmap();
-
-	//
-	// 完成部分Loading動作，提高進度
-	//
 	ShowInitProgress(50);
 	Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-	//
-	// 繼續載入其他資料
-	//
+
 	help.LoadBitmap(IDB_HELP, RGB(255, 255, 255));				// 載入說明的圖形
 	//corner.LoadBitmap(IDB_CORNER);							// 載入角落圖形
 	//corner.ShowBitmap(background);							// 將corner貼到background
@@ -325,6 +302,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 	//
+	level = 1;
 }
 std::vector<shared_ptr<YNormalZombie>> zombieInitTest(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel1(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
@@ -352,6 +330,9 @@ void CGameStateRun::OnBeginState()
 	generateSunFlowerFlag = false;
 	generatePeaShooterFlag = false;
 	generateWallNutFlag = false;
+	sun_flower_card.SetIsAlive(false);
+	pea_shooter_card.SetIsAlive(false);
+	wallnut_card.SetIsAlive(false);
 	shovelFlag = false;
 	sun_flower_card_delay_flag = 0;
 	peashooter_card_delay_flag = 0;
@@ -379,7 +360,10 @@ void CGameStateRun::OnBeginState()
 	car4_sound_flag = true;
 	zombie_home_flag = true;
 	normalzombie_vector.clear();
-	level = 0;
+	sunflower_vector.clear();
+	peashooter_vector.clear();
+	wallnut_vector.clear();
+	map.clear();
 	if (level == 0) {
 		normalzombie_vector = zombieInitTest(normalzombie_vector);
 	}
@@ -404,17 +388,17 @@ std::vector<shared_ptr<YNormalZombie>> zombieInitTest(std::vector<shared_ptr<YNo
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel1(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(1150, 2));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1400, 3));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1500, 2));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1550, 0));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1670, 1));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1400, 3));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1500, 2));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1550, 0));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1670, 1));
 
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 4));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(2000, 2));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(2050, 3));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(2150, 1));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(2350, 4));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(2450, 2));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 4));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2000, 2));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2050, 3));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2150, 1));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2350, 4));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2450, 2));
 	return normalzombie_vector;
 }
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel2(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
@@ -785,6 +769,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (normalzombie_vector.empty()) {
 			CAudio::Instance()->Stop(AUDIO_START);
 			victoryflag = 1;
+			level += 1;
 			GotoGameState(GAME_STATE_OVER);
 		}
 	}
@@ -798,6 +783,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		normalzombie_vector.at(0)->OnMove(std::string("walk"));
 		if (normalzombie_vector.at(0)->GetX() < -5) {
 			CAudio::Instance()->Play(AUDIO_MENUTOGAME, false);
+			victoryflag = 0;
 			GotoGameState(GAME_STATE_OVER);
 		}
 	}
