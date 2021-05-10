@@ -311,6 +311,8 @@ protected:
 	virtual void OnMove() {}								// 移動這個狀態的遊戲元素
 	virtual void OnShow() = 0;								// 顯示這個狀態的遊戲畫面
 	CGame *game;
+
+	static int victoryflag;
 };
 
 /////////////////////////////////////////////////////////////////////////////

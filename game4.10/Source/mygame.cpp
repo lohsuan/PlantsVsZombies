@@ -66,6 +66,7 @@
 
 namespace game_framework {
 
+	int CGameState::victoryflag = 0;
 
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲開頭畫面物件
@@ -211,7 +212,7 @@ void CGameStateOver::OnInit()
 	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
-	
+	loose.LoadBitmap("Bitmaps/GameLoose.bmp");
 	ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
 
 
@@ -233,17 +234,24 @@ void CGameStateOver::OnInit()
 void CGameStateOver::OnShow()
 {
 	
-	CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
-	CFont f,*fp;
-	f.CreatePointFont(160,"Times New Roman");	// 產生 font f; 160表示16 point的字
-	fp=pDC->SelectObject(&f);					// 選用 font f
-	pDC->SetBkColor(RGB(0,0,0));
-	pDC->SetTextColor(RGB(255,255,0));
-	char str[80];								// Demo 數字對字串的轉換
-	sprintf(str, "Game Over ! (%d)", counter / 30);
-	pDC->TextOut(240,210,str);
-	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
-	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+	if (victoryflag) {
+		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+		CFont f, *fp;
+		f.CreatePointFont(500, "Algerian");	// 產生 font f; 160表示16 point的字
+		fp = pDC->SelectObject(&f);					// 選用 font f
+		// pDC->SetBkColor(RGB(0,0,0));
+		pDC->SetBkMode(TRANSPARENT);
+		pDC->SetTextColor(RGB(255, 128, 66));
+		pDC->TextOut(270, 220, "You beats");
+		pDC->TextOut(220, 320, "All Zombies !!!");
+
+		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
+		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+	}
+	else {
+		loose.SetTopLeft(0, 0);
+		loose.ShowBitmap();
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -371,7 +379,7 @@ void CGameStateRun::OnBeginState()
 	car4_sound_flag = true;
 	zombie_home_flag = true;
 	normalzombie_vector.clear();
-	level = 1;
+	level = 0;
 	if (level == 0) {
 		normalzombie_vector = zombieInitTest(normalzombie_vector);
 	}
@@ -749,6 +757,10 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			if (normalzombie_vector.at(i)->GetX() > 900 && !normalzombie_vector.at(i)->IsAlive()) {
 				normalzombie_vector.erase(normalzombie_vector.begin() + i);
 			}
+			
+		}
+
+		for (size_t i = 0; i < normalzombie_vector.size(); i++) {
 			if (normalzombie_vector.at(i)->GetX() < 0 && normalzombie_vector.at(i)->IsAlive()) {
 				CAudio::Instance()->Stop(AUDIO_START);
 				flag = 4;
@@ -772,6 +784,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		// go to game state over
 		if (normalzombie_vector.empty()) {
 			CAudio::Instance()->Stop(AUDIO_START);
+			victoryflag = 1;
 			GotoGameState(GAME_STATE_OVER);
 		}
 	}
