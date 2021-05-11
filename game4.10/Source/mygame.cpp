@@ -303,11 +303,12 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 	//
-	level = 1;
+	level = 3;
 }
 std::vector<shared_ptr<YNormalZombie>> zombieInitTest(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel1(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel2(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
+std::vector<shared_ptr<YNormalZombie>> zombieInitLevel3(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
 
 void CGameStateRun::OnBeginState()
 {
@@ -327,7 +328,7 @@ void CGameStateRun::OnBeginState()
 	CAudio::Instance()->Play(AUDIO_START, true);		
 	
 	flag = 0;
-	sun_amount = 50;			// 一開始50個sun
+	sun_amount = 500;			// 一開始50個sun
 	generateSunFlowerFlag = false;
 	generatePeaShooterFlag = false;
 	generateWallNutFlag = false;
@@ -377,6 +378,9 @@ void CGameStateRun::OnBeginState()
 	else if (level == 2) {
 		normalzombie_vector = zombieInitLevel2(normalzombie_vector);
 	}
+	else if (level == 3) {
+		normalzombie_vector = zombieInitLevel3(normalzombie_vector);
+	}
 	for (auto normalzombie_sp : normalzombie_vector) {
 		normalzombie_sp->LoadBitmap();
 	}
@@ -406,6 +410,29 @@ std::vector<shared_ptr<YNormalZombie>> zombieInitLevel1(std::vector<shared_ptr<Y
 	return normalzombie_vector;
 }
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel2(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1150, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1360, 2));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1500, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1650, 0));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1670, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1850, 4));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1900, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2000, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2050, 1));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2450, 4));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2450, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2500, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2550, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2850, 4));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3050, 2));
+	return normalzombie_vector;
+}
+
+std::vector<shared_ptr<YNormalZombie>> zombieInitLevel3(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(1150, 2));
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(1360, 2));
@@ -481,11 +508,11 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	}
 	else if (level > 2 && generateCherryBombFlag && !map.checkmyMap(point.x, point.y) && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
 		CAudio::Instance()->Play(AUDIO_PLANTS, false);
-		int tx = map.getXmyMapLocation(point.x, point.y);
-		int ty = map.getYmyMapLocation(point.x, point.y);
+		//int tx = map.getXmyMapLocation(point.x, point.y);
+		//int ty = map.getYmyMapLocation(point.x, point.y);
 		//map.setmyMap(point.x, point.y);
 
-		auto sp = make_shared<YCherryBomb>(tx, ty);
+		auto sp = make_shared<YCherryBomb>(point.x, point.y);
 		sp->LoadBitmap();
 		cherrybomb_vector.push_back(sp);
 		generateCherryBombFlag = false;
@@ -695,6 +722,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			if (level > 2) {
 				if (!cherrybomb_vector.empty() && cherrybomb_vector.at(0)->Bomb() 
 					&& cherrybomb_vector.at(0)->checkNearbyZombies(normalzombie_vector.at(i)->GetX(), normalzombie_vector.at(i)->GetY())) {
+					normalzombie_vector.at(i)->SetBombFlag();
 					normalzombie_vector.at(i)->OnMove(std::string("bomb"));
 				}
 				else if (map.checkmyMap(normalzombie_vector.at(i)->GetX() + 80, normalzombie_vector.at(i)->GetY() + 35)
@@ -893,21 +921,22 @@ void CGameStateRun::OnShow()
 		for (size_t i = 0; i < sunflower_vector.size(); i++) {
 			sunflower_vector.at(i)->OnShow();
 		}
-		for (size_t i = 0; i < peashooter_vector.size(); i++) {
-			peashooter_vector.at(i)->OnShow();
-		}
 		if (level > 1) {
 			for (size_t i = 0; i < wallnut_vector.size(); i++) {
 				wallnut_vector.at(i)->OnShow();
 			}
 		}
+		if (level > 2) {
+			for (size_t i = 0; i < cherrybomb_vector.size(); i++) {
+				cherrybomb_vector.at(i)->OnShow();
+			}
+		}
+		for (size_t i = 0; i < peashooter_vector.size(); i++) {
+			peashooter_vector.at(i)->OnShow();
+		}
 		for (auto normalzombie : normalzombie_vector) {
-			if (level > 2) {
-				if (!cherrybomb_vector.empty() && cherrybomb_vector.at(0)->Bomb()
-					&& cherrybomb_vector.at(0)->checkNearbyZombies(normalzombie->GetX(), normalzombie->GetY())) {
-					normalzombie->OnShow(std::string("bomb"));
-				}
-				else if (map.checkmyMap(normalzombie->GetX() + 80, normalzombie->GetY() + 35)
+			if (normalzombie->GetX() < 950) {
+				if (map.checkmyMap(normalzombie->GetX() + 80, normalzombie->GetY() + 35)
 					&& !map.checkmyMap(normalzombie->GetX() + 90, normalzombie->GetY() + 35)
 					&& normalzombie->IsAlive())
 				{
@@ -920,23 +949,6 @@ void CGameStateRun::OnShow()
 					normalzombie->OnShow(std::string("walk"));
 				}
 			}
-			else {
-				if (normalzombie->GetX() < 950) {
-					if (map.checkmyMap(normalzombie->GetX() + 80, normalzombie->GetY() + 35)
-						&& !map.checkmyMap(normalzombie->GetX() + 90, normalzombie->GetY() + 35)
-						&& normalzombie->IsAlive())
-					{
-						normalzombie->OnShow(std::string("attack"));
-					}
-					else if (!normalzombie->IsAlive()) {
-						normalzombie->OnShow(std::string("die"));
-					}
-					else {
-						normalzombie->OnShow(std::string("walk"));
-					}
-				}
-			}
-
 		}
 
 		sun.OnShow();

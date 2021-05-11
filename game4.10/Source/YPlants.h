@@ -392,35 +392,34 @@ namespace game_framework {
 	public:
 		YCherryBomb(int x, int y)
 		{
-			counter = 9;
 			this->x = x;
 			this->y = y;
-			blood = 300;
 			is_alive = true;
+			bomb = false;
+			counter = 65;
+
 		}
 		~YCherryBomb()
 		{
 		}
 		void LoadBitmap()
 		{
-			char *filename[9] = { ".\\bitmaps\\CherryBomb\\CherryBomb_0.bmp", ".\\bitmaps\\CherryBomb\\CherryBomb_1.bmp", ".\\bitmaps\\CherryBomb\\CherryBomb_2.bmp",
-				".\\bitmaps\\CherryBomb\\CherryBomb_3.bmp", ".\\bitmaps\\CherryBomb\\CherryBomb_4.bmp", ".\\bitmaps\\CherryBomb\\CherryBomb_5.bmp",
-				".\\bitmaps\\CherryBomb\\CherryBomb_6.bmp", ".\\bitmaps\\CherryBomb\\Boom.bmp", ".\\bitmaps\\CherryBomb\\Boom.bmp" };
-			for (int i = 0; i < 9; i++)
+			char *filename[7] = { ".\\bitmaps\\CherryBomb\\CherryBomb_0.bmp", ".\\bitmaps\\CherryBomb\\CherryBomb_1.bmp", ".\\bitmaps\\CherryBomb\\CherryBomb_2.bmp",
+				".\\bitmaps\\CherryBomb\\CherryBomb_3.bmp", ".\\bitmaps\\CherryBomb\\CherryBomb_4.bmp"
+				, ".\\bitmaps\\CherryBomb\\Boom.bmp", ".\\bitmaps\\CherryBomb\\Boom.bmp" };
+			for (int i = 0; i < 7; i++)
 				cherrybomb_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 		}
 		void OnMove()
 		{
 
-			if (counter == 0) {
+			if (counter == 22) {
 				bomb = true;
 			}
-			else if (counter < -20) {
+			else if (counter < 0) {
 				is_alive = false;
 			}
-			else {
-				cherrybomb_animation.OnMove();
-			}
+			cherrybomb_animation.OnMove();
 			counter -= 1;
 
 		}
@@ -428,10 +427,14 @@ namespace game_framework {
 		{
 			if (!bomb)
 			{
-				peashooter_animation.SetTopLeft(x, y);
-				peashooter_animation.OnShow();
+				cherrybomb_animation.SetTopLeft(x-55, y-40);
+				cherrybomb_animation.OnShow();
 			}
-
+			else {
+				cherrybomb_animation.SetTopLeft(x - 85, y - 64);
+				cherrybomb_animation.OnShow();
+			}
+			
 		}
 		bool IsAlive()
 		{
@@ -467,7 +470,7 @@ namespace game_framework {
 		bool is_alive;
 		CAnimation cherrybomb_animation;
 		int counter;
-		int bomb = false;
+		int bomb;
 	};
 
 }

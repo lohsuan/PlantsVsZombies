@@ -24,7 +24,7 @@ namespace game_framework {
 			x = 900;
 			blood = 10;
 			is_alive = true;
-			zombie_die_delay_time = 230;
+			zombie_die_delay_time = 115;
 		}
 		YNormalZombie(int x, int my) {
 			//srand((int)time(NULL));
@@ -35,7 +35,10 @@ namespace game_framework {
 			this->x = x;
 			blood = 10;
 			is_alive = true;
+			bomb_flag = false;
 			zombie_die_delay_time = 115;
+			zombie_bomb_die_delay_time = 180;
+
 		}
 		~YNormalZombie() {
 
@@ -76,22 +79,25 @@ namespace game_framework {
 			for (int i = 0; i < 12; i++)
 				zombie_die_animation_head.AddBitmap(filenamedh[i], RGB(255, 255, 255));
 
-			char *filenamedb[20] = { ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_0.bmp",
+			char *filenamedb[19] = { ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_0.bmp",
 				".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_1.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_2.bmp",
 				".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_3.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_4.bmp",
 				".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_5.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_6.bmp",
 				".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_7.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_8.bmp",
 				".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_9.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_10.bmp",
 			".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_11.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_12.bmp",
-				".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_13.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_14.bmp",
+				".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_14.bmp",
 				".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_15.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_16.bmp",
 			".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_17.bmp", ".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_18.bmp",
 			".\\bitmaps\\NormalZombie\\BoomDie\\BoomDie_19.bmp" };
-			for (int i = 0; i < 20; i++)
+			for (int i = 0; i < 19; i++)
 				zombie_die_animation_bomb.AddBitmap(filenamedb[i], RGB(255, 255, 255));
 		}
 
 		void OnMove(std::string mode) {
+			if (bomb_flag) {
+				mode = "bomb";
+			}
 			if (mode == "attack") {
 				zombie_attack_animation.OnMove();
 			}
@@ -113,6 +119,9 @@ namespace game_framework {
 		}
 
 		void OnShow(std::string mode) {
+			if (bomb_flag) {
+				mode = "bomb";
+			}
 			if (mode == "attack") {
 				zombie_attack_animation.SetTopLeft(x, y);
 				zombie_attack_animation.OnShow();
@@ -145,7 +154,9 @@ namespace game_framework {
 			}
 			
 		}
-		
+		void SetBombFlag() {
+			bomb_flag = true;
+		}
 
 		bool IsAlive() {
 			return is_alive;
@@ -193,10 +204,11 @@ namespace game_framework {
 		CAnimation zombie_die_animation_head;
 		CAnimation zombie_die_animation_bomb;
 
-		int zombie_bomb_die_delay_time = 330;
-		int zombie_die_delay_time = 200;
+		int zombie_bomb_die_delay_time;
+		int zombie_die_delay_time;
 		int attack_power = 1;
 		int delay = 0;
+		bool bomb_flag;
 	};
 
 
