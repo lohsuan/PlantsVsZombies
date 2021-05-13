@@ -27,8 +27,6 @@ namespace game_framework {
 			zombie_die_delay_time = 115;
 		}
 		YNormalZombie(int x, int my) {
-			//srand((int)time(NULL));
-			//int i = rand() % 5;		// 0~4
 			Map_Y_Location = my;		// 0~4
 			int a[5] = { 78, 182, 270, 368, 464 };
 			y = a[my] - 30;
@@ -40,20 +38,51 @@ namespace game_framework {
 			zombie_bomb_die_delay_time = 180;
 
 		}
+		YNormalZombie(int x, int my, std::string style) {
+			Map_Y_Location = my;		// 0~4
+			int a[5] = { 78, 182, 270, 368, 464 };
+			y = a[my] - 30;
+			this->x = x;
+			blood = 10;
+			is_alive = true;
+			bomb_flag = false;
+			zombie_die_delay_time = 115;
+			zombie_bomb_die_delay_time = 180;
+			zombie_style = style;
+		}
 		~YNormalZombie() {
 
 		}
 
 		void LoadBitmap() {
 
-			char *filename[10] = {".\\bitmaps\\NormalZombie\\Zombie\\Zombie_0.bmp",
+			char *filenamef[10] = {".\\bitmaps\\NormalZombie\\Zombie\\Zombie_0.bmp",
 				".\\bitmaps\\NormalZombie\\Zombie\\Zombie_1.bmp", ".\\bitmaps\\NormalZombie\\Zombie\\Zombie_2.bmp",
 				".\\bitmaps\\NormalZombie\\Zombie\\Zombie_3.bmp", ".\\bitmaps\\NormalZombie\\Zombie\\Zombie_4.bmp",
 				".\\bitmaps\\NormalZombie\\Zombie\\Zombie_5.bmp", ".\\bitmaps\\NormalZombie\\Zombie\\Zombie_6.bmp",
 				".\\bitmaps\\NormalZombie\\Zombie\\Zombie_7.bmp", ".\\bitmaps\\NormalZombie\\Zombie\\Zombie_8.bmp",
 				".\\bitmaps\\NormalZombie\\Zombie\\Zombie_9.bmp"};
 			for (int i = 0; i < 10; i++)
-				zombie_animation.AddBitmap(filename[i], RGB(255, 255, 255));
+				zombie_animation.AddBitmap(filenamef[i], RGB(255, 255, 255));
+
+			char *filenamefa[10] = { ".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_0.bmp",
+				".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_1.bmp", ".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_2.bmp",
+				".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_3.bmp", ".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_4.bmp",
+				".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_5.bmp", ".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_6.bmp",
+				".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_7.bmp", ".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_8.bmp",
+				".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_9.bmp" };
+			for (int i = 0; i < 10; i++)
+				zombie_flag_animation.AddBitmap(filenamefa[i], RGB(255, 255, 255));
+
+			char *filename[10] = { ".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_0.bmp",
+				".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_1.bmp", ".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_2.bmp",
+				".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_3.bmp", ".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_4.bmp",
+				".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_5.bmp", ".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_6.bmp",
+				".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_7.bmp", ".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_8.bmp",
+				".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_9.bmp" };
+			for (int i = 0; i < 10; i++)
+				zombie_flag_attack_animation.AddBitmap(filename[i], RGB(255, 255, 255));
+
 
 			char *filenamea[7] = {".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_0.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_1.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_2.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_3.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_4.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_5.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_6.bmp"};
 			for (int i = 0; i < 7; i++)
@@ -99,12 +128,22 @@ namespace game_framework {
 				mode = "bomb";
 			}
 			if (mode == "attack") {
-				zombie_attack_animation.OnMove();
+				if (zombie_style == "flag") {
+					zombie_flag_attack_animation.OnMove();
+				}
+				else {
+					zombie_attack_animation.OnMove();
+				}
 			}
 			else if (mode == "walk") {
 				if (delay % 2 == 0) {
 					x -= 1;
-					zombie_animation.OnMove();
+					if (zombie_style == "flag") {
+						zombie_flag_animation.OnMove();
+					}
+					else {
+						zombie_animation.OnMove();
+					}
 					delay = 0;
 				}
 			}
@@ -123,12 +162,25 @@ namespace game_framework {
 				mode = "bomb";
 			}
 			if (mode == "attack") {
-				zombie_attack_animation.SetTopLeft(x, y);
-				zombie_attack_animation.OnShow();
+				if (zombie_style == "flag") {
+					zombie_flag_attack_animation.SetTopLeft(x, y);
+					zombie_flag_attack_animation.OnShow();
+				}
+				else {
+					zombie_attack_animation.SetTopLeft(x, y);
+					zombie_attack_animation.OnShow();
+				}
 			}
 			else if (mode == "walk") {
-				zombie_animation.SetTopLeft(x, y);
-				zombie_animation.OnShow();
+				if (zombie_style == "flag") {
+					zombie_flag_animation.SetTopLeft(x, y);
+					zombie_flag_animation.OnShow();
+				}
+				else {
+					zombie_animation.SetTopLeft(x, y);
+					zombie_animation.OnShow();
+				}
+
 			}
 			else if (mode == "die") {
 				if (zombie_die_delay_time > 0) {
@@ -203,12 +255,15 @@ namespace game_framework {
 		CAnimation zombie_die_animation;
 		CAnimation zombie_die_animation_head;
 		CAnimation zombie_die_animation_bomb;
+		CAnimation zombie_flag_animation;
+		CAnimation zombie_flag_attack_animation;
 
 		int zombie_bomb_die_delay_time;
 		int zombie_die_delay_time;
 		int attack_power = 1;
 		int delay = 0;
 		bool bomb_flag;
+		std::string zombie_style;
 	};
 
 
