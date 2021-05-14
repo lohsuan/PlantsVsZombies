@@ -125,7 +125,7 @@ namespace game_framework {
 		}
 		void OnMove()
 		{
-			x += 3;
+			x += 4;
 			if (x > 800) {
 				is_alive = false;
 			};
@@ -457,8 +457,8 @@ namespace game_framework {
 		}
 
 		bool checkNearbyZombies(int zx, int zy) {
-			if (y-120 < zy && zy < y+120) {
-				if (zx > x-120 && zx < x+120) {
+			if (y-160 < zy && zy < y+140) {
+				if (zx > x-160 && zx < x+120) {
 					return true;
 				}
 			}

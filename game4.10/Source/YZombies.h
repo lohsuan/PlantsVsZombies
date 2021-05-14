@@ -201,6 +201,7 @@ namespace game_framework {
 					zombie_bomb_die_delay_time--;
 				}
 				else {
+					is_alive = false;
 					x = 1000;
 				}
 			}
