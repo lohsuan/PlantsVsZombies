@@ -49,12 +49,32 @@ namespace game_framework {
 			zombie_die_delay_time = 115;
 			zombie_bomb_die_delay_time = 180;
 			zombie_style = style;
+			if (zombie_style == "conehead") {
+				blood = 20;
+			}
 		}
 		~YNormalZombie() {
 
 		}
 
 		void LoadBitmap() {
+			char *filenamec[10] = { ".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_0.bmp",
+				".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_1.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_2.bmp",
+				".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_3.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_4.bmp",
+				".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_5.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_6.bmp",
+				".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_7.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_8.bmp",
+				".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_9.bmp" };
+			for (int i = 0; i < 10; i++)
+				zombie_conehead_animation.AddBitmap(filenamec[i], RGB(255, 255, 255));
+
+			char *filenameca[11] = { ".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_0.bmp",
+				".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_1.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_2.bmp",
+				".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_3.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_4.bmp",
+				".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_5.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_6.bmp",
+				".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_7.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_8.bmp",
+				".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_9.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_10.bmp" };
+			for (int i = 0; i < 11; i++)
+				zombie_conehead_attack_animation.AddBitmap(filenameca[i], RGB(255, 255, 255));
 
 			char *filenamef[10] = {".\\bitmaps\\NormalZombie\\Zombie\\Zombie_0.bmp",
 				".\\bitmaps\\NormalZombie\\Zombie\\Zombie_1.bmp", ".\\bitmaps\\NormalZombie\\Zombie\\Zombie_2.bmp",
@@ -131,6 +151,9 @@ namespace game_framework {
 				if (zombie_style == "flag") {
 					zombie_flag_attack_animation.OnMove();
 				}
+				else if (zombie_style == "conehead" && blood > 10) {
+					zombie_conehead_attack_animation.OnMove();
+				}
 				else {
 					zombie_attack_animation.OnMove();
 				}
@@ -140,6 +163,9 @@ namespace game_framework {
 					x -= 1;
 					if (zombie_style == "flag") {
 						zombie_flag_animation.OnMove();
+					}
+					else if (zombie_style == "conehead" && blood > 10) {
+						zombie_conehead_animation.OnMove();
 					}
 					else {
 						zombie_animation.OnMove();
@@ -166,6 +192,10 @@ namespace game_framework {
 					zombie_flag_attack_animation.SetTopLeft(x, y);
 					zombie_flag_attack_animation.OnShow();
 				}
+				else if (zombie_style == "conehead" && blood > 10) {
+					zombie_conehead_attack_animation.SetTopLeft(x, y);
+					zombie_conehead_attack_animation.OnShow();
+				}
 				else {
 					zombie_attack_animation.SetTopLeft(x, y);
 					zombie_attack_animation.OnShow();
@@ -175,6 +205,10 @@ namespace game_framework {
 				if (zombie_style == "flag") {
 					zombie_flag_animation.SetTopLeft(x, y);
 					zombie_flag_animation.OnShow();
+				}
+				else if (zombie_style == "conehead" && blood > 10) {
+					zombie_conehead_animation.SetTopLeft(x, y);
+					zombie_conehead_animation.OnShow();
 				}
 				else {
 					zombie_animation.SetTopLeft(x, y);
@@ -258,6 +292,8 @@ namespace game_framework {
 		CAnimation zombie_die_animation_bomb;
 		CAnimation zombie_flag_animation;
 		CAnimation zombie_flag_attack_animation;
+		CAnimation zombie_conehead_animation;
+		CAnimation zombie_conehead_attack_animation;
 
 		int zombie_bomb_die_delay_time;
 		int zombie_die_delay_time;

@@ -400,11 +400,11 @@ std::vector<shared_ptr<YNormalZombie>> zombieInitLevel1(std::vector<shared_ptr<Y
 	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
 
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1250, 2));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1550, 3, "flag"));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1600, 2));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1650, 0));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1720, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1250, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1560, 4, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1600, 2, "conehead"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1630, 3));
+	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1720, 1));
 
 	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 4));
 	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2000, 2));
@@ -415,7 +415,7 @@ std::vector<shared_ptr<YNormalZombie>> zombieInitLevel1(std::vector<shared_ptr<Y
 	return normalzombie_vector;
 }
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel2(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(250, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(150, 1));
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(360, 2));
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(500, 3));
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1, "flag"));
