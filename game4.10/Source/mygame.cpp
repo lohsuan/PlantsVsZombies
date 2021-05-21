@@ -285,6 +285,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 	chooser.LoadBitmap("Bitmaps/ChooserBackground.bmp");
 	background.LoadBitmap("Bitmaps/Background.bmp");
+	background_night.LoadBitmap("Bitmaps/Background_1.bmp");
 	shovel_card.LoadBitmap();
 	ShowInitProgress(50);
 	Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
@@ -303,7 +304,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 	//
-	level = 1;
+	level = 4;
 }
 std::vector<shared_ptr<YNormalZombie>> zombieInitTest(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel1(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
@@ -370,15 +371,23 @@ void CGameStateRun::OnBeginState()
 	wallnut_vector.clear();
 	map.clear();
 	if (level == 0) {
+		night_mode = false;
 		normalzombie_vector = zombieInitTest(normalzombie_vector);
 	}
 	else if (level == 1) {
+		night_mode = false;
 		normalzombie_vector = zombieInitLevel1(normalzombie_vector);
 	}
 	else if (level == 2) {
+		night_mode = false;
 		normalzombie_vector = zombieInitLevel2(normalzombie_vector);
 	}
 	else if (level == 3) {
+		night_mode = false;
+		normalzombie_vector = zombieInitLevel3(normalzombie_vector);
+	}
+	else if (level == 4) {
+		night_mode = true;
 		normalzombie_vector = zombieInitLevel3(normalzombie_vector);
 	}
 	for (auto normalzombie_sp : normalzombie_vector) {
@@ -646,12 +655,19 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		flag = 2;
 		picX = -150;
 	}
-	background.SetTopLeft(picX, picY);
+	if (night_mode) {
+		background_night.SetTopLeft(picX, picY);
+	}
+	else {
+		background.SetTopLeft(picX, picY);
+	}
 
 
 
 	if (flag==2) {
-		sun.OnMove();
+		if (!night_mode) {
+			sun.OnMove();
+		}
 
 		if (sun_flower_card_delay_flag > 0) {
 			sun_flower_card_delay_flag--;
@@ -923,7 +939,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 void CGameStateRun::OnShow()
 {
-	background.ShowBitmap();
+	if (night_mode) {
+		background_night.ShowBitmap();
+	}
+	else {
+		background.ShowBitmap();
+	}
 	
 	if (flag == 4) {
 		normalzombie_vector.at(0)->OnShow(std::string("walk"));

@@ -167,7 +167,8 @@ namespace game_framework {
 		
 		const int		NUMBALLS;	// 球的總數
 		CMovingBitmap	background;	// 背景圖
-		
+		CMovingBitmap	background_night;	// 背景圖
+
 		CMovingBitmap	help;		// 說明圖
 		CBall			*ball;		// 球的陣列
 		CMovingBitmap	corner;		// 角落圖
@@ -222,6 +223,7 @@ namespace game_framework {
 		bool car3_sound_flag;
 		bool car4_sound_flag;
 		bool zombie_home_flag;
+		bool night_mode;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
