@@ -329,7 +329,7 @@ void CGameStateRun::OnBeginState()
 	CAudio::Instance()->Play(AUDIO_START, true);		
 	
 	flag = 0;
-	sun_amount = 500;			// 一開始50個sun
+	sun_amount = 50;			// 一開始50個sun
 	generateSunFlowerFlag = false;
 	generatePeaShooterFlag = false;
 	generateWallNutFlag = false;
@@ -370,6 +370,7 @@ void CGameStateRun::OnBeginState()
 	peashooter_vector.clear();
 	wallnut_vector.clear();
 	map.clear();
+	zombie_fast_mode = false;
 	if (level == 0) {
 		night_mode = false;
 		normalzombie_vector = zombieInitTest(normalzombie_vector);
@@ -451,9 +452,9 @@ std::vector<shared_ptr<YNormalZombie>> zombieInitLevel2(std::vector<shared_ptr<Y
 }
 
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel3(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(150, 1, "flag"));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(260, 2));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(500, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(350, 1, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(560, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(600, 3));
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1, "flag"));
 	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
 	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1150, 2));
@@ -483,6 +484,17 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	const char KEY_UP    = 0x26; // keyboard上箭頭
 	const char KEY_RIGHT = 0x27; // keyboard右箭頭
 	const char KEY_DOWN  = 0x28; // keyboard下箭頭
+	const char KEY_Z	 = 90;
+	const char KEY_S	 = 83;
+
+	if (nChar == KEY_Z) {
+		zombie_fast_mode = true;
+	}
+
+	if (nChar == KEY_S ) {
+		sun_amount = 500;
+	}
+
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -491,6 +503,11 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	const char KEY_UP    = 0x26; // keyboard上箭頭
 	const char KEY_RIGHT = 0x27; // keyboard右箭頭
 	const char KEY_DOWN  = 0x28; // keyboard下箭頭
+	const char KEY_Z	 = 90;
+
+	if(nChar == KEY_Z){
+		zombie_fast_mode = false;
+	}
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -764,7 +781,10 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					normalzombie_vector.at(i)->OnMove(std::string("die"));
 				}
 				else {
-					normalzombie_vector.at(i)->OnMove(std::string("walk"));
+					if(zombie_fast_mode)
+						normalzombie_vector.at(i)->OnMove(std::string("walk"), true);
+					else
+						normalzombie_vector.at(i)->OnMove(std::string("walk"));
 				}
 			}
 			else {
@@ -778,7 +798,10 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					normalzombie_vector.at(i)->OnMove(std::string("die"));
 				}
 				else {
-					normalzombie_vector.at(i)->OnMove(std::string("walk"));
+					if (zombie_fast_mode)
+						normalzombie_vector.at(i)->OnMove(std::string("walk"), true);
+					else
+						normalzombie_vector.at(i)->OnMove(std::string("walk"));
 				}
 			}
 			if (level > 2) {
@@ -1056,6 +1079,22 @@ void CGameStateRun::OnShow()
 			pDC->TextOut(26, 62, "475");
 		else if (sun_amount == 500)
 			pDC->TextOut(26, 62, "500");
+		else if (sun_amount == 525)
+			pDC->TextOut(26, 62, "525");
+		else if (sun_amount == 550)
+			pDC->TextOut(26, 62, "550");
+		else if (sun_amount == 575)
+			pDC->TextOut(26, 62, "575");
+		else if (sun_amount == 600)
+			pDC->TextOut(26, 62, "600");
+		else if (sun_amount == 625)
+			pDC->TextOut(26, 62, "625");
+		else if (sun_amount == 650)
+			pDC->TextOut(26, 62, "650");
+		else if (sun_amount == 675)
+			pDC->TextOut(26, 62, "675");
+		else if (sun_amount == 700)
+			pDC->TextOut(26, 62, "700");
 		else {
 			pDC->TextOut(26, 62, "###");
 		}

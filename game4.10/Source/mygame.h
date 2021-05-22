@@ -224,6 +224,8 @@ namespace game_framework {
 		bool car4_sound_flag;
 		bool zombie_home_flag;
 		bool night_mode;
+		bool zombie_fast_mode;
+
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
