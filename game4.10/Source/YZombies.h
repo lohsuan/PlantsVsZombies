@@ -52,12 +52,34 @@ namespace game_framework {
 			if (zombie_style == "conehead") {
 				blood = 20;
 			}
+			if (zombie_style == "bucket") {
+				blood = 20;
+			}
 		}
 		~YNormalZombie() {
 
 		}
 
 		void LoadBitmap() {
+			
+			char *filenameb[10] = { ".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_0.bmp",
+					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_1.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_2.bmp",
+					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_3.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_4.bmp",
+					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_5.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_6.bmp",
+					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_7.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_8.bmp",
+					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_9.bmp" };
+			for (int i = 0; i < 10; i++)
+				zombie_bucket_animation.AddBitmap(filenameb[i], RGB(255, 255, 255));
+
+			char *filenameba[11] = { ".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_0.bmp",
+				".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_1.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_2.bmp",
+				".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_3.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_4.bmp",
+				".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_5.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_6.bmp",
+				".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_7.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_8.bmp",
+				".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_9.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_10.bmp" };
+			for (int i = 0; i < 11; i++)
+				zombie_bucket_attack_animation.AddBitmap(filenameba[i], RGB(255, 255, 255));
+
 			char *filenamec[10] = { ".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_0.bmp",
 				".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_1.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_2.bmp",
 				".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_3.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_4.bmp",
@@ -154,6 +176,9 @@ namespace game_framework {
 				else if (zombie_style == "conehead" && blood > 10) {
 					zombie_conehead_attack_animation.OnMove();
 				}
+				else if (zombie_style == "bucket" && blood > 10) {
+					zombie_bucket_attack_animation.OnMove();
+				}
 				else {
 					zombie_attack_animation.OnMove();
 				}
@@ -166,6 +191,9 @@ namespace game_framework {
 					}
 					else if (zombie_style == "conehead" && blood > 10) {
 						zombie_conehead_animation.OnMove();
+					}
+					else if (zombie_style == "bucket" && blood > 10) {
+						zombie_bucket_animation.OnMove();
 					}
 					else {
 						zombie_animation.OnMove();
@@ -180,6 +208,24 @@ namespace game_framework {
 			else if (mode == "bomb") {
 				zombie_die_animation_bomb.OnMove();
 			}
+			/*else if (mode == "freeze") {
+				if (delay % 4 == 0) {
+					x -= 1;
+					if (zombie_style == "flag") {
+						zombie_flag_animation.OnMove();
+					}
+					else if (zombie_style == "conehead" && blood > 10) {
+						zombie_conehead_animation.OnMove();
+					}
+					else if (zombie_style == "bucket" && blood > 10) {
+						zombie_bucket_animation.OnMove();
+					}
+					else {
+						zombie_animation.OnMove();
+					}
+					delay = 0;
+				}
+			}*/
 			delay++;
 		}
 
@@ -196,6 +242,10 @@ namespace game_framework {
 					zombie_conehead_attack_animation.SetTopLeft(x, y);
 					zombie_conehead_attack_animation.OnShow();
 				}
+				else if (zombie_style == "bucket" && blood > 10) {
+					zombie_bucket_attack_animation.SetTopLeft(x, y);
+					zombie_bucket_attack_animation.OnShow();
+				}
 				else {
 					zombie_attack_animation.SetTopLeft(x, y);
 					zombie_attack_animation.OnShow();
@@ -209,6 +259,10 @@ namespace game_framework {
 				else if (zombie_style == "conehead" && blood > 10) {
 					zombie_conehead_animation.SetTopLeft(x, y);
 					zombie_conehead_animation.OnShow();
+				}
+				else if (zombie_style == "bucket" && blood > 10) {
+					zombie_bucket_animation.SetTopLeft(x, y);
+					zombie_bucket_animation.OnShow();
 				}
 				else {
 					zombie_animation.SetTopLeft(x, y);
@@ -294,6 +348,8 @@ namespace game_framework {
 		CAnimation zombie_flag_attack_animation;
 		CAnimation zombie_conehead_animation;
 		CAnimation zombie_conehead_attack_animation;
+		CAnimation zombie_bucket_animation;
+		CAnimation zombie_bucket_attack_animation;
 
 		int zombie_bomb_die_delay_time;
 		int zombie_die_delay_time;

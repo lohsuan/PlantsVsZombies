@@ -300,6 +300,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	pea_shooter_card.LoadBitmap();
 	wallnut_card.LoadBitmap();
 	cherrybomb_card.LoadBitmap();
+	ice_shooter_card.LoadBitmap();
 	CAudio::Instance()->Load(AUDIO_START, "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
@@ -334,15 +335,18 @@ void CGameStateRun::OnBeginState()
 	generatePeaShooterFlag = false;
 	generateWallNutFlag = false;
 	generateCherryBombFlag = false;
+	generateIceShooterFlag = false;
 	sun_flower_card.SetIsAlive(false);
 	pea_shooter_card.SetIsAlive(false);
 	wallnut_card.SetIsAlive(false);
 	cherrybomb_card.SetIsAlive(false);
+	ice_shooter_card.SetIsAlive(false);
 	shovelFlag = false;
 	sun_flower_card_delay_flag = 0;
 	peashooter_card_delay_flag = 0;
 	wallnut_card_delay_flag = 0;
 	cherrybomb_card_delay_flag = 0;
+	iceshooter_card_delay_flag = 0;
 
 	car0 = YCar(0);
 	car1 = YCar(1);
@@ -369,6 +373,7 @@ void CGameStateRun::OnBeginState()
 	sunflower_vector.clear();
 	peashooter_vector.clear();
 	wallnut_vector.clear();
+	iceshooter_vector.clear();
 	map.clear();
 	if (level == 0) {
 		night_mode = false;
@@ -455,6 +460,7 @@ std::vector<shared_ptr<YNormalZombie>> zombieInitLevel3(std::vector<shared_ptr<Y
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(260, 2));
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(500, 3));
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1260, 2, "bucket"));
 	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
 	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1150, 2));
 	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1360, 2));
@@ -539,6 +545,17 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		cherrybomb_vector.push_back(sp);
 		generateCherryBombFlag = false;
 	}
+	else if (level > 3 && generateIceShooterFlag && !map.checkmyMap(point.x, point.y) && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
+		CAudio::Instance()->Play(AUDIO_PLANTS, false);
+		int tx = map.getXmyMapLocation(point.x, point.y);
+		int ty = map.getYmyMapLocation(point.x, point.y);
+		map.setmyMap(point.x, point.y);
+
+		auto sp = make_shared<YIceShooter>(tx, ty);
+		sp->LoadBitmap();
+		iceshooter_vector.push_back(sp);
+		generateIceShooterFlag = false;
+	}
 	else if (shovelFlag /*&& map.checkmyMap(point.x, point.y)*/ && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
 		//CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		//int tx = map.getXmyMapLocation(point.x, point.y);
@@ -594,6 +611,12 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		generateCherryBombFlag = true;
 		cherrybomb_card_delay_flag = 150;
 	}
+	else if (point.x > ice_shooter_card.GetX() && point.y > ice_shooter_card.GetY() && point.x < ice_shooter_card.GetX() + 65 && point.y < ice_shooter_card.GetY() + 90 && ice_shooter_card.IsAlive()) {
+		ice_shooter_card.SetIsAlive(false);
+		sun_amount -= 175;
+		generateIceShooterFlag = true;
+		iceshooter_card_delay_flag = 150;
+	}
 	else if (point.x > shovel_card.GetX() && point.y > shovel_card.GetY() && point.x < shovel_card.GetX() + 82 && point.y < shovel_card.GetY() + 82) {
 		shovelFlag = true;
 		shovel_card.SetIsAlive(false);
@@ -610,6 +633,9 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	}
 	else if (level > 2 && cherrybomb_card.GetSunCost() > sun_amount) {
 		cherrybomb_card.SetIsAlive(false);
+	}
+	else if (level > 3 && 175 > sun_amount) {
+		ice_shooter_card.SetIsAlive(false);
 	}
 }
 
@@ -681,6 +707,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (level > 2 && cherrybomb_card_delay_flag > 0) {
 			cherrybomb_card_delay_flag--;
 		}
+		if (level > 3 && iceshooter_card_delay_flag > 0) {
+			iceshooter_card_delay_flag--;
+		}
 		for (size_t i = 0; i < sunflower_vector.size(); i++) {
 			if (!map.checkmyMap(sunflower_vector.at(i)->GetX(), sunflower_vector.at(i)->GetY())) {
 				sunflower_vector.erase(sunflower_vector.begin() + i);	//if map is zero, delete the plant
@@ -709,6 +738,16 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (level > 2) {
 			for (size_t i = 0; i < cherrybomb_vector.size(); i++) {
 				cherrybomb_vector.at(i)->OnMove();
+			}
+		}
+		if (level > 3) {
+			for (size_t i = 0; i < iceshooter_vector.size(); i++) {
+				if (!map.checkmyMap(iceshooter_vector.at(i)->GetX(), iceshooter_vector.at(i)->GetY())) {
+					iceshooter_vector.erase(iceshooter_vector.begin() + i);	//if map is zero, delete the plant
+				}
+				else {
+					iceshooter_vector.at(i)->OnMove();
+				}
 			}
 		}
 
@@ -765,6 +804,18 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				}
 				else {
 					normalzombie_vector.at(i)->OnMove(std::string("walk"));
+				}
+			}
+			if (level > 3) {
+				for (size_t j = 0; j < iceshooter_vector.size(); j++) {
+					if (iceshooter_vector.at(j)->checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX() + 70, normalzombie_vector.at(i)->GetY() + 30)) {
+						iceshooter_vector.at(j)->LostBlood(normalzombie_vector.at(i)->GetAttackPower());
+						if (iceshooter_vector.at(j)->GetBlood() < 1) {
+							iceshooter_vector.at(j)->SetIsAlive(false);
+							map.unsetmyMap(iceshooter_vector.at(j)->GetX(), iceshooter_vector.at(j)->GetY());
+							iceshooter_vector.erase(iceshooter_vector.begin() + j);
+						}
+					}
 				}
 			}
 			else {
@@ -846,10 +897,20 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			if (car4.IsAlive() && (normalzombie_vector.at(i)->GetY() == 434 && normalzombie_vector.at(i)->GetX() < car4.GetX() - 30)) {
 				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
+
 			for (auto p : peashooter_vector) {
 				int temp_y = map.getYmyMapLocation(normalzombie_vector.at(i)->GetX(), normalzombie_vector.at(i)->GetY() + 30);
 				if (p->checkBulletCollideWithZombie(normalzombie_vector.at(i)->GetX(), temp_y)) {
 					normalzombie_vector.at(i)->LostBlood(1);
+				}
+			}
+			for (auto p : iceshooter_vector) {
+				int temp_y = map.getYmyMapLocation(normalzombie_vector.at(i)->GetX(), normalzombie_vector.at(i)->GetY() + 30);
+				if (p->checkBulletCollideWithZombie(normalzombie_vector.at(i)->GetX(), temp_y)) {
+					normalzombie_vector.at(i)->LostBlood(1);
+					//normalzombie_vector.at(i)->OnMove(std::string("freeze"));
+					//freeze_flag = true;
+					//normalzombie_vector.at(i)->SetY((normalzombie_vector.at(i)->GetY()) - 1);	//freeze zombie
 				}
 			}
 
@@ -878,6 +939,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		if (level > 2 && sun_amount >= cherrybomb_card.GetSunCost() && cherrybomb_card_delay_flag == 0) {
 			cherrybomb_card.SetIsAlive(true);
+		}
+		if (level > 3 && sun_amount >= 175 && iceshooter_card_delay_flag == 0) {
+			ice_shooter_card.SetIsAlive(true);
 		}
 		if (!shovelFlag) {
 			shovel_card.SetIsAlive(true);
@@ -965,6 +1029,11 @@ void CGameStateRun::OnShow()
 				cherrybomb_vector.at(i)->OnShow();
 			}
 		}
+		if (level > 3) {
+			for (size_t i = 0; i < iceshooter_vector.size(); i++) {
+				iceshooter_vector.at(i)->OnShow();
+			}
+		}
 		for (size_t i = 0; i < peashooter_vector.size(); i++) {
 			peashooter_vector.at(i)->OnShow();
 		}
@@ -979,6 +1048,10 @@ void CGameStateRun::OnShow()
 				else if (!normalzombie->IsAlive()) {
 					normalzombie->OnShow(std::string("die"));
 				}
+				/*else if (freeze_flag) {
+					normalzombie->OnShow(std::string("freeze"));
+					freeze_flag = false;
+				}*/
 				else {
 					normalzombie->OnShow(std::string("walk"));
 				}
@@ -990,6 +1063,7 @@ void CGameStateRun::OnShow()
 		shovel_card.OnShow();
 		sun_flower_card.OnShow();
 		pea_shooter_card.OnShow();
+		ice_shooter_card.OnShow();
 		if (level > 1) {
 			wallnut_card.OnShow();
 		}
