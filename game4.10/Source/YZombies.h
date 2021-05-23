@@ -246,7 +246,7 @@ namespace game_framework {
 			}
 			else if (mode == "walk") {
 				if (delay % 1 == 0) {
-					x -= 2;
+					x -= 3;
 					if (zombie_style == "flag") {
 						zombie_flag_animation.OnMove();
 					}
@@ -346,6 +346,10 @@ namespace game_framework {
 		void SetIsAlive(bool alive) {
 			is_alive = alive;
 		}
+		void freezen() {
+			x -= 2;
+		}
+
 		void  SetX(int x) {
 			this->x = x;
 		}

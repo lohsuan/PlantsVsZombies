@@ -126,7 +126,7 @@ namespace game_framework {
 		void OnMove()
 		{
 			x += 4;
-			if (x > 800) {
+			if (x > 900) {
 				is_alive = false;
 			};
 		}
@@ -493,7 +493,7 @@ namespace game_framework {
 		void OnMove()
 		{
 			x += 4;
-			if (x > 800) {
+			if (x > 900) {
 				is_alive = false;
 			};
 		}
@@ -538,7 +538,7 @@ namespace game_framework {
 			delay = 30;
 			this->x = x + 20;
 			this->y = y + 20;
-			blood = 300;
+			blood = 450;
 			is_alive = true;
 		}
 		~YIceShooter()
