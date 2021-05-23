@@ -229,6 +229,46 @@ namespace game_framework {
 			delay++;
 		}
 
+		void OnMove(std::string mode, bool fast_mode) {
+			if (bomb_flag) {
+				mode = "bomb";
+			}
+			if (mode == "attack") {
+				if (zombie_style == "flag") {
+					zombie_flag_attack_animation.OnMove();
+				}
+				else if (zombie_style == "conehead" && blood > 10) {
+					zombie_conehead_attack_animation.OnMove();
+				}
+				else {
+					zombie_attack_animation.OnMove();
+				}
+			}
+			else if (mode == "walk") {
+				if (delay % 1 == 0) {
+					x -= 2;
+					if (zombie_style == "flag") {
+						zombie_flag_animation.OnMove();
+					}
+					else if (zombie_style == "conehead" && blood > 10) {
+						zombie_conehead_animation.OnMove();
+					}
+					else {
+						zombie_animation.OnMove();
+					}
+					delay = 0;
+				}
+			}
+			else if (mode == "die") {
+				zombie_die_animation.OnMove();
+				zombie_die_animation_head.OnMove();
+			}
+			else if (mode == "bomb") {
+				zombie_die_animation_bomb.OnMove();
+			}
+			delay++;
+		}
+
 		void OnShow(std::string mode) {
 			if (bomb_flag) {
 				mode = "bomb";
@@ -295,6 +335,7 @@ namespace game_framework {
 			}
 			
 		}
+
 		void SetBombFlag() {
 			bomb_flag = true;
 		}
