@@ -254,6 +254,11 @@ namespace game_framework {
 			}
 		}
 		bool checkBulletCollideWithZombie(int zx, int mapy) {
+			int by;
+			if (!bullets_vector.empty()) {
+				
+				by = bullets_vector.at(0)->GetY() - 20;
+			}
 			if (!bullets_vector.empty() && bullets_vector.at(0)->GetY() - 20 == mapy) {
 				int t = bullets_vector.at(0)->GetX();
 				if ( bullets_vector.at(0)->GetX() > zx + 20 && bullets_vector.at(0)->GetX() < zx + 80) {

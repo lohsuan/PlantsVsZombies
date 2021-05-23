@@ -623,7 +623,7 @@ namespace game_framework {
 		}
 
 		int  getYmyMapLocation(int x, int y) {
-			if (y > 78 && y < 182)
+			if (y >= 78 && y < 182)
 			{
 				return 78;
 			}
