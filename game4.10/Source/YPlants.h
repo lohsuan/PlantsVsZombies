@@ -647,6 +647,143 @@ namespace game_framework {
 		int delay;
 	};
 
+	class YPotatoMine
+	{
+	public:
+		YPotatoMine(int x, int y)
+		{
+			this->x = x+10;
+			this->y = y+20;
+			is_alive = true;
+			bomb = false;
+			counter = 0;
+			blood = 300;
+
+		}
+		~YPotatoMine()
+		{
+		}
+		void LoadBitmap()
+		{
+			char *filename[8] = { ".\\bitmaps\\PotatoMine\\PotatoMine_0.bmp", 
+				".\\bitmaps\\PotatoMine\\PotatoMine_1.bmp", ".\\bitmaps\\PotatoMine\\PotatoMine_2.bmp",
+				".\\bitmaps\\PotatoMine\\PotatoMine_3.bmp", ".\\bitmaps\\PotatoMine\\PotatoMine_4.bmp", 
+				 ".\\bitmaps\\PotatoMine\\PotatoMine_5.bmp",".\\bitmaps\\PotatoMine\\PotatoMine_6.bmp"
+				,".\\bitmaps\\PotatoMine\\PotatoMine_7.bmp" };
+			for (int i = 0; i < 8; i++)
+				potatomine_animation.AddBitmap(filename[i], RGB(255, 255, 255));
+
+			char *filenamee[5] = { ".\\bitmaps\\PotatoMine\\PotatoMineExplode_0.bmp",
+				".\\bitmaps\\PotatoMine\\PotatoMineExplode_0.bmp",".\\bitmaps\\PotatoMine\\PotatoMineExplode_0.bmp"
+				,".\\bitmaps\\PotatoMine\\PotatoMineExplode_0.bmp" ,".\\bitmaps\\PotatoMine\\PotatoMineExplode_0.bmp" };
+			for (int i = 0; i < 5; i++)
+				potatomine_explode_animation.AddBitmap(filenamee[i], RGB(255, 255, 255));
+
+			char *filenamei[2] = { ".\\bitmaps\\PotatoMine\\PotatoMineInit_0.bmp",
+				".\\bitmaps\\PotatoMine\\PotatoMineInit_0.bmp" };
+			for (int i = 0; i < 2; i++)
+				potatomine_init_animation.AddBitmap(filenamei[i], RGB(255, 255, 255));
+
+
+		}
+		void OnMove()
+		{
+			if (counter < 700) {
+				counter += 1;
+				potatomine_init_animation.OnMove();
+			}
+			else if (counter > 790) {
+				is_alive = false;
+			}
+			else if (counter > 780) {
+				counter += 1;
+				bomb = true;
+				potatomine_explode_animation.OnMove();
+			}
+			else {
+				counter += 1;
+				potatomine_animation.OnMove();
+			}
+
+
+		}
+		//void SetZombieChecked() {
+		//	zombie_checked = true;
+		//}
+
+		void OnShow()
+		{
+			if (counter < 700) {
+				potatomine_init_animation.SetTopLeft(x, y);
+				potatomine_init_animation.OnShow();
+			}
+			else if (bomb) {
+				potatomine_explode_animation.SetTopLeft(x, y);
+				potatomine_explode_animation.OnShow();
+			}
+			else {
+				potatomine_animation.SetTopLeft(x, y);
+				potatomine_animation.OnShow();
+			}
+		}
+		int GetBlood()
+		{
+			return blood;
+		}
+		void LostBlood(int attack_blood) {
+			blood = blood - attack_blood;
+			if (blood == 0) {
+				is_alive = false;
+			}
+		}
+		bool checkPlantCollideWithZombie(int zx, int zy) {
+			if (zy == y - 20) {
+				if (x > zx - 60 && x < zx - 35) {
+					return true;
+				}
+			}
+			return false;
+		}
+		bool IsAlive()
+		{
+			return is_alive;
+		}
+		void SetIsAlive(bool alive)
+		{
+			is_alive = alive;
+		}
+		int GetX()
+		{
+			return x;
+		}
+		int GetY()
+		{
+			return y;
+		}
+		bool Bomb() {
+			return bomb;
+		}
+
+		bool checkNearbyZombies(int zx, int zy) {
+			if (y - 160 < zy && zy < y + 140) {
+				if (zx > x - 160 && zx < x + 140) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+	private:
+		int x, y;
+		bool is_alive;
+		CAnimation potatomine_animation;
+		CAnimation potatomine_explode_animation;
+		CAnimation potatomine_init_animation;
+		int blood;
+		int counter;
+		int bomb;
+	};
+
 }
 
 #endif
