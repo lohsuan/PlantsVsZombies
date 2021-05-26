@@ -655,10 +655,10 @@ namespace game_framework {
 			this->x = x+10;
 			this->y = y+20;
 			is_alive = true;
-			bomb = false;
+			bomb = 0;
 			counter = 0;
 			blood = 300;
-
+			zombie_checked = false;
 		}
 		~YPotatoMine()
 		{
@@ -692,12 +692,12 @@ namespace game_framework {
 				counter += 1;
 				potatomine_init_animation.OnMove();
 			}
-			else if (counter > 790) {
+			else if (bomb > 10) {
 				is_alive = false;
 			}
-			else if (counter > 780) {
+			else if (counter > 780 && zombie_checked) {
 				counter += 1;
-				bomb = true;
+				bomb += 1;
 				potatomine_explode_animation.OnMove();
 			}
 			else {
@@ -707,9 +707,9 @@ namespace game_framework {
 
 
 		}
-		//void SetZombieChecked() {
-		//	zombie_checked = true;
-		//}
+		void SetZombieChecked() {
+			zombie_checked = true;
+		}
 
 		void OnShow()
 		{
@@ -765,7 +765,7 @@ namespace game_framework {
 		}
 
 		bool checkNearbyZombies(int zx, int zy) {
-			if (y - 160 < zy && zy < y + 140) {
+			if (y - 160 < zy && zy < y + 120) {
 				if (zx > x - 160 && zx < x + 140) {
 					return true;
 				}
@@ -782,6 +782,7 @@ namespace game_framework {
 		int blood;
 		int counter;
 		int bomb;
+		bool zombie_checked;
 	};
 
 }

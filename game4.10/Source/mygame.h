@@ -234,7 +234,6 @@ namespace game_framework {
 		bool car3_sound_flag;
 		bool car4_sound_flag;
 		bool zombie_home_flag;
-		bool night_mode;
 		bool zombie_fast_mode;
 
 	};
@@ -255,6 +254,8 @@ namespace game_framework {
 	private:
 		int counter;	// 倒數之計數器
 		CMovingBitmap	loose;
+		CMovingBitmap	loose_night;
+
 
 	};
 

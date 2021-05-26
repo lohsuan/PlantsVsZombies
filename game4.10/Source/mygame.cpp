@@ -68,6 +68,8 @@ namespace game_framework {
 
 	int CGameState::victoryflag = 0;
 	int CGameState::level = 0;
+	bool CGameState::night_mode = false;
+
 
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲開頭畫面物件
@@ -214,6 +216,8 @@ void CGameStateOver::OnInit()
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
 	loose.LoadBitmap("Bitmaps/GameLoose.bmp");
+	loose_night.LoadBitmap("Bitmaps/GameLoose_night.bmp");
+
 	ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
 
 
@@ -250,8 +254,14 @@ void CGameStateOver::OnShow()
 		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
 	}
 	else {
-		loose.SetTopLeft(0, 0);
-		loose.ShowBitmap();
+		if (night_mode) {
+			loose_night.SetTopLeft(0, 0);
+			loose_night.ShowBitmap();
+		}
+		else {
+			loose.SetTopLeft(0, 0);
+			loose.ShowBitmap();
+		}
 	}
 }
 
@@ -940,6 +950,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				if (level > 6) {
 					for (size_t j = 0; j < potatomine_vector.size(); j++) {
 						if (potatomine_vector.at(j)->checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX() + 70, normalzombie_vector.at(i)->GetY() + 30)) {
+							potatomine_vector.at(j)->SetZombieChecked();
 							potatomine_vector.at(j)->LostBlood(normalzombie_vector.at(i)->GetAttackPower());
 							if (potatomine_vector.at(j)->GetBlood() < 1) {
 								potatomine_vector.at(j)->SetIsAlive(false);
