@@ -188,6 +188,7 @@ namespace game_framework {
 		bool			generateCherryBombFlag;
 		bool			generateIceShooterFlag;
 		bool			generatePotatomineFlag;
+		bool			generateShooterFlag;
 		bool			shovelFlag;
 
 		YSunFlowerCard   sun_flower_card;
@@ -196,6 +197,7 @@ namespace game_framework {
 		YCherryBombCard  cherrybomb_card;
 		YIceShooterCard      ice_shooter_card;
 		YPotatomineCard		potatomine_card;
+		YShooterCard  shooter_card;
 
 		int sun_flower_card_delay_flag;
 		int peashooter_card_delay_flag;
@@ -203,8 +205,9 @@ namespace game_framework {
 		int cherrybomb_card_delay_flag;
 		int iceshooter_card_delay_flag;
 		int potatomine_card_delay_flag;
-		
-		int freeze_flag;
+		int shooter_card_delay_flag;
+
+		//int freeze_flag;
 
 		std::vector<shared_ptr<YSunFlower>>	sunflower_vector;
 		std::vector<shared_ptr<YPeaShooter>>	peashooter_vector;
@@ -212,6 +215,7 @@ namespace game_framework {
 		std::vector<shared_ptr<YCherryBomb>>	cherrybomb_vector;
 		std::vector<shared_ptr<YIceShooter>>	iceshooter_vector;
 		std::vector<shared_ptr<YPotatoMine>>	potatomine_vector;
+		std::vector<shared_ptr<YShooter>>	shooter_vector;
 
 		std::vector<shared_ptr<YNormalZombie>>	normalzombie_vector;
 

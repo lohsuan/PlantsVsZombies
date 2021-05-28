@@ -785,6 +785,175 @@ namespace game_framework {
 		bool zombie_checked;
 	};
 
+	class YShooterBullet {
+	public:
+		YShooterBullet(int x, int y) {
+			this->x = x + 30;
+			this->y = y;
+			is_alive = true;
+		}
+
+		void LoadBitmap()
+		{
+			shooter_bullet.LoadBitmap(".\\bitmaps\\Shroom\\BulletMushRoom_0.bmp", RGB(255, 255, 255));
+		}
+		void OnMove()
+		{
+			x += 4;
+			if (x > 900) {
+				is_alive = false;
+			};
+		}
+
+		void OnShow()
+		{
+			if (is_alive)
+			{
+				shooter_bullet.SetTopLeft(x, y);
+				shooter_bullet.ShowBitmap();
+			}
+		}
+		bool IsAlive()
+		{
+			return is_alive;
+		}
+		void SetIsAlive(bool alive)
+		{
+			is_alive = alive;
+		}
+
+		int GetX()
+		{
+			return x;
+		}
+		int GetY()
+		{
+			return y;
+		}
+
+	private:
+		int x, y;
+		bool is_alive;
+		CMovingBitmap shooter_bullet;
+	};
+
+	class YShooter
+	{
+	public:
+		YShooter(int x, int y)
+		{
+			delay = 30;
+			this->x = x + 20;
+			this->y = y + 20;
+			blood = 450;
+			is_alive = true;
+		}
+		~YShooter()
+		{
+		}
+		void LoadBitmap()
+		{
+			char *filename[5] = { ".\\bitmaps\\Shroom\\PuffShroom_0.bmp", ".\\bitmaps\\Shroom\\PuffShroom_1.bmp", ".\\bitmaps\\Shroom\\PuffShroom_2.bmp", ".\\bitmaps\\Shroom\\PuffShroom_3.bmp", ".\\bitmaps\\Shroom\\PuffShroom_4.bmp" };
+			for (int i = 0; i < 5; i++)
+				shooter_animation.AddBitmap(filename[i], RGB(255, 255, 255));
+		}
+		void OnMove()
+		{
+			shooter_animation.OnMove();
+
+			if (delay == 0) {
+				fireBullet();
+				delay = 80;
+			}
+			delay--;
+
+			for (size_t i = 0; i < bullets_vector.size(); i++) {
+				if (bullets_vector.at(i)->IsAlive())
+					bullets_vector.at(i)->OnMove();
+				else {
+					bullets_vector.erase(bullets_vector.begin() + i);
+				}
+			}
+
+		}
+		void OnShow()
+		{
+			if (is_alive)
+			{
+				shooter_animation.SetTopLeft(x, y);
+				shooter_animation.OnShow();
+			}
+			for (size_t i = 0; i < bullets_vector.size(); i++) {
+				if (bullets_vector.at(i)->IsAlive())
+					bullets_vector.at(i)->OnShow();
+			}
+		}
+		bool IsAlive()
+		{
+			return is_alive;
+		}
+		void SetIsAlive(bool alive)
+		{
+			is_alive = alive;
+		}
+		int GetX()
+		{
+			return x;
+		}
+		int GetY()
+		{
+			return y;
+		}
+		void SetBlood(int attack_blood)
+		{
+			blood = blood - attack_blood;
+			if (blood == 0) {
+				is_alive = false;
+			}
+		}
+		int GetBlood()
+		{
+			return blood;
+		}
+		void fireBullet() {
+			auto sp = make_shared<YIceShooterBullet>(x, y);
+			sp->LoadBitmap();
+			bullets_vector.push_back(sp);
+		}
+		void LostBlood(int attack_blood) {
+			blood = blood - attack_blood;
+			if (blood == 0) {
+				is_alive = false;
+			}
+		}
+		bool checkBulletCollideWithZombie(int zx, int mapy) {
+			if (!bullets_vector.empty() && bullets_vector.at(0)->GetY() - 20 == mapy) {
+				int t = bullets_vector.at(0)->GetX();
+				if (bullets_vector.at(0)->GetX() > zx + 20 && bullets_vector.at(0)->GetX() < zx + 80) {
+					bullets_vector.at(0)->SetIsAlive(false);
+					return true;
+				}
+			}
+			return false;
+		}
+		bool checkPlantCollideWithZombie(int zx, int zy) {
+			if (zy == y - 20) {
+				if (x > zx - 60 && x < zx - 35) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+	private:
+		int x, y;
+		bool is_alive;
+		int blood;
+		std::vector<shared_ptr<YIceShooterBullet>> bullets_vector;
+		CAnimation shooter_animation;
+		int delay;
+	};
+
 }
 
 #endif

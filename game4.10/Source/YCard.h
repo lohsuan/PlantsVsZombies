@@ -258,6 +258,55 @@ namespace game_framework {
 		int	 cost;
 	};
 
+	class YShooterCard
+	{
+	public:
+		YShooterCard() {
+			x = 407;
+			y = 11;
+			is_alive = false;
+			cost = 0;
+		}
+		bool IsAlive() {
+			return is_alive;
+		}
+		void LoadBitmap() {
+			card_alive.LoadBitmap("Bitmaps/cards/card_puffshroom_alive.bmp");
+			card_die.LoadBitmap("Bitmaps/cards/card_puffshroom_die.bmp");
+		}
+		void OnMove() {
+
+		}
+		void OnShow() {
+			card_alive.SetTopLeft(x, y);
+			card_die.SetTopLeft(x, y);
+			if (is_alive == true) {
+				card_alive.ShowBitmap();
+			}
+			else {
+				card_die.ShowBitmap();
+			}
+		}
+		void SetIsAlive(bool alive) {
+			is_alive = alive;
+		}
+		int GetSunCost() {
+			return cost;
+		}
+		int GetX() {
+			return x;
+		}
+		int GetY() {
+			return y;
+		}
+	private:
+		CMovingBitmap card_alive;
+		CMovingBitmap card_die;
+		int  x, y;
+		bool is_alive;
+		int	 cost;
+	};
+
 	class YPotatomineCard
 	{
 	public:

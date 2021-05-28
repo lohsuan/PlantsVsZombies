@@ -312,12 +312,13 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	cherrybomb_card.LoadBitmap();
 	ice_shooter_card.LoadBitmap();
 	potatomine_card.LoadBitmap();
+	shooter_card.LoadBitmap();
 
 	CAudio::Instance()->Load(AUDIO_START, "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 	//
-	level = 7;
+	level = 10;
 }
 std::vector<shared_ptr<YNormalZombie>> zombieInitTest(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel1(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
@@ -351,6 +352,7 @@ void CGameStateRun::OnBeginState()
 	generateCherryBombFlag = false;
 	generateIceShooterFlag = false;
 	generatePotatomineFlag = false;
+	generateShooterFlag = false;
 
 	sun_flower_card.SetIsAlive(false);
 	pea_shooter_card.SetIsAlive(false);
@@ -358,6 +360,7 @@ void CGameStateRun::OnBeginState()
 	cherrybomb_card.SetIsAlive(false);
 	ice_shooter_card.SetIsAlive(false);
 	potatomine_card.SetIsAlive(false);
+	shooter_card.SetIsAlive(false);
 
 	shovelFlag = false;
 	sun_flower_card_delay_flag = 0;
@@ -366,6 +369,7 @@ void CGameStateRun::OnBeginState()
 	cherrybomb_card_delay_flag = 0;
 	iceshooter_card_delay_flag = 0;
 	potatomine_card_delay_flag = 0;
+	shooter_card_delay_flag = 0;
 
 	car0 = YCar(0);
 	car1 = YCar(1);
@@ -393,6 +397,7 @@ void CGameStateRun::OnBeginState()
 	peashooter_vector.clear();
 	wallnut_vector.clear();
 	iceshooter_vector.clear();
+	shooter_vector.clear();
 	map.clear();
 	zombie_fast_mode = false;
 	sun.SetY(-200);
@@ -656,6 +661,17 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		potatomine_vector.push_back(sp);
 		generatePotatomineFlag = false;
 	}
+	else if (level > 9 && generateShooterFlag && !map.checkmyMap(point.x, point.y) && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
+		CAudio::Instance()->Play(AUDIO_PLANTS, false);
+		int tx = map.getXmyMapLocation(point.x, point.y);
+		int ty = map.getYmyMapLocation(point.x, point.y);
+		map.setmyMap(point.x, point.y);
+
+		auto sp = make_shared<YShooter>(tx, ty);
+		sp->LoadBitmap();
+		shooter_vector.push_back(sp);
+		generateShooterFlag = false;
+	}
 
 	else if (shovelFlag && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
 		map.unsetmyMap(point.x, point.y);
@@ -720,7 +736,12 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		generatePotatomineFlag = true;
 		potatomine_card_delay_flag = 150;
 	}
-
+	else if (level > 9 && point.x > shooter_card.GetX() && point.y > shooter_card.GetY() && point.x < shooter_card.GetX() + 65 && point.y < shooter_card.GetY() + 90 && shooter_card.IsAlive()) {
+		shooter_card.SetIsAlive(false);
+		sun_amount -= shooter_card.GetSunCost();
+		generateShooterFlag = true;
+		shooter_card_delay_flag = 150;
+	}
 	else if (point.x > shovel_card.GetX() && point.y > shovel_card.GetY() && point.x < shovel_card.GetX() + 82 && point.y < shovel_card.GetY() + 82) {
 		shovelFlag = true;
 		shovel_card.SetIsAlive(false);
@@ -743,6 +764,9 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	}
 	if (level > 6 && potatomine_card.GetSunCost() > sun_amount) {
 		potatomine_card.SetIsAlive(false);
+	}
+	if (level > 9 && shooter_card.GetSunCost() > sun_amount) {
+		shooter_card.SetIsAlive(false);
 	}
 }
 
@@ -820,6 +844,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (level > 6 && potatomine_card_delay_flag > 0) {
 			potatomine_card_delay_flag--;
 		}
+		if (level > 9 && shooter_card_delay_flag > 0) {
+			shooter_card_delay_flag--;
+		}
 		// shovel the plant
 		for (size_t i = 0; i < sunflower_vector.size(); i++) {
 			if (!map.checkmyMap(sunflower_vector.at(i)->GetX(), sunflower_vector.at(i)->GetY())) {
@@ -868,6 +895,16 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				}
 				else {
 					potatomine_vector.at(i)->OnMove();
+				}
+			}
+		}
+		if (level > 9) {
+			for (size_t i = 0; i < shooter_vector.size(); i++) {
+				if (!map.checkmyMap(shooter_vector.at(i)->GetX(), shooter_vector.at(i)->GetY())) {
+					shooter_vector.erase(shooter_vector.begin() + i);	//if map is zero, delete the plant
+				}
+				else {
+					shooter_vector.at(i)->OnMove();
 				}
 			}
 		}
@@ -956,6 +993,19 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 								potatomine_vector.at(j)->SetIsAlive(false);
 								map.unsetmyMap(potatomine_vector.at(j)->GetX(), potatomine_vector.at(j)->GetY());
 								potatomine_vector.erase(potatomine_vector.begin() + j);
+							}
+						}
+					}
+				}
+
+				if (level > 9) {
+					for (size_t j = 0; j < shooter_vector.size(); j++) {
+						if (shooter_vector.at(j)->checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX() + 70, normalzombie_vector.at(i)->GetY() + 30)) {
+							shooter_vector.at(j)->LostBlood(normalzombie_vector.at(i)->GetAttackPower());
+							if (shooter_vector.at(j)->GetBlood() < 1) {
+								shooter_vector.at(j)->SetIsAlive(false);
+								map.unsetmyMap(shooter_vector.at(j)->GetX(), shooter_vector.at(j)->GetY());
+								shooter_vector.erase(shooter_vector.begin() + j);
 							}
 						}
 					}
@@ -1072,6 +1122,15 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				}
 			}
 
+			if (level > 9) {
+				for (auto p : shooter_vector) {
+					int temp_y = map.getYmyMapLocation(normalzombie_vector.at(i)->GetX(), normalzombie_vector.at(i)->GetY() + 30);
+					if (p->checkBulletCollideWithZombie(normalzombie_vector.at(i)->GetX(), temp_y)) {
+						normalzombie_vector.at(i)->LostBlood(1);
+					}
+				}
+			}
+
 			if (normalzombie_vector.at(i)->GetX() > 900 && !normalzombie_vector.at(i)->IsAlive()) {
 				normalzombie_vector.erase(normalzombie_vector.begin() + i);
 			}
@@ -1103,6 +1162,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		if (level > 6 && sun_amount >= potatomine_card.GetSunCost() && potatomine_card_delay_flag == 0) {
 			potatomine_card.SetIsAlive(true);
+		}
+		if (level > 9 && sun_amount >= shooter_card.GetSunCost() && iceshooter_card_delay_flag == 0) {
+			shooter_card.SetIsAlive(true);
 		}
 		if (!shovelFlag) {
 			shovel_card.SetIsAlive(true);
@@ -1200,6 +1262,11 @@ void CGameStateRun::OnShow()
 				potatomine_vector.at(i)->OnShow();
 			}
 		}
+		if (level > 9) {
+			for (size_t i = 0; i < shooter_vector.size(); i++) {
+				shooter_vector.at(i)->OnShow();
+			}
+		}
 		for (size_t i = 0; i < peashooter_vector.size(); i++) {
 			peashooter_vector.at(i)->OnShow();
 		}
@@ -1240,6 +1307,9 @@ void CGameStateRun::OnShow()
 		}
 		if (level > 6) {
 			potatomine_card.OnShow();
+		}
+		if (level > 9) {
+			shooter_card.OnShow();
 		}
 		car0.OnShow();
 		car1.OnShow();
