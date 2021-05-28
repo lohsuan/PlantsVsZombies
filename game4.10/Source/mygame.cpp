@@ -326,6 +326,7 @@ std::vector<shared_ptr<YNormalZombie>> zombieInitLevel2(std::vector<shared_ptr<Y
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel3(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel5(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel7(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
+std::vector<shared_ptr<YNormalZombie>> zombieInitLevel9(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
 
 void CGameStateRun::OnBeginState()
 {
@@ -437,6 +438,15 @@ void CGameStateRun::OnBeginState()
 		night_mode = true;
 		normalzombie_vector = zombieInitLevel7(normalzombie_vector);
 	}
+	else if (level == 9) {
+		night_mode = false;
+		normalzombie_vector = zombieInitLevel9(normalzombie_vector);
+	}
+	else if (level == 10) {
+		night_mode = true;
+		normalzombie_vector = zombieInitLevel9(normalzombie_vector);
+	}
+
 	if (night_mode) {
 		sun.SetIsAlive(false);
 	}
@@ -546,6 +556,30 @@ std::vector<shared_ptr<YNormalZombie>> zombieInitLevel7(std::vector<shared_ptr<Y
 
 	return normalzombie_vector;
 }
+
+std::vector<shared_ptr<YNormalZombie>> zombieInitLevel9(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1270, 4, "bucket"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1460, 1));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1500, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1620, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1750, 0, "conehead"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 2, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2100, 4, "bucket"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2370, 0));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 3, "conehead"));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3050, 4, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3150, 2, "bucket"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3200, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3250, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3330, 1, "conehead"));
+
+	return normalzombie_vector;
+}
+
+
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
