@@ -766,7 +766,7 @@ namespace game_framework {
 
 		bool checkNearbyZombies(int zx, int zy) {
 			if (y - 160 < zy && zy < y + 120) {
-				if (zx > x - 160 && zx < x + 140) {
+				if (x - 160 < zx && zx < x + 140) {
 					return true;
 				}
 			}
@@ -809,7 +809,7 @@ namespace game_framework {
 		{
 			if (is_alive)
 			{
-				shooter_bullet.SetTopLeft(x, y);
+				shooter_bullet.SetTopLeft(x, y+25);
 				shooter_bullet.ShowBitmap();
 			}
 		}
@@ -847,6 +847,7 @@ namespace game_framework {
 			this->y = y + 20;
 			blood = 450;
 			is_alive = true;
+			close = false;
 		}
 		~YShooter()
 		{
@@ -880,7 +881,7 @@ namespace game_framework {
 		{
 			if (is_alive)
 			{
-				shooter_animation.SetTopLeft(x, y);
+				shooter_animation.SetTopLeft(x, y+10);
 				shooter_animation.OnShow();
 			}
 			for (size_t i = 0; i < bullets_vector.size(); i++) {
@@ -916,9 +917,23 @@ namespace game_framework {
 			return blood;
 		}
 		void fireBullet() {
-			auto sp = make_shared<YIceShooterBullet>(x, y);
-			sp->LoadBitmap();
-			bullets_vector.push_back(sp);
+			if (close) {
+				auto sp = make_shared<YShooterBullet>(x, y);
+				sp->LoadBitmap();
+				bullets_vector.push_back(sp);
+			}
+		}
+		bool isClose(int zx, int zy) {
+			if (zy == y - 20) {
+			if (x + 300 > zx && zx > x - 60) {
+				return true;
+			}
+			}
+			return false;
+		}
+		void SetClose(bool is_close)
+		{
+			close = is_close;
 		}
 		void LostBlood(int attack_blood) {
 			blood = blood - attack_blood;
@@ -938,7 +953,7 @@ namespace game_framework {
 		}
 		bool checkPlantCollideWithZombie(int zx, int zy) {
 			if (zy == y - 20) {
-				if (x > zx - 60 && x < zx - 35) {
+				if (x > zx - 60 && x < zx - 35) { // zx - 35 > x > zx - 60
 					return true;
 				}
 			}
@@ -949,9 +964,10 @@ namespace game_framework {
 		int x, y;
 		bool is_alive;
 		int blood;
-		std::vector<shared_ptr<YIceShooterBullet>> bullets_vector;
+		std::vector<shared_ptr<YShooterBullet>> bullets_vector;
 		CAnimation shooter_animation;
 		int delay;
+		bool close;
 	};
 
 }

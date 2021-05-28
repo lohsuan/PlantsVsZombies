@@ -1034,6 +1034,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 				if (level > 9) {
 					for (size_t j = 0; j < shooter_vector.size(); j++) {
+						if (normalzombie_vector.at(i)->IsAlive() && shooter_vector.at(j)->isClose(normalzombie_vector.at(i)->GetX() + 70, normalzombie_vector.at(i)->GetY() + 30)) {
+							shooter_vector.at(j)->SetClose(true);
+						}
+						else if(!normalzombie_vector.at(i)->IsAlive()){
+							shooter_vector.at(j)->SetClose(false);
+						}
 						if (shooter_vector.at(j)->checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX() + 70, normalzombie_vector.at(i)->GetY() + 30)) {
 							shooter_vector.at(j)->LostBlood(normalzombie_vector.at(i)->GetAttackPower());
 							if (shooter_vector.at(j)->GetBlood() < 1) {
@@ -1197,7 +1203,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (level > 6 && sun_amount >= potatomine_card.GetSunCost() && potatomine_card_delay_flag == 0) {
 			potatomine_card.SetIsAlive(true);
 		}
-		if (level > 9 && sun_amount >= shooter_card.GetSunCost() && iceshooter_card_delay_flag == 0) {
+		if (level > 9 && sun_amount >= shooter_card.GetSunCost() && shooter_card_delay_flag == 0) {
 			shooter_card.SetIsAlive(true);
 		}
 		if (!shovelFlag) {
