@@ -313,12 +313,14 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	ice_shooter_card.LoadBitmap();
 	potatomine_card.LoadBitmap();
 	shooter_card.LoadBitmap();
+	squash_card.LoadBitmap();
+
 
 	CAudio::Instance()->Load(AUDIO_START, "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 	//
-	level = 10;
+	level = 9;
 }
 std::vector<shared_ptr<YNormalZombie>> zombieInitTest(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel1(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
@@ -354,6 +356,8 @@ void CGameStateRun::OnBeginState()
 	generateIceShooterFlag = false;
 	generatePotatomineFlag = false;
 	generateShooterFlag = false;
+	generateSquashFlag = false;
+
 
 	sun_flower_card.SetIsAlive(false);
 	pea_shooter_card.SetIsAlive(false);
@@ -362,6 +366,7 @@ void CGameStateRun::OnBeginState()
 	ice_shooter_card.SetIsAlive(false);
 	potatomine_card.SetIsAlive(false);
 	shooter_card.SetIsAlive(false);
+	squash_card.SetIsAlive(false);
 
 	shovelFlag = false;
 	sun_flower_card_delay_flag = 0;
@@ -371,6 +376,8 @@ void CGameStateRun::OnBeginState()
 	iceshooter_card_delay_flag = 0;
 	potatomine_card_delay_flag = 0;
 	shooter_card_delay_flag = 0;
+	squash_card_delay_flag = 0;
+
 
 	car0 = YCar(0);
 	car1 = YCar(1);
@@ -399,6 +406,8 @@ void CGameStateRun::OnBeginState()
 	wallnut_vector.clear();
 	iceshooter_vector.clear();
 	shooter_vector.clear();
+	squash_vector.clear();
+
 	map.clear();
 	zombie_fast_mode = false;
 	sun.SetY(-200);
@@ -602,16 +611,6 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nChar == KEY_S ) {
 		sun_amount = 500;
 	}
-	//if (nChar == KEY_1)
-	//	level = 1;
-	//else if (nChar == KEY_2)
-	//	level = 2;
-	//else if (nChar == KEY_3)
-	//	level = 3;
-	//else if (nChar == KEY_4)
-	//	level = 4;
-	//else if (nChar == KEY_5)
-	//	level = 5;
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -695,6 +694,17 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		potatomine_vector.push_back(sp);
 		generatePotatomineFlag = false;
 	}
+	else if (level > 8 && generateSquashFlag && !map.checkmyMap(point.x, point.y) && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
+		CAudio::Instance()->Play(AUDIO_PLANTS, false);
+		int tx = map.getXmyMapLocation(point.x, point.y);
+		int ty = map.getYmyMapLocation(point.x, point.y);
+		map.setmyMap(point.x, point.y);
+
+		auto sp = make_shared<YSquash>(tx, ty);
+		sp->LoadBitmap();
+		squash_vector.push_back(sp);
+		generateSquashFlag = false;
+	}
 	else if (level > 9 && generateShooterFlag && !map.checkmyMap(point.x, point.y) && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
 		CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		int tx = map.getXmyMapLocation(point.x, point.y);
@@ -770,6 +780,12 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		generatePotatomineFlag = true;
 		potatomine_card_delay_flag = 150;
 	}
+	else if (level > 8 && point.x > squash_card.GetX() && point.y > squash_card.GetY() && point.x < squash_card.GetX() + 65 && point.y < squash_card.GetY() + 90 && squash_card.IsAlive()) {
+		squash_card.SetIsAlive(false);
+		sun_amount -= squash_card.GetSunCost();
+		generateSquashFlag = true;
+		squash_card_delay_flag = 150;
+	}
 	else if (level > 9 && point.x > shooter_card.GetX() && point.y > shooter_card.GetY() && point.x < shooter_card.GetX() + 65 && point.y < shooter_card.GetY() + 90 && shooter_card.IsAlive()) {
 		shooter_card.SetIsAlive(false);
 		sun_amount -= shooter_card.GetSunCost();
@@ -798,6 +814,9 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	}
 	if (level > 6 && potatomine_card.GetSunCost() > sun_amount) {
 		potatomine_card.SetIsAlive(false);
+	}
+	if (level > 8 && squash_card.GetSunCost() > sun_amount) {
+		squash_card.SetIsAlive(false);
 	}
 	if (level > 9 && shooter_card.GetSunCost() > sun_amount) {
 		shooter_card.SetIsAlive(false);
@@ -878,6 +897,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (level > 6 && potatomine_card_delay_flag > 0) {
 			potatomine_card_delay_flag--;
 		}
+		if (level > 8 && squash_card_delay_flag > 0) {
+			squash_card_delay_flag--;
+		}
 		if (level > 9 && shooter_card_delay_flag > 0) {
 			shooter_card_delay_flag--;
 		}
@@ -929,6 +951,16 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				}
 				else {
 					potatomine_vector.at(i)->OnMove();
+				}
+			}
+		}
+		if (level > 8) {
+			for (size_t i = 0; i < squash_vector.size(); i++) {
+				if (!map.checkmyMap(squash_vector.at(i)->GetX(), squash_vector.at(i)->GetY())) {
+					squash_vector.erase(squash_vector.begin() + i);	//if map is zero, delete the plant
+				}
+				else {
+					squash_vector.at(i)->OnMove();
 				}
 			}
 		}
@@ -1031,6 +1063,18 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 						}
 					}
 				}
+				if (level > 8) {
+					for (size_t j = 0; j < squash_vector.size(); j++) {
+						if (squash_vector.at(j)->checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX() + 70, normalzombie_vector.at(i)->GetY() + 30)) {
+							squash_vector.at(j)->SetZombieChecked();
+							normalzombie_vector.at(i)->SetIsAlive(false);
+							if (!squash_vector.at(j)->IsAlive()) {
+								map.unsetmyMap(squash_vector.at(j)->GetX(), squash_vector.at(j)->GetY());
+								squash_vector.erase(squash_vector.begin() + j);
+							}
+						}
+					}
+				}
 
 				if (level > 9) {
 					for (size_t j = 0; j < shooter_vector.size(); j++) {
@@ -1084,6 +1128,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					}
 				}
 			}
+
 			// zombie walk to car -> car move
 			if (car0.IsAlive() && (normalzombie_vector.at(i)->GetY() == 48 && normalzombie_vector.at(i)->GetX() < car0.GetX() - 30) || !car0_flag) {
 				if (car0_sound_flag) {
@@ -1155,13 +1200,17 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					if (p->checkBulletCollideWithZombie(normalzombie_vector.at(i)->GetX(), temp_y)) {
 						normalzombie_vector.at(i)->LostBlood(2);
 						normalzombie_vector.at(i)->freezen();
-						//normalzombie_vector.at(i)->OnMove(std::string("freeze"));
-						//freeze_flag = true;
-						//normalzombie_vector.at(i)->SetY((normalzombie_vector.at(i)->GetY()) - 1);	//freeze zombie
 					}
 				}
 			}
-
+			if (level > 8) {
+				for (auto p : squash_vector) {
+					int temp_y = map.getYmyMapLocation(normalzombie_vector.at(i)->GetX(), normalzombie_vector.at(i)->GetY() + 30);
+					if (p->checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX(), temp_y)) {
+						normalzombie_vector.at(i)->LostBlood(10000);
+					}
+				}
+			}
 			if (level > 9) {
 				for (auto p : shooter_vector) {
 					int temp_y = map.getYmyMapLocation(normalzombie_vector.at(i)->GetX(), normalzombie_vector.at(i)->GetY() + 30);
@@ -1202,6 +1251,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		if (level > 6 && sun_amount >= potatomine_card.GetSunCost() && potatomine_card_delay_flag == 0) {
 			potatomine_card.SetIsAlive(true);
+		}
+		if (level > 8 && sun_amount >= squash_card.GetSunCost() && squash_card_delay_flag == 0) {
+			squash_card.SetIsAlive(true);
 		}
 		if (level > 9 && sun_amount >= shooter_card.GetSunCost() && shooter_card_delay_flag == 0) {
 			shooter_card.SetIsAlive(true);
@@ -1302,6 +1354,11 @@ void CGameStateRun::OnShow()
 				potatomine_vector.at(i)->OnShow();
 			}
 		}
+		if (level > 8) {
+			for (size_t i = 0; i < squash_vector.size(); i++) {
+				squash_vector.at(i)->OnShow();
+			}
+		}
 		if (level > 9) {
 			for (size_t i = 0; i < shooter_vector.size(); i++) {
 				shooter_vector.at(i)->OnShow();
@@ -1321,10 +1378,6 @@ void CGameStateRun::OnShow()
 				else if (!normalzombie->IsAlive()) {
 					normalzombie->OnShow(std::string("die"));
 				}
-				/*else if (freeze_flag) {
-					normalzombie->OnShow(std::string("freeze"));
-					freeze_flag = false;
-				}*/
 				else {
 					normalzombie->OnShow(std::string("walk"));
 				}
@@ -1347,6 +1400,9 @@ void CGameStateRun::OnShow()
 		}
 		if (level > 6) {
 			potatomine_card.OnShow();
+		}
+		if (level > 8) {
+			squash_card.OnShow();
 		}
 		if (level > 9) {
 			shooter_card.OnShow();

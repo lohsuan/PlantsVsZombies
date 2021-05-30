@@ -208,24 +208,6 @@ namespace game_framework {
 			else if (mode == "bomb") {
 				zombie_die_animation_bomb.OnMove();
 			}
-			/*else if (mode == "freeze") {
-				if (delay % 4 == 0) {
-					x -= 1;
-					if (zombie_style == "flag") {
-						zombie_flag_animation.OnMove();
-					}
-					else if (zombie_style == "conehead" && blood > 10) {
-						zombie_conehead_animation.OnMove();
-					}
-					else if (zombie_style == "bucket" && blood > 10) {
-						zombie_bucket_animation.OnMove();
-					}
-					else {
-						zombie_animation.OnMove();
-					}
-					delay = 0;
-				}
-			}*/
 			delay++;
 		}
 

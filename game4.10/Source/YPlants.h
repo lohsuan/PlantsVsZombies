@@ -695,7 +695,7 @@ namespace game_framework {
 			else if (bomb > 10) {
 				is_alive = false;
 			}
-			else if (counter > 780 && zombie_checked) {
+			else if (counter > 705 && zombie_checked) {
 				counter += 1;
 				bomb += 1;
 				potatomine_explode_animation.OnMove();
@@ -738,7 +738,7 @@ namespace game_framework {
 		}
 		bool checkPlantCollideWithZombie(int zx, int zy) {
 			if (zy == y - 20) {
-				if (x > zx - 60 && x < zx - 35) {
+				if (x > zx - 75 && x < zx - 30) {
 					return true;
 				}
 			}
@@ -784,6 +784,130 @@ namespace game_framework {
 		int bomb;
 		bool zombie_checked;
 	};
+
+	class YSquash
+	{
+	public:
+		YSquash(int x, int y)
+		{
+			this->x = x + 10;
+			this->y = y + 20;
+			is_alive = true;
+			bomb = 0;
+			counter = 0;
+			blood = 300;
+			zombie_checked = false;
+		}
+		~YSquash()
+		{
+		}
+		void LoadBitmap()
+		{
+			char *filename[10] = { ".\\bitmaps\\Squash\\Squash_0.bmp",
+				".\\bitmaps\\Squash\\Squash_1.bmp", ".\\bitmaps\\Squash\\Squash_2.bmp",
+				".\\bitmaps\\Squash\\Squash_3.bmp", ".\\bitmaps\\Squash\\Squash_4.bmp",
+				 ".\\bitmaps\\Squash\\Squash_5.bmp",".\\bitmaps\\Squash\\Squash_6.bmp"
+				,".\\bitmaps\\Squash\\Squash_7.bmp", ".\\bitmaps\\Squash\\SquashAim_0.bmp"
+				, ".\\bitmaps\\Squash\\SquashAim_0.bmp" };
+			for (int i = 0; i < 10; i++)
+				squash_animation.AddBitmap(filename[i], RGB(255, 255, 255));
+
+			char *filenamee[5] = { ".\\bitmaps\\Squash\\SquashAttack_0.bmp",
+				".\\bitmaps\\Squash\\SquashAttack_1.bmp",".\\bitmaps\\Squash\\SquashAttack_2.bmp"
+				,".\\bitmaps\\Squash\\SquashAttack_3.bmp" ,".\\bitmaps\\Squash\\SquashAttack_3.bmp" };
+			for (int i = 0; i < 5; i++)
+				squash_attack_animation.AddBitmap(filenamee[i], RGB(255, 255, 255));
+
+		}
+		void OnMove()
+		{
+			if (zombie_checked) {
+				counter += 1;
+				bomb += 1;
+				squash_attack_animation.OnMove();
+				if (counter == 35) {
+					is_alive = false;
+				}
+			}
+			else {
+				squash_animation.OnMove();
+			}
+			
+		}
+		void SetZombieChecked() {
+			zombie_checked = true;
+		}
+
+		void OnShow()
+		{
+			if (zombie_checked) {
+				squash_attack_animation.SetTopLeft(x-10, y-140);
+				squash_attack_animation.OnShow();
+			}
+			else {
+				squash_animation.SetTopLeft(x-10, y-140);
+				squash_animation.OnShow();
+			}
+		}
+
+		int GetBlood()
+		{
+			return blood;
+		}
+		void LostBlood(int attack_blood) {
+			blood = blood - attack_blood;
+			if (blood == 0) {
+				is_alive = false;
+			}
+		}
+		bool checkPlantCollideWithZombie(int zx, int zy) {
+			if (zy == y - 20) {
+				if (x > zx - 75 && x < zx - 30) {
+					return true;
+				}
+			}
+			return false;
+		}
+		bool IsAlive()
+		{
+			return is_alive;
+		}
+		void SetIsAlive(bool alive)
+		{
+			is_alive = alive;
+		}
+		int GetX()
+		{
+			return x;
+		}
+		int GetY()
+		{
+			return y;
+		}
+		bool Bomb() {
+			return bomb;
+		}
+
+		bool checkNearbyZombies(int zx, int zy) {
+			if (y - 160 < zy && zy < y + 120) {
+				if (x - 160 < zx && zx < x + 140) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+	private:
+		int x, y;
+		bool is_alive;
+		CAnimation squash_animation;
+		CAnimation squash_attack_animation;
+		int blood;
+		int counter;
+		int bomb;
+		bool zombie_checked;
+	};
+
 
 	class YShooterBullet {
 	public:
