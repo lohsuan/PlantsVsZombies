@@ -228,7 +228,7 @@ namespace game_framework {
 			}
 			else if (mode == "walk") {
 				if (delay % 1 == 0) {
-					x -= 3;
+					x -= 5;
 					if (zombie_style == "flag") {
 						zombie_flag_animation.OnMove();
 					}

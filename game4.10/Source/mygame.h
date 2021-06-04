@@ -177,7 +177,6 @@ namespace game_framework {
 		CBouncingBall   bball;		// 反覆彈跳的球
 		CMovingBitmap	chooser; // practice;
 		YShovelCard		shovel_card;
-		int				level;
 		int				picX, picY;
 		int				flag;
 		YSun			sun;
@@ -257,6 +256,7 @@ namespace game_framework {
 		CGameStateOver(CGame *g);
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnInit();
+		void OnLButtonDown(UINT nFlags, CPoint point);
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
@@ -264,6 +264,18 @@ namespace game_framework {
 		int counter;	// 倒數之計數器
 		CMovingBitmap	loose;
 		CMovingBitmap	loose_night;
+		CMovingBitmap	newplant;
+		CMovingBitmap	bucket;
+		CMovingBitmap	cherrybomb;
+		CMovingBitmap	conehead;
+		CMovingBitmap	flag;
+		CMovingBitmap	newspaper;
+		CMovingBitmap	potatomine;
+		CMovingBitmap	puff_shroom;
+		CMovingBitmap	snowpea;
+		CMovingBitmap	wallnut;
+		CMovingBitmap	squash;
+		CMovingBitmap	victory;
 
 
 	};
