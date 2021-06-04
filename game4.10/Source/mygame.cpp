@@ -207,6 +207,9 @@ void CGameStateOver::OnMove()
 void CGameStateOver::OnLButtonDown(UINT nFlags, CPoint point) 
 {
 	if (victoryflag && point.x > 363 && point.y > 501 && point.x < 538 && point.y < 545) {
+		if (level == 11) {
+			level = 1;
+		}
 		GotoGameState(GAME_STATE_INIT);
 	}
 }
@@ -234,6 +237,7 @@ void CGameStateOver::OnInit()
 	snowpea.LoadBitmap("Bitmaps/almanac/snowpea.bmp");
 	wallnut.LoadBitmap("Bitmaps/almanac/wallnut.bmp");
 	squash.LoadBitmap("Bitmaps/almanac/victory.bmp");
+	victory.LoadBitmap("Bitmaps/almanac/victory.bmp");
 
 	ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
 
@@ -302,8 +306,6 @@ void CGameStateOver::OnShow()
 		else if (level == 11) {
 			victory.SetTopLeft(261, 95);
 			victory.ShowBitmap();
-			level = 1;
-
 		}
 	}
 	else {
@@ -373,7 +375,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 	//
-	level = 1;
+	level = 8;
 }
 std::vector<shared_ptr<YNormalZombie>> zombieInitTest(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel1(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
