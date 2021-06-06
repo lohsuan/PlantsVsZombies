@@ -375,7 +375,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 	//
-	level = 8;
+	level = 5;
 }
 std::vector<shared_ptr<YNormalZombie>> zombieInitTest(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel1(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
@@ -582,7 +582,7 @@ std::vector<shared_ptr<YNormalZombie>> zombieInitLevel3(std::vector<shared_ptr<Y
 std::vector<shared_ptr<YNormalZombie>> zombieInitLevel5(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(1000, 1));
 	normalzombie_vector.push_back(make_shared<YNormalZombie>(1270, 3, "bucket"));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1360, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1360, 2, "newspaper"));
 
 	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1500, 2));
 	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1620, 3));

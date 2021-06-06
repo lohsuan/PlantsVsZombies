@@ -55,13 +55,57 @@ namespace game_framework {
 			if (zombie_style == "bucket") {
 				blood = 20;
 			}
+			if (zombie_style == "newspaper") {
+				blood = 20;
+			}
 		}
 		~YNormalZombie() {
 
 		}
 
 		void LoadBitmap() {
+			char *filenameni[10] = { ".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_0.bmp",
+							".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_1.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_2.bmp",
+							".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_3.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_4.bmp",
+							".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_5.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_6.bmp",
+							".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_7.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_8.bmp",
+							".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_9.bmp"};
+			for (int i = 0; i < 10; i++)
+				zombie_news_animation.AddBitmap(filenameni[i], RGB(255, 255, 255));
+
+			char *filenamen[8] = { ".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_0.bmp",
+							".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_1.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_2.bmp",
+							".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_3.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_4.bmp",
+							".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_5.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_6.bmp",
+							".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_7.bmp" };
+			for (int i = 0; i < 8; i++)
+				zombie_news_attack_animation.AddBitmap(filenamen[i], RGB(255, 255, 255));
 			
+			char *filenamena[11] = { ".\\bitmaps\\NormalZombie\\NewspaperZombieDie\\NewspaperZombieDie_0.bmp",
+							".\\bitmaps\\NormalZombie\\NewspaperZombieDie\\NewspaperZombieDie_1.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieDie\\NewspaperZombieDie_2.bmp",
+							".\\bitmaps\\NormalZombie\\NewspaperZombieDie\\NewspaperZombieDie_3.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieDie\\NewspaperZombieDie_4.bmp",
+							".\\bitmaps\\NormalZombie\\NewspaperZombieDie\\NewspaperZombieDie_5.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieDie\\NewspaperZombieDie_6.bmp",
+							".\\bitmaps\\NormalZombie\\NewspaperZombieDie\\NewspaperZombieDie_7.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieDie\\NewspaperZombieDie_8.bmp",
+							".\\bitmaps\\NormalZombie\\NewspaperZombieDie\\NewspaperZombieDie_9.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieDie\\NewspaperZombieDie_10.bmp" };
+			for (int i = 0; i < 11; i++)
+				zombie_news_die_animation.AddBitmap(filenamena[i], RGB(255, 255, 255));
+
+			char *filenamene[10] = { ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_0.bmp",
+						".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_1.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_2.bmp",
+						".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_3.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_4.bmp",
+						".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_5.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_6.bmp",
+						".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_7.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_8.bmp",
+						".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_9.bmp" };
+			for (int i = 0; i < 10; i++)
+				zombie_nonews_animation.AddBitmap(filenamene[i], RGB(255, 255, 255));
+
+			char *filenameno[7] = { ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_0.bmp",
+						".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_1.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_2.bmp",
+						".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_3.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_4.bmp",
+						".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_5.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_6.bmp"};
+			for (int i = 0; i < 7; i++)
+				zombie_nonews_attack_animation.AddBitmap(filenameno[i], RGB(255, 255, 255));
+
 			char *filenameb[10] = { ".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_0.bmp",
 					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_1.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_2.bmp",
 					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_3.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_4.bmp",
@@ -179,6 +223,12 @@ namespace game_framework {
 				else if (zombie_style == "bucket" && blood > 10) {
 					zombie_bucket_attack_animation.OnMove();
 				}
+				else if (zombie_style == "newspaper" && blood > 10) {
+					zombie_news_attack_animation.OnMove();
+				}
+				else if (zombie_style == "newspaper" && blood <= 10) {
+					zombie_nonews_attack_animation.OnMove();
+				}
 				else {
 					zombie_attack_animation.OnMove();
 				}
@@ -195,6 +245,13 @@ namespace game_framework {
 					else if (zombie_style == "bucket" && blood > 10) {
 						zombie_bucket_animation.OnMove();
 					}
+					else if (zombie_style == "newspaper" && blood > 10) {
+						zombie_news_animation.OnMove();
+					}
+					else if (zombie_style == "newspaper" && blood <= 10) {
+						zombie_nonews_animation.OnMove();
+						x -= 1;
+					}
 					else {
 						zombie_animation.OnMove();
 					}
@@ -202,8 +259,14 @@ namespace game_framework {
 				}
 			}
 			else if (mode == "die") {
-				zombie_die_animation.OnMove();
-				zombie_die_animation_head.OnMove();
+				if (zombie_style == "newspaper") {
+					zombie_news_die_animation.OnMove();
+					zombie_die_animation_head.OnMove();
+				}
+				else {
+					zombie_die_animation.OnMove();
+					zombie_die_animation_head.OnMove();
+				}
 			}
 			else if (mode == "bomb") {
 				zombie_die_animation_bomb.OnMove();
@@ -222,6 +285,15 @@ namespace game_framework {
 				else if (zombie_style == "conehead" && blood > 10) {
 					zombie_conehead_attack_animation.OnMove();
 				}
+				else if (zombie_style == "bucket" && blood > 10) {
+					zombie_bucket_attack_animation.OnMove();
+				}
+				else if (zombie_style == "newspaper" && blood > 10) {
+					zombie_news_attack_animation.OnMove();
+				}
+				else if (zombie_style == "newspaper" && blood <= 10) {
+					zombie_nonews_attack_animation.OnMove();
+				}
 				else {
 					zombie_attack_animation.OnMove();
 				}
@@ -235,15 +307,30 @@ namespace game_framework {
 					else if (zombie_style == "conehead" && blood > 10) {
 						zombie_conehead_animation.OnMove();
 					}
+					else if (zombie_style == "bucket" && blood > 10) {
+						zombie_bucket_animation.OnMove();
+					}
+					else if (zombie_style == "newspaper" && blood > 10) {
+						zombie_news_animation.OnMove();
+					}
+					else if (zombie_style == "newspaper" && blood <= 10) {
+						zombie_nonews_animation.OnMove();
+						x -= 1;
+					}
 					else {
 						zombie_animation.OnMove();
 					}
-					delay = 0;
 				}
 			}
 			else if (mode == "die") {
-				zombie_die_animation.OnMove();
-				zombie_die_animation_head.OnMove();
+				if (zombie_style == "newspaper") {
+					zombie_news_die_animation.OnMove();
+					zombie_die_animation_head.OnMove();
+				}
+				else {
+					zombie_die_animation.OnMove();
+					zombie_die_animation_head.OnMove();
+				}
 			}
 			else if (mode == "bomb") {
 				zombie_die_animation_bomb.OnMove();
@@ -268,6 +355,14 @@ namespace game_framework {
 					zombie_bucket_attack_animation.SetTopLeft(x, y);
 					zombie_bucket_attack_animation.OnShow();
 				}
+				else if (zombie_style == "newspaper" && blood > 10) {
+					zombie_news_attack_animation.SetTopLeft(x, y);
+					zombie_news_attack_animation.OnShow();
+				}
+				else if (zombie_style == "newspaper" && blood <= 10) {
+					zombie_nonews_attack_animation.SetTopLeft(x, y);
+					zombie_nonews_attack_animation.OnShow();
+				}
 				else {
 					zombie_attack_animation.SetTopLeft(x, y);
 					zombie_attack_animation.OnShow();
@@ -286,6 +381,14 @@ namespace game_framework {
 					zombie_bucket_animation.SetTopLeft(x, y);
 					zombie_bucket_animation.OnShow();
 				}
+				else if (zombie_style == "newspaper" && blood > 10) {
+					zombie_news_animation.SetTopLeft(x, y);
+					zombie_news_animation.OnShow();
+				}
+				else if (zombie_style == "newspaper" && blood <= 10) {
+					zombie_nonews_animation.SetTopLeft(x, y);
+					zombie_nonews_animation.OnShow();
+				}
 				else {
 					zombie_animation.SetTopLeft(x, y);
 					zombie_animation.OnShow();
@@ -294,11 +397,20 @@ namespace game_framework {
 			}
 			else if (mode == "die") {
 				if (zombie_die_delay_time > 0) {
-					zombie_die_animation.SetTopLeft(x, y);
-					zombie_die_animation.OnShow();
-					zombie_die_animation_head.SetTopLeft(x+50, y);
-					zombie_die_animation_head.OnShow();
-					zombie_die_delay_time--;
+					if (zombie_style == "newspaper") {
+						zombie_news_die_animation.SetTopLeft(x, y);
+						zombie_news_die_animation.OnShow();
+						zombie_die_animation_head.SetTopLeft(x + 50, y);
+						zombie_die_animation_head.OnShow();
+						zombie_die_delay_time--;
+					}
+					else {
+						zombie_die_animation.SetTopLeft(x, y);
+						zombie_die_animation.OnShow();
+						zombie_die_animation_head.SetTopLeft(x + 50, y);
+						zombie_die_animation_head.OnShow();
+						zombie_die_delay_time--;
+					}
 				}
 				else {
 					x = 1000;
@@ -329,7 +441,7 @@ namespace game_framework {
 			is_alive = alive;
 		}
 		void freezen() {
-			x -= 2;
+			x += 2;
 		}
 
 		void  SetX(int x) {
@@ -377,6 +489,11 @@ namespace game_framework {
 		CAnimation zombie_conehead_attack_animation;
 		CAnimation zombie_bucket_animation;
 		CAnimation zombie_bucket_attack_animation;
+		CAnimation zombie_news_animation;
+		CAnimation zombie_news_attack_animation;
+		CAnimation zombie_news_die_animation;
+		CAnimation zombie_nonews_animation;
+		CAnimation zombie_nonews_attack_animation;
 
 		int zombie_bomb_die_delay_time;
 		int zombie_die_delay_time;
