@@ -236,7 +236,7 @@ void CGameStateOver::OnInit()
 	puff_shroom.LoadBitmap("Bitmaps/almanac/puff_shroom.bmp");
 	snowpea.LoadBitmap("Bitmaps/almanac/snowpea.bmp");
 	wallnut.LoadBitmap("Bitmaps/almanac/wallnut.bmp");
-	squash.LoadBitmap("Bitmaps/almanac/victory.bmp");
+	squash.LoadBitmap("Bitmaps/almanac/squash.bmp");
 	victory.LoadBitmap("Bitmaps/almanac/victory.bmp");
 
 	ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
@@ -300,7 +300,7 @@ void CGameStateOver::OnShow()
 			squash.ShowBitmap();
 		}
 		else if (level == 10) {
-			squash.SetTopLeft(261, 95);
+			squash.SetTopLeft(0, 0);
 			squash.ShowBitmap();
 		}
 		else if (level == 11) {
