@@ -99,6 +99,7 @@ void CGameStateInit::OnInit()
 	adventure1.LoadBitmap("Bitmaps/Adventure1.bmp", RGB(255,255,255));
 	CAudio::Instance()->Load(AUDIO_MAIN, "sounds\\mainmenu.mp3");
 	CAudio::Instance()->Play(AUDIO_MAIN, true);
+
 	CAudio::Instance()->Load(AUDIO_MENUTOGAME, "sounds\\menutogame.mp3");
 	CAudio::Instance()->Load(AUDIO_SUNPICK, "sounds\\sun_pick.mp3");
 	CAudio::Instance()->Load(AUDIO_PLANTS, "sounds\\plants_sound.mp3");
@@ -113,7 +114,6 @@ void CGameStateInit::OnInit()
 
 void CGameStateInit::OnBeginState()
 {
-	
 }
 
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -138,12 +138,9 @@ void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
 
-	if (point.x > 470 && point.y > 100 && point.x < 790 && point.y < 260) {
-		//adventure1.ShowBitmap();
-		flag_menutogame = 1;
-
+	if (point.x > 418 && point.y > 100 && point.x < 702 && point.y < 260) {
 		CAudio::Instance()->Play(AUDIO_MENUTOGAME, false);
-		//Sleep(6000);
+		//Sleep(2000);
 
 		GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 	}
@@ -151,14 +148,15 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CGameStateInit::OnShow()
 {
+
 	//
 	// 貼上mainmenu
 	//
 	mainmenu.SetTopLeft(0,0);
 	mainmenu.ShowBitmap();
 
-	adventure0.SetTopLeft(470, 100);
-	adventure1.SetTopLeft(470, 100);
+	adventure0.SetTopLeft(418, 100);
+	adventure1.SetTopLeft(418, 100);
 	
 	if (flag_menutogame == 0) {
 		adventure0.ShowBitmap();
@@ -176,9 +174,9 @@ void CGameStateInit::OnShow()
 	pDC->SetBkMode(TRANSPARENT);
 	
 	pDC->SetTextColor(RGB(0,0,0));
-	pDC->TextOut(500, 270, "~ 19XX-XX-XX ~");
+	pDC->TextOut(445, 270, "~ 19XX-XX-XX ~");
 	pDC->SetTextColor(RGB(204, 255, 204));
-	pDC->TextOut(480,320,"點擊 \"冒險模式\" 開始 !");
+	pDC->TextOut(426,320,"點擊 \"冒險模式\" 開始 !");
 	// pDC->TextOut(5,395,"Press Ctrl-F to switch in between window mode and full screen mode.");
 	if (ENABLE_GAME_PAUSE)
 		pDC->SetTextColor(RGB(255, 255, 0));
@@ -211,6 +209,7 @@ void CGameStateOver::OnLButtonDown(UINT nFlags, CPoint point)
 			level = 1;
 		}
 		GotoGameState(GAME_STATE_INIT);
+		CAudio::Instance()->Stop(AUDIO_VICTORY);
 	}
 }
 
@@ -237,6 +236,7 @@ void CGameStateOver::OnInit()
 	snowpea.LoadBitmap("Bitmaps/almanac/snowpea.bmp");
 	wallnut.LoadBitmap("Bitmaps/almanac/wallnut.bmp");
 	squash.LoadBitmap("Bitmaps/almanac/squash.bmp");
+	newspaper.LoadBitmap("Bitmaps/almanac/newspaper.bmp");
 	victory.LoadBitmap("Bitmaps/almanac/victory.bmp");
 
 	ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
@@ -264,39 +264,39 @@ void CGameStateOver::OnShow()
 		newplant.SetTopLeft(0, 0);
 		newplant.ShowBitmap();
 		if (level == 2) {
-			wallnut.SetTopLeft(261, 95);
+			wallnut.SetTopLeft(232, 91);
 			wallnut.ShowBitmap();
 		}
 		else if (level == 3) {
-			cherrybomb.SetTopLeft(261, 95);
+			cherrybomb.SetTopLeft(232, 91);
 			cherrybomb.ShowBitmap();
 		}
 		else if (level == 4) {
-			conehead.SetTopLeft(261, 95);
+			conehead.SetTopLeft(232, 91);
 			conehead.ShowBitmap();
 		}
 		else if (level == 5) {
-			snowpea.SetTopLeft(261, 95);
+			snowpea.SetTopLeft(232, 91);
 			snowpea.ShowBitmap();
 		}
 		else if (level == 6) {
-			bucket.SetTopLeft(261, 95);
+			bucket.SetTopLeft(232, 91);
 			bucket.ShowBitmap();
 		}
 		else if (level == 7) {
-			potatomine.SetTopLeft(261, 95);
+			potatomine.SetTopLeft(232, 91);
 			potatomine.ShowBitmap();
 		}
 		else if (level == 8) {
-			newspaper.SetTopLeft(261, 95);
+			newspaper.SetTopLeft(232, 91);
 			newspaper.ShowBitmap();
 		}
 		else if (level == 9) {
-			puff_shroom.SetTopLeft(261, 95);
+			puff_shroom.SetTopLeft(232, 91);
 			puff_shroom.ShowBitmap();
 		}
 		else if (level == 10) {
-			squash.SetTopLeft(261, 95);
+			squash.SetTopLeft(232, 91);
 			squash.ShowBitmap();
 		}
 		else if (level == 10) {
@@ -304,7 +304,7 @@ void CGameStateOver::OnShow()
 			squash.ShowBitmap();
 		}
 		else if (level == 11) {
-			victory.SetTopLeft(261, 95);
+			victory.SetTopLeft(232, 91);
 			victory.ShowBitmap();
 		}
 	}
@@ -371,19 +371,236 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	squash_card.LoadBitmap();
 
 
-	CAudio::Instance()->Load(AUDIO_START, "sounds\\startgame.mp3");	// 載入編號0的聲音ding.wav
+	CAudio::Instance()->Load(AUDIO_START, "sounds\\startgame.mp3");
+	CAudio::Instance()->Load(AUDIO_START_NIGHT, "sounds\\night_bgm.mp3");
+	CAudio::Instance()->Load(AUDIO_BOMB, "sounds\\bomb.mp3");
+	CAudio::Instance()->Load(AUDIO_VICTORY, "sounds\\victory.mp3");
+	
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 	//
-	level = 8;
+	level = 7;
 }
-std::vector<shared_ptr<YNormalZombie>> zombieInitTest(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
-std::vector<shared_ptr<YNormalZombie>> zombieInitLevel1(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
-std::vector<shared_ptr<YNormalZombie>> zombieInitLevel2(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
-std::vector<shared_ptr<YNormalZombie>> zombieInitLevel3(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
-std::vector<shared_ptr<YNormalZombie>> zombieInitLevel5(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
-std::vector<shared_ptr<YNormalZombie>> zombieInitLevel7(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
-std::vector<shared_ptr<YNormalZombie>> zombieInitLevel9(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector);
+
+std::vector<shared_ptr<YNormalZombie>> zombieInitTest(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(150, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(260, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(500, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
+	return normalzombie_vector;
+}
+std::vector<shared_ptr<YNormalZombie>> zombieInitLevel1(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1250, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1560, 4, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1600, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1670, 3));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 1, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2000, 0));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2050, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2150, 4));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2350, 1));
+	return normalzombie_vector;
+}
+std::vector<shared_ptr<YNormalZombie>> zombieInitLevel2(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
+	// wallnut morning
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1230, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1360, 4));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1550, 1, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1700, 0));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1850, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 4));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2290, 3, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2370, 4));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2420, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2490, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2520, 0));
+
+	return normalzombie_vector;
+}
+std::vector<shared_ptr<YNormalZombie>> zombieInitLevel3(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
+	// cherrybomb morning
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1150, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1360, 0));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1550, 4, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1650, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1860, 0));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2020, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2150, 1));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2370, 3, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2420, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2450, 4));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2520, 0));
+
+	return normalzombie_vector;
+}
+std::vector<shared_ptr<YNormalZombie>> zombieInitLevel4(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
+	// cone zombie night
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1150, 1, "conehead"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1360, 0));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1500, 4, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1650, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1900, 0));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2000, 4, "conehead"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2150, 2));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2450, 3, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2450, 1, "conehead"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2500, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 0));
+	return normalzombie_vector;
+}
+std::vector<shared_ptr<YNormalZombie>> zombieInitLevel5(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
+	// ice shooter morning
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1000, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1270, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1360, 2, "conehead"));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1500, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1620, 3));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 4, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2100, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2250, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2570, 0));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 3, "conehead"));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3050, 4, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3150, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3200, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3350, 1, "conehead"));
+
+	return normalzombie_vector;
+}
+
+std::vector<shared_ptr<YNormalZombie>> zombieInitLevel6(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
+	// bucket night
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1000, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1270, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1460, 2, "bucket"));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1500, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1620, 3));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 4, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2100, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2250, 1, "conehead"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2420, 0));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2570, 0));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 3, "bucket"));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3050, 4, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3150, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3200, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3350, 1, "conehead"));
+
+	return normalzombie_vector;
+}
+
+std::vector<shared_ptr<YNormalZombie>> zombieInitLevel7(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
+	// potatomine morning
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1270, 0, "bucket"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1520, 4));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1620, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1750, 0, "conehead"));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 0, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2100, 4, "bucket"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2370, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 3, "conehead"));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3050, 1, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3150, 4, "bucket"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3200, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3250, 0));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3330, 1, "conehead"));
+
+	return normalzombie_vector;
+}
+
+std::vector<shared_ptr<YNormalZombie>> zombieInitLevel8(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
+	// newspaper night
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1270, 1, "newspaper"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1460, 4));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1620, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1750, 1, "newspaper"));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 2, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2100, 0, "bucket"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2370, 4));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 3));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3050, 4, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3150, 3, "newspaper"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3200, 0));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3250, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3430, 1, "conehead"));
+
+	return normalzombie_vector;
+}
+
+std::vector<shared_ptr<YNormalZombie>> zombieInitLevel9(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
+	// squash morning
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1270, 4, "newspaper"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1460, 1));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1500, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1620, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1750, 0, "newspaper"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 2, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2100, 4, "bucket"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2370, 0));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 3, "newspaper"));
+	
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2950, 3, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3030, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3050, 4));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3150, 2, "bucket"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3220, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3250, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3360, 1, "conehead"));
+
+	return normalzombie_vector;
+}
+
+std::vector<shared_ptr<YNormalZombie>> zombieInitLevel10(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
+	// shooter night
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1270, 4, "bucket"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1480, 1));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1600, 4));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1720, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(1850, 2, "newspaper"));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2250, 0, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2300, 4, "bucket"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2470, 0));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 3, "newspaper"));
+
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3150, 3, "flag"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3170, 4));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3250, 2, "bucket"));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3320, 2));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3370, 3));
+	normalzombie_vector.push_back(make_shared<YNormalZombie>(3500, 1, "conehead"));
+
+	return normalzombie_vector;
+}
 
 void CGameStateRun::OnBeginState()
 {
@@ -400,7 +617,6 @@ void CGameStateRun::OnBeginState()
 	hits_left.SetInteger(HITS_LEFT);					// 指定剩下的撞擊數
 	hits_left.SetTopLeft(HITS_LEFT_X,HITS_LEFT_Y);		// 指定剩下撞擊數的座標
 	CAudio::Instance()->Stop(AUDIO_MAIN);
-	CAudio::Instance()->Play(AUDIO_START, true);		
 	
 	flag = 0;
 	sun_amount = 50;			// 一開始50個sun
@@ -484,7 +700,7 @@ void CGameStateRun::OnBeginState()
 	}
 	else if (level == 4) {
 		night_mode = true;
-		normalzombie_vector = zombieInitLevel3(normalzombie_vector);
+		normalzombie_vector = zombieInitLevel4(normalzombie_vector);
 	}
 	else if (level == 5) {
 		night_mode = false;
@@ -492,7 +708,7 @@ void CGameStateRun::OnBeginState()
 	}
 	else if (level == 6) {
 		night_mode = true;
-		normalzombie_vector = zombieInitLevel5(normalzombie_vector);
+		normalzombie_vector = zombieInitLevel6(normalzombie_vector);
 	}
 	else if (level == 7) {
 		night_mode = false;
@@ -500,7 +716,7 @@ void CGameStateRun::OnBeginState()
 	}
 	else if (level == 8) {
 		night_mode = true;
-		normalzombie_vector = zombieInitLevel7(normalzombie_vector);
+		normalzombie_vector = zombieInitLevel8(normalzombie_vector);
 	}
 	else if (level == 9) {
 		night_mode = false;
@@ -508,141 +724,22 @@ void CGameStateRun::OnBeginState()
 	}
 	else if (level == 10) {
 		night_mode = true;
-		normalzombie_vector = zombieInitLevel9(normalzombie_vector);
+		normalzombie_vector = zombieInitLevel10(normalzombie_vector);
 	}
 
 	if (night_mode) {
+		CAudio::Instance()->Play(AUDIO_START_NIGHT, true);
 		sun.SetIsAlive(false);
+	}
+	else {
+		CAudio::Instance()->Play(AUDIO_START, true);
 	}
 
 	for (auto normalzombie_sp : normalzombie_vector) {
 		normalzombie_sp->LoadBitmap();
+		sun.SetIsAlive(true);
 	}
 }
-std::vector<shared_ptr<YNormalZombie>> zombieInitTest(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(150, 1));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(260, 2));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(500, 3));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
-	return normalzombie_vector;
-}
-
-std::vector<shared_ptr<YNormalZombie>> zombieInitLevel1(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1250, 3));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1560, 4, "flag"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1600, 2));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1720, 0));
-
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 4, "flag"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2000, 2));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2050, 3));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2150, 1));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2350, 0));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2450, 2));
-	return normalzombie_vector;
-}
-std::vector<shared_ptr<YNormalZombie>> zombieInitLevel2(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
-
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 3));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1230, 2, "conehead"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1360, 4));
-
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1500, 1, "flag"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1650, 0));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1850, 2));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2000, 2, "conehead"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2050, 0));
-
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2450, 3, "flag"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2450, 2));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2550, 3));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 1));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2850, 2, "conehead"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(3050, 4));
-	return normalzombie_vector;
-}
-std::vector<shared_ptr<YNormalZombie>> zombieInitLevel3(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 3));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1150, 1));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1360, 0));
-
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1500, 4, "flag"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1650, 2));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1900, 0));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2000, 4, "conehead"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2150, 2));
-
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2450, 3, "flag"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2450, 1, "conehead"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2500, 2));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 0, "conehead"));
-	return normalzombie_vector;
-}
-std::vector<shared_ptr<YNormalZombie>> zombieInitLevel5(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1000, 1));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1270, 3, "bucket"));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1360, 2));
-
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1500, 2));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1620, 3));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 4, "flag"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2100, 2, "bucket"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2250, 1));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2570, 0));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 3, "conehead"));
-
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(3050, 4, "flag"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(3150, 2, "bucket"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(3200, 3));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(3550, 1, "conehead"));
-
-	return normalzombie_vector;
-}
-std::vector<shared_ptr<YNormalZombie>> zombieInitLevel7(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 2));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1270, 4, "bucket"));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1460, 1));
-
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1500, 2));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1620, 3));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1750, 0, "conehead"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 2, "flag"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2100, 4, "bucket"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2370, 0));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 3, "conehead"));
-
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(3050, 4, "flag"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(3150, 2, "bucket"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(3200, 2));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(3250, 3));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(3330, 1, "conehead"));
-
-	return normalzombie_vector;
-}
-
-std::vector<shared_ptr<YNormalZombie>> zombieInitLevel9(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 2));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1270, 4, "bucket"));
-	normalzombie_vector.push_back(make_shared<YNormalZombie>(1460, 1));
-
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1500, 2));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1620, 3));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1750, 0, "conehead"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 2, "flag"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2100, 4, "bucket"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2370, 0));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 3, "conehead"));
-
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(3050, 4, "flag"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(3150, 2, "bucket"));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(3200, 2));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(3250, 3));
-	//normalzombie_vector.push_back(make_shared<YNormalZombie>(3330, 1, "conehead"));
-
-	return normalzombie_vector;
-}
-
 
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -653,18 +750,18 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	const char KEY_DOWN  = 0x28; // keyboard下箭頭
 	const char KEY_Z	 = 90;
 	const char KEY_S	 = 83;
-	//const char KEY_1 = 97;
-	//const char KEY_2 = 98;
-	//const char KEY_3 = 99;
-	//const char KEY_4 = 100;
-	//const char KEY_5 = 101;
-
+	const char KEY_D	 = 68;
 
 	if (nChar == KEY_Z) {
 		zombie_fast_mode = true;
 	}
 	if (nChar == KEY_S ) {
 		sun_amount = 500;
+	}
+	if (nChar == KEY_D) {
+		for (auto z : normalzombie_vector) {
+			z->SetIsAlive(false);
+		}
 	}
 }
 
@@ -683,7 +780,7 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {	
-	if (generateSunFlowerFlag && !map.checkmyMap(point.x, point.y) && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
+	if (generateSunFlowerFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
 		CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		int tx = map.getXmyMapLocation(point.x, point.y);
 		int ty = map.getYmyMapLocation(point.x, point.y);
@@ -694,7 +791,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		sunflower_vector.push_back(sp);
 		generateSunFlowerFlag = false;
 	}
-	else if (generatePeaShooterFlag && !map.checkmyMap(point.x, point.y) && point.x >100 && point.x<840 && point.y>78 && point.y < 571) {
+	else if (generatePeaShooterFlag && !map.checkmyMap(point.x, point.y) && point.x >30 && point.x<770 && point.y>78 && point.y < 571) {
 		CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		int tx = map.getXmyMapLocation(point.x, point.y);
 		int ty = map.getYmyMapLocation(point.x, point.y);
@@ -705,7 +802,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		peashooter_vector.push_back(sp);
 		generatePeaShooterFlag = false;
 	}
-	else if (level > 1 && generateWallNutFlag && !map.checkmyMap(point.x, point.y) && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
+	else if (level > 1 && generateWallNutFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
 		CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		int tx = map.getXmyMapLocation(point.x, point.y);
 		int ty = map.getYmyMapLocation(point.x, point.y);
@@ -716,18 +813,14 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		wallnut_vector.push_back(sp);
 		generateWallNutFlag = false;
 	}
-	else if (level > 2 && generateCherryBombFlag && !map.checkmyMap(point.x, point.y) && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
-		CAudio::Instance()->Play(AUDIO_PLANTS, false);
-		//int tx = map.getXmyMapLocation(point.x, point.y);
-		//int ty = map.getYmyMapLocation(point.x, point.y);
-		//map.setmyMap(point.x, point.y);
-
+	else if (level > 2 && generateCherryBombFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
+		CAudio::Instance()->Play(AUDIO_BOMB, false);
 		auto sp = make_shared<YCherryBomb>(point.x, point.y);
 		sp->LoadBitmap();
 		cherrybomb_vector.push_back(sp);
 		generateCherryBombFlag = false;
 	}
-	else if (level > 4 && generateIceShooterFlag && !map.checkmyMap(point.x, point.y) && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
+	else if (level > 4 && generateIceShooterFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
 		CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		int tx = map.getXmyMapLocation(point.x, point.y);
 		int ty = map.getYmyMapLocation(point.x, point.y);
@@ -738,7 +831,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		iceshooter_vector.push_back(sp);
 		generateIceShooterFlag = false;
 	}
-	else if (level > 6 && generatePotatomineFlag && !map.checkmyMap(point.x, point.y) && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
+	else if (level > 6 && generatePotatomineFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
 		CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		int tx = map.getXmyMapLocation(point.x, point.y);
 		int ty = map.getYmyMapLocation(point.x, point.y);
@@ -749,7 +842,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		potatomine_vector.push_back(sp);
 		generatePotatomineFlag = false;
 	}
-	else if (level > 8 && generateSquashFlag && !map.checkmyMap(point.x, point.y) && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
+	else if (level > 8 && generateSquashFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
 		CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		int tx = map.getXmyMapLocation(point.x, point.y);
 		int ty = map.getYmyMapLocation(point.x, point.y);
@@ -760,7 +853,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		squash_vector.push_back(sp);
 		generateSquashFlag = false;
 	}
-	else if (level > 9 && generateShooterFlag && !map.checkmyMap(point.x, point.y) && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
+	else if (level > 9 && generateShooterFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
 		CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		int tx = map.getXmyMapLocation(point.x, point.y);
 		int ty = map.getYmyMapLocation(point.x, point.y);
@@ -772,7 +865,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		generateShooterFlag = false;
 	}
 
-	else if (shovelFlag && point.x > 100 && point.x < 840 && point.y>78 && point.y < 571) {
+	else if (shovelFlag && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
 		map.unsetmyMap(point.x, point.y);
 		shovelFlag = false;
 	}
@@ -899,16 +992,15 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 {
 	chooser.SetTopLeft(0, 0);
 
-	if (picX > -400 && flag == 0) {
-		picX -= 4;
+	if (picX > -500 && flag == 0) {
+		picX -= 8;
 	}// (-400,0)
 	else if (flag == 0) {
 		Sleep(1000);
 		flag = 1;
 	}
-	else if (picX < -150) {
-		//flag = 1;
-		picX += 4;
+	else if (picX < -220) {
+		picX += 8;
 	}
 	else if (flag == 4 && picX == 0) {
 		picX = 0;
@@ -918,7 +1010,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	}
 	else {
 		flag = 2;
-		picX = -150;
+		picX = -220;
 	}
 	if (night_mode) {
 		background_night.SetTopLeft(picX, picY);
@@ -926,7 +1018,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	else {
 		background.SetTopLeft(picX, picY);
 	}
-
 
 
 	if (flag==2) {
@@ -1185,7 +1276,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 
 			// zombie walk to car -> car move
-			if (car0.IsAlive() && (normalzombie_vector.at(i)->GetY() == 48 && normalzombie_vector.at(i)->GetX() < car0.GetX() - 30) || !car0_flag) {
+			if (car0.IsAlive() && (normalzombie_vector.at(i)->GetY() == 48 && normalzombie_vector.at(i)->GetX() < car0.GetX() + 10 ) || !car0_flag) {
 				if (car0_sound_flag) {
 					CAudio::Instance()->Play(AUDIO_CAR, false);
 					car0_sound_flag = false;
@@ -1193,7 +1284,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				car0_flag = false;
 				car0.OnMove();
 			}
-			if (car1.IsAlive() && (normalzombie_vector.at(i)->GetY() == 152 && normalzombie_vector.at(i)->GetX() < car1.GetX() - 30) || !car1_flag) {
+			if (car1.IsAlive() && (normalzombie_vector.at(i)->GetY() == 152 && normalzombie_vector.at(i)->GetX() < car1.GetX() - 10 ) || !car1_flag) {
 				if (car1_sound_flag) {
 					CAudio::Instance()->Play(AUDIO_CAR, false);
 					car1_sound_flag = false;
@@ -1201,7 +1292,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				car1_flag = false;
 				car1.OnMove();
 			}
-			if (car2.IsAlive() && (normalzombie_vector.at(i)->GetY() == 240 && normalzombie_vector.at(i)->GetX() < car2.GetX() - 30) || !car2_flag) {
+			if (car2.IsAlive() && (normalzombie_vector.at(i)->GetY() == 240 && normalzombie_vector.at(i)->GetX() < car2.GetX() - 10 ) || !car2_flag) {
 				if (car2_sound_flag) {
 					CAudio::Instance()->Play(AUDIO_CAR, false);
 					car2_sound_flag = false;
@@ -1209,7 +1300,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				car2_flag = false;
 				car2.OnMove();
 			}
-			if (car3.IsAlive() && (normalzombie_vector.at(i)->GetY() == 338 && normalzombie_vector.at(i)->GetX() < car3.GetX() - 30) || !car3_flag) {
+			if (car3.IsAlive() && (normalzombie_vector.at(i)->GetY() == 338 && normalzombie_vector.at(i)->GetX() < car3.GetX() - 10 ) || !car3_flag) {
 				if (car3_sound_flag) {
 					CAudio::Instance()->Play(AUDIO_CAR, false);
 					car3_sound_flag = false;
@@ -1217,7 +1308,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				car3_flag = false;
 				car3.OnMove();
 			}
-			if (car4.IsAlive() && (normalzombie_vector.at(i)->GetY() == 434 && normalzombie_vector.at(i)->GetX() < car4.GetX() - 30) || !car4_flag) {
+			if (car4.IsAlive() && (normalzombie_vector.at(i)->GetY() == 434 && normalzombie_vector.at(i)->GetX() < car4.GetX() - 10 ) || !car4_flag) {
 				if (car4_sound_flag) {
 					CAudio::Instance()->Play(AUDIO_CAR, false);
 					car4_sound_flag = false;
@@ -1226,19 +1317,19 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				car4.OnMove();
 			}
 			// car hits zombies
-			if (car0.IsAlive() && (normalzombie_vector.at(i)->GetY() == 48 && normalzombie_vector.at(i)->GetX() < car0.GetX() - 30)) {
+			if (car0.IsAlive() && (normalzombie_vector.at(i)->GetY() == 48 && normalzombie_vector.at(i)->GetX() < car0.GetX() - 10)) {
 				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
-			if (car1.IsAlive() && (normalzombie_vector.at(i)->GetY() == 152 && normalzombie_vector.at(i)->GetX() < car1.GetX() - 30)) {
+			if (car1.IsAlive() && (normalzombie_vector.at(i)->GetY() == 152 && normalzombie_vector.at(i)->GetX() < car1.GetX() - 10)) {
 				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
-			if (car2.IsAlive() && (normalzombie_vector.at(i)->GetY() == 240 && normalzombie_vector.at(i)->GetX() < car2.GetX() - 30)) {
+			if (car2.IsAlive() && (normalzombie_vector.at(i)->GetY() == 240 && normalzombie_vector.at(i)->GetX() < car2.GetX() - 10)) {
 				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
-			if (car3.IsAlive() && (normalzombie_vector.at(i)->GetY() == 338 && normalzombie_vector.at(i)->GetX() < car3.GetX() - 30)) {
+			if (car3.IsAlive() && (normalzombie_vector.at(i)->GetY() == 338 && normalzombie_vector.at(i)->GetX() < car3.GetX() - 10)) {
 				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
-			if (car4.IsAlive() && (normalzombie_vector.at(i)->GetY() == 434 && normalzombie_vector.at(i)->GetX() < car4.GetX() - 30)) {
+			if (car4.IsAlive() && (normalzombie_vector.at(i)->GetY() == 434 && normalzombie_vector.at(i)->GetX() < car4.GetX() - 10)) {
 				normalzombie_vector.at(i)->SetIsAlive(false);
 			}
 
@@ -1282,7 +1373,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 
 		for (size_t i = 0; i < normalzombie_vector.size(); i++) {
-			if (normalzombie_vector.at(i)->GetX() < 0 && normalzombie_vector.at(i)->IsAlive()) {
+			if (normalzombie_vector.at(i)->GetX() < -70 && normalzombie_vector.at(i)->IsAlive()) {
 				CAudio::Instance()->Stop(AUDIO_START);
 				flag = 4;
 			}
@@ -1320,6 +1411,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		// go to game state over
 		if (normalzombie_vector.empty()) {
 			CAudio::Instance()->Stop(AUDIO_START);
+			CAudio::Instance()->Stop(AUDIO_START_NIGHT);
+			CAudio::Instance()->Play(AUDIO_VICTORY, false);
 			victoryflag = 1;
 			level += 1;
 			GotoGameState(GAME_STATE_OVER);
@@ -1328,12 +1421,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	if (flag == 4) {
 		if (zombie_home_flag) {
-			normalzombie_vector.at(0)->SetX(30);
+			normalzombie_vector.at(0)->SetX(10);
 			normalzombie_vector.at(0)->SetY(300);
 			zombie_home_flag = false;
 		}
 		normalzombie_vector.at(0)->OnMove(std::string("walk"));
-		if (normalzombie_vector.at(0)->GetX() < -5) {
+		if (normalzombie_vector.at(0)->GetX() < -35) {
 			CAudio::Instance()->Play(AUDIO_MENUTOGAME, false);
 			victoryflag = 0;
 			GotoGameState(GAME_STATE_OVER);
@@ -1345,29 +1438,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	//if (generateSunFlowerFlag) {
 	//	SetCursor(AfxGetApp()->LoadCursor(".\\bitmaps\\SunFlower\\SunFlower_0.bmp"));
 	//}
-
-	// gamemap.OnMove();
-	//
-	// 移動球
-	//
-	//for (int i = 0; i < NUMBALLS; i++)
-	//	ball[i].OnMove();
-	//
-
-	// 判斷擦子是否碰到球
-	//
-	//for (int i = 0; i < NUMBALLS; i++)
-	//	if (ball[i].IsAlive() && ball[i].HitEraser(&eraser)) {
-	//		ball[i].SetIsAlive(false);
-	//		hits_left.Add(-1);
-	//		//
-	//		// 若剩餘碰撞次數為0，則跳到Game Over狀態
-	//		//
-	//		if (hits_left.GetInteger() <= 0) {
-	//			CAudio::Instance()->Stop(AUDIO_START);
-	//			GotoGameState(GAME_STATE_OVER);
-	//		}
-	//	}
 
 }
 
@@ -1544,80 +1614,75 @@ void CGameStateRun::OnShow()
 		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
 	}
-	
+
+	// zombie amount
+	if (flag == 2) {
+		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+		CFont f, *fp;
+		f.CreatePointFont(100, "微軟正黑體");	// 產生 font f; 160表示16 point的字
+		fp = pDC->SelectObject(&f);					// 選用 font f
+		pDC->SetBkMode(TRANSPARENT);
+
+		pDC->SetTextColor(RGB(0, 0, 0));
+		pDC->TextOut(650, 580, "left zombie: ");
+
+		int zombie_amount = normalzombie_vector.size();
+		if (zombie_amount == 0)
+			pDC->TextOut(755, 580, "0");
+		else if (zombie_amount == 1)
+			pDC->TextOut(755, 580, "1");
+		else if (zombie_amount == 2)
+			pDC->TextOut(755, 580, "2");
+		else if (zombie_amount == 3)
+			pDC->TextOut(755, 580, "3");
+		else if (zombie_amount == 4)
+			pDC->TextOut(755, 580, "4");
+		else if (zombie_amount == 5)
+			pDC->TextOut(755, 580, "5");
+		else if (zombie_amount == 6)
+			pDC->TextOut(755, 580, "6");
+		else if (zombie_amount == 7)
+			pDC->TextOut(755, 580, "7");
+		else if (zombie_amount == 8)
+			pDC->TextOut(755, 580, "8");
+		else if (zombie_amount == 9)
+			pDC->TextOut(755, 580, "9");
+		else if (zombie_amount == 10)
+			pDC->TextOut(755, 580, "10");
+		else if (zombie_amount == 11)
+			pDC->TextOut(755, 580, "11");
+		else if (zombie_amount == 12)
+			pDC->TextOut(755, 580, "12");
+		else if (zombie_amount == 13)
+			pDC->TextOut(755, 580, "13");
+		else if (zombie_amount == 14)
+			pDC->TextOut(755, 580, "14");
+		else if (zombie_amount == 15)
+			pDC->TextOut(755, 580, "15");
+		else if (zombie_amount == 16)
+			pDC->TextOut(755, 580, "16");
+		else if (zombie_amount == 17)
+			pDC->TextOut(755, 580, "17");
+		else if (zombie_amount == 18)
+			pDC->TextOut(755, 580, "18");
+		else if (zombie_amount == 19)
+			pDC->TextOut(755, 580, "19");
+		else if (zombie_amount == 20)
+			pDC->TextOut(755, 580, "20");
+		else if (zombie_amount == 21)
+			pDC->TextOut(755, 580, "21");
+		else if (zombie_amount == 22)
+			pDC->TextOut(755, 580, "22");
+		else if (zombie_amount == 23)
+			pDC->TextOut(755, 580, "23");
+		else {
+			pDC->TextOut(755, 580, "###");
+		}
+		pDC->SelectObject(fp);
+		CDDraw::ReleaseBackCDC();		
+	}
 }
 
-
-
-//CPractice::CPractice() {
-//	x = y = 0;
-//}
-//
-//void CPractice::OnMove() {
-//	if (y <= SIZE_Y) {
-//		x += 3;
-//		y += 3;
-//	}
-//	else {
-//		x = y = 0;
-//	}
-//}
-//
-//void CPractice::LoadBitmap() {
-//	pic.LoadBitmap(IDB_SNOWGIE);
-//}
-//
-//void CPractice::OnShow() {
-//	pic.SetTopLeft(x, y);
-//	pic.ShowBitmap();
-//}
-
-//CGameMap::CGameMap()
-//	:X(20), Y(40), MW(120), MH(100)			// 給予地圖左上角座標及每張小圖寬高
-//{
-//	int map_init[4][5] = { {0, 0, 1, 0, 0},		// 給予地圖陣列初值
-//						  {0, 1, 2, 1, 0},
-//						  {1, 2, 1, 2, 1},
-//						  {2, 1, 2, 1, 2} };
-//	for (int i = 0; i < 4; i++) {
-//		for (int j = 0; j < 5; j++) {
-//			map[i][j] = map_init[i][j];		// 依序填入map內
-//		}
-//	}
-//	random_num = 0;
-//	bballs = NULL;
-//}
-//
-//void CGameMap::LoadBitmap() {
-//	blue.LoadBitmap(IDB_BLUE);
-//	green.LoadBitmap(IDB_GREEN);
-//}
-//
-//void CGameMap::OnShow() {
-//	for (int i = 0; i < 5; i++) {			// 往右顯示五張圖
-//		for (int j = 0; j < 4; j++) {		// 往下顯示四張圖
-//			switch (map[j][i]) {
-//				case 0:
-//					break;
-//				case 1:
-//					blue.SetTopLeft(X + (MW*i), Y + (MH*j));	// 設定每張圖的座標
-//					blue.ShowBitmap();							// 顯示設定完的座標
-//					break;
-//				case 2:
-//					green.SetTopLeft(X + (MW*i), Y + (MH*j));	// 設定每張圖的座標
-//					green.ShowBitmap();							// 顯示設定完的座標
-//					break;
-//				default:
-//					ASSERT(0);									// map陣列不該出現0, 1, 2 之外的值
-//			}
-//	
-//		}
-//	}
-//	for (int i = 0; i < random_num; i++)
-//	{	
-//		bballs[i].OnShow();
-//	}
-//}
 
 void CBouncingBall::SetXY(int x, int y) {
 	this->x = x;
@@ -1633,48 +1698,5 @@ void CBouncingBall::SetVelocity(int velocity) {
 	this->initial_velocity = velocity;
 }
 
-//void CGameMap::InitializeBouncingBall(int ini_index, int row, int col) {
-//	const int VELOCITY = 10;							// 球的起始上升高度	
-//	const int BALL_PIC_HEIGHT = 15;						// 球圖片的高度
-//	int floor = Y + (row + 1)*MH - BALL_PIC_HEIGHT;		// 設定球的落下點為Map的下方
-//
-//	bballs[ini_index].LoadBitmap();						// 載入彈跳球的動畫
-//	bballs[ini_index].SetFloor(floor);					// 設定彈跳球的起始水平面
-//	bballs[ini_index].SetVelocity(VELOCITY+col);		// 設定彈跳球的初始速度，越右邊的彈越高
-//	bballs[ini_index].SetXY(X+col*MW + MW/2, floor);	// 設定彈跳球的起始位置X座標為該Map一半的位置
-//}
-//
-//void CGameMap::RandomBouncingBall() {
-//	const int MAX_RAND_NUM = 10;
-//	random_num = (rand() % MAX_RAND_NUM) + 1;			// 隨機1~MAX_RAND_NUM
-//
-//	delete[] bballs;													// 先刪掉之前所配置的空間
-//	bballs = new CBouncingBall[random_num];				// 動態配置CBouncingBall 陣列
-//	int ini_index = 0;								
-//	for (int row = 0; row < 4; row++) {
-//		for (int col = 0; col < 5; col++) {
-//			if (map[row][col] != 0 && ini_index < random_num) {		// 只放球在有色的地圖且初始化的陣列索引必小於隨機的個數
-//				InitializeBouncingBall(ini_index, row, col);
-//				ini_index++;										
-//			}
-//		}
-//	}
-//}
-//
-//void CGameMap::OnKeyDown(UINT nChar) {
-//	const int KEY_SPACE = 0x20;
-//	if (nChar == KEY_SPACE)
-//		RandomBouncingBall();	// 當空白鍵按下後隨機彈跳球
-//}
-//
-//void CGameMap::OnMove() {
-//	for (int i = 0; i < random_num; i++) {
-//		bballs[i].OnMove();
-//	}
-//}
-//
-//CGameMap::~CGameMap() {
-//	delete[] bballs;
-//}
 
 }

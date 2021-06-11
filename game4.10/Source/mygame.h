@@ -53,6 +53,7 @@
 #include "YZombies.h"
 #include "YCar.h"
 
+
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -64,7 +65,10 @@ namespace game_framework {
 		AUDIO_MENUTOGAME,
 		AUDIO_SUNPICK,
 		AUDIO_PLANTS,
-		AUDIO_CAR
+		AUDIO_CAR,
+		AUDIO_START_NIGHT,
+		AUDIO_BOMB,
+		AUDIO_VICTORY
 	};
 
 	

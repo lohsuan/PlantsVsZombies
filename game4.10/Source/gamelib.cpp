@@ -358,7 +358,7 @@ void CGameState::ShowInitProgress(int percent)
 	//pDC->SetBkColor(RGB(132, 66, 0));
 	pDC->SetBkMode(TRANSPARENT);
 	pDC->SetTextColor(RGB(255, 211, 6));
-	pDC->TextOut(360, 530, "Loading...");
+	pDC->TextOut(310, 530, "Loading...");
 	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 
 	pDC->SelectObject(pp);						// 釋放 pen

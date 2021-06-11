@@ -125,8 +125,8 @@ namespace game_framework {
 		}
 		void OnMove()
 		{
-			x += 4;
-			if (x > 900) {
+			x += 7;
+			if (x > 800) {
 				is_alive = false;
 			};
 		}
@@ -162,7 +162,6 @@ namespace game_framework {
 		bool is_alive;
 		CMovingBitmap peashooter_bullet;
 	};
-
 
 	class YPeaShooter
 	{
@@ -462,7 +461,7 @@ namespace game_framework {
 		}
 
 		bool checkNearbyZombies(int zx, int zy) {
-			if (y-160 < zy && zy < y+140) {
+			if (y-160 < zy && zy < y+120) {
 				if (zx > x-160 && zx < x+120) {
 					return true;
 				}
@@ -492,8 +491,8 @@ namespace game_framework {
 		}
 		void OnMove()
 		{
-			x += 4;
-			if (x > 900) {
+			x += 7;
+			if (x > 800) {
 				is_alive = false;
 			};
 		}
@@ -923,8 +922,8 @@ namespace game_framework {
 		}
 		void OnMove()
 		{
-			x += 4;
-			if (x > 900) {
+			x += 6;
+			if (x > 800) {
 				is_alive = false;
 			};
 		}

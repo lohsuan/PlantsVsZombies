@@ -12,11 +12,11 @@ namespace game_framework {
 	class YCar {
 	public:
 		YCar() {
-			x = 50;
+			x = -20;
 			is_alive = true;
 		}
 		YCar(int i) {
-			x = 50;
+			x = -20;
 			int a[5] = { 85, 182, 290, 390, 484 };
 			y = a[i];			// i: 0~4
 			is_alive = true;
@@ -26,14 +26,16 @@ namespace game_framework {
 
 		}
 		void OnMove() {
-			if (x < 900)
+			if (x < 800)
 				x = x + 4;
 			else
 				is_alive = false;
 		}
 		void OnShow() {
-			car.SetTopLeft(x, y+20);
-			car.ShowBitmap();
+			if (is_alive) {
+				car.SetTopLeft(x, y + 20);
+				car.ShowBitmap();
+			}
 		}
 
 		bool IsAlive() {

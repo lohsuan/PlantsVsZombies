@@ -21,7 +21,7 @@ namespace game_framework {
 
 		void setmyMap(int x, int y) {
 
-			if (x >= 100 && x < 190) {
+			if (x >= 100-70 && x < 190-70) {
 				if (y > 78 && y < 182) {
 					mymap[0][0] = 1;
 				}
@@ -38,7 +38,7 @@ namespace game_framework {
 					mymap[0][4] = 1;
 				}
 			}
-			else if (x >= 190 && x < 260) {
+			else if (x >= 190-70 && x < 260-70) {
 				if (y > 78 && y < 182) {
 					mymap[1][0] = 1;
 				}
@@ -55,7 +55,7 @@ namespace game_framework {
 					mymap[1][4] = 1;
 				}
 			}
-			else if (x >= 260 && x < 340) {
+			else if (x >= 260-70 && x < 340-70) {
 				if (y > 78 && y < 182) {
 					mymap[2][0] = 1;
 				}
@@ -72,7 +72,7 @@ namespace game_framework {
 					mymap[2][4] = 1;
 				}
 			}
-			else if (x >= 340 && x < 425) {
+			else if (x >= 340-70 && x < 425-70) {
 				if (y > 78 && y < 182) {
 					mymap[3][0] = 1;
 				}
@@ -89,7 +89,7 @@ namespace game_framework {
 					mymap[3][4] = 1;
 				}
 			}
-			else if (x >= 425 && x < 505) {
+			else if (x >= 425-70-70 && x < 505-70) {
 				if (y > 78 && y < 182) {
 					mymap[4][0] = 1;
 				}
@@ -106,7 +106,7 @@ namespace game_framework {
 					mymap[4][4] = 1;
 				}
 			}
-			else if (x >= 505 && x < 585) {
+			else if (x >= 505-70 && x < 585-70) {
 				if (y > 78 && y < 182) {
 					mymap[5][0] = 1;
 				}
@@ -123,7 +123,7 @@ namespace game_framework {
 					mymap[5][4] = 1;
 				}
 			}
-			else if (x >= 585 && x < 660) {
+			else if (x >= 585-70 && x < 660-70) {
 				if (y > 78 && y < 182) {
 					mymap[6][0] = 1;
 				}
@@ -140,7 +140,7 @@ namespace game_framework {
 					mymap[6][4] = 1;
 				}
 			}
-			else if (x >= 660 && x < 747) {
+			else if (x >= 660-70 && x < 747-70) {
 				if (y > 78 && y < 182) {
 					mymap[7][0] = 1;
 				}
@@ -157,7 +157,7 @@ namespace game_framework {
 					mymap[7][4] = 1;
 				}
 			}
-			else if (x >= 747 && x < 840) {
+			else if (x >= 747-70 && x < 840-70) {
 				if (y > 78 && y < 182) {
 					mymap[8][0] = 1;
 				}
@@ -177,7 +177,7 @@ namespace game_framework {
 		}
 		void unsetmyMap(int x, int y) {
 
-			if (x >= 100 && x < 190) {
+			if (x >= 100-70 && x < 190-70) {
 				if (y > 78 && y < 182) {
 					mymap[0][0] = 0;
 				}
@@ -194,7 +194,7 @@ namespace game_framework {
 					mymap[0][4] = 0;
 				}
 			}
-			else if (x >= 190 && x < 260) {
+			else if (x >= 190-70 && x < 260-70) {
 				if (y > 78 && y < 182) {
 					mymap[1][0] = 0;
 				}
@@ -211,7 +211,7 @@ namespace game_framework {
 					mymap[1][4] = 0;
 				}
 			}
-			else if (x >= 260 && x < 340) {
+			else if (x >= 260-70 && x < 340-70) {
 				if (y > 78 && y < 182) {
 					mymap[2][0] = 0;
 				}
@@ -228,7 +228,7 @@ namespace game_framework {
 					mymap[2][4] = 0;
 				}
 			}
-			else if (x >= 340 && x < 425) {
+			else if (x >= 340-70 && x < 425-70) {
 				if (y > 78 && y < 182) {
 					mymap[3][0] = 0;
 				}
@@ -245,7 +245,7 @@ namespace game_framework {
 					mymap[3][4] = 0;
 				}
 			}
-			else if (x >= 425 && x < 505) {
+			else if (x >= 425-70 && x < 505-70) {
 				if (y > 78 && y < 182) {
 					mymap[4][0] = 0;
 				}
@@ -262,7 +262,7 @@ namespace game_framework {
 					mymap[4][4] = 0;
 				}
 			}
-			else if (x >= 505 && x < 585) {
+			else if (x >= 505-70 && x < 585-70) {
 				if (y > 78 && y < 182) {
 					mymap[5][0] = 0;
 				}
@@ -279,7 +279,7 @@ namespace game_framework {
 					mymap[5][4] = 0;
 				}
 			}
-			else if (x >= 585 && x < 660) {
+			else if (x >= 585-70 && x < 660-70-70) {
 				if (y > 78 && y < 182) {
 					mymap[6][0] = 0;
 				}
@@ -296,7 +296,7 @@ namespace game_framework {
 					mymap[6][4] = 0;
 				}
 			}
-			else if (x >= 660 && x < 747) {
+			else if (x >= 660-70 && x < 747-70) {
 				if (y > 78 && y < 182) {
 					mymap[7][0] = 0;
 				}
@@ -313,7 +313,7 @@ namespace game_framework {
 					mymap[7][4] = 0;
 				}
 			}
-			else if (x >= 747 && x < 840) {
+			else if (x >= 747-70 && x < 840-70) {
 				if (y > 78 && y < 182) {
 					mymap[8][0] = 0;
 				}
@@ -333,7 +333,7 @@ namespace game_framework {
 		}
 		bool checkmyMap(const int x, const int y) {
 
-			if (x >= 100 && x < 190) {
+			if (x >= 100-70 && x < 190-70) {
 				if (y > 78 && y < 182) {
 					if (mymap[0][0] == 1)
 						return true;
@@ -361,7 +361,7 @@ namespace game_framework {
 				}
 				return false;
 			}
-			else if (x >= 190 && x < 260) {
+			else if (x >= 190-70 && x < 260-70) {
 				if (y > 78 && y < 182) {
 					if (mymap[1][0] == 1)
 						return true;
@@ -389,7 +389,7 @@ namespace game_framework {
 				}
 				return false;
 			}
-			else if (x >= 260 && x < 340) {
+			else if (x >= 260-70 && x < 340-70) {
 				if (y > 78 && y < 182) {
 					if (mymap[2][0] == 1)
 						return true;
@@ -417,7 +417,7 @@ namespace game_framework {
 				}
 				return false;
 			}
-			else if (x >= 340 && x < 425) {
+			else if (x >= 340-70 && x < 425-70) {
 				if (y > 78 && y < 182) {
 					if (mymap[3][0] == 1)
 						return true;
@@ -445,7 +445,7 @@ namespace game_framework {
 				}
 				return false;
 			}
-			else if (x >= 425 && x < 505) {
+			else if (x >= 425-70 && x < 505-70) {
 				if (y > 78 && y < 182) {
 					if (mymap[4][0] == 1)
 						return true;
@@ -473,7 +473,7 @@ namespace game_framework {
 				}
 				return false;
 			}
-			else if (x >= 505 && x < 585) {
+			else if (x >= 505-70 && x < 585-70) {
 				if (y > 78 && y < 182) {
 					if (mymap[5][0] == 1)
 						return true;
@@ -501,7 +501,7 @@ namespace game_framework {
 				}
 				return false;
 			}
-			else if (x >= 585 && x < 660) {
+			else if (x >= 585-70 && x < 660-70) {
 				if (y > 78 && y < 182) {
 					if (mymap[6][0] == 1)
 						return true;
@@ -529,7 +529,7 @@ namespace game_framework {
 				}
 				return false;
 			}
-			else if (x >= 660 && x < 747) {
+			else if (x >= 660-70 && x < 747-70) {
 				if (y > 78 && y < 182) {
 					if (mymap[7][0] == 1)
 						return true;
@@ -557,7 +557,7 @@ namespace game_framework {
 				}
 				return false;
 			}
-			else if (x >= 747 && x < 840) {
+			else if (x >= 747-70 && x < 840-70) {
 				if (y > 78 && y < 182) {
 					if (mymap[8][0] == 1)
 						return true;
@@ -592,32 +592,32 @@ namespace game_framework {
 
 		int  getXmyMapLocation(int x, int y) {
 
-			if (x >= 100 && x < 190) {
-				return 100;
+			if (x >= 100-70 && x < 190-70) {
+				return 100-70;
 			}
-			else if (x >= 190 && x < 260) {
-				return 190;
+			else if (x >= 190-70 && x < 260-70) {
+				return 190-70;
 			}
-			else if (x >= 260 && x < 340) {
-				return 260;
+			else if (x >= 260-70 && x < 340-70) {
+				return 260-70;
 			}
-			else if (x >= 340 && x < 425) {
-				return 340;
+			else if (x >= 340-70 && x < 425-70) {
+				return 340-70;
 			}
-			else if (x >= 425 && x < 505) {
-				return 425;
+			else if (x >= 425-70 && x < 505-70) {
+				return 425-70;
 			}
-			else if (x >= 505 && x < 585) {
-				return 505;
+			else if (x >= 505-70 && x < 585-70) {
+				return 505-70;
 			}
-			else if (x >= 585 && x < 660) {
-				return 585;
+			else if (x >= 585-70 && x < 660-70) {
+				return 585-70;
 			}
-			else if (x >= 660 && x < 747) {
-				return 660;
+			else if (x >= 660-70 && x < 747-70) {
+				return 660-70;
 			}
-			else if (x >= 747 && x < 840) {
-				return 747;
+			else if (x >= 747-70 && x < 840-70) {
+				return 747-70;
 			}
 			return 0;
 		}

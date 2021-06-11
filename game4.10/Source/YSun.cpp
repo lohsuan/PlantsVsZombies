@@ -13,7 +13,7 @@ namespace game_framework {
 
 	YSun::YSun() {
 		srand((int)time(NULL));
-		x = (rand() % 650) + 100;		// 100~750
+		x = (rand() % 550)+100;		// 100~650
 		y = -150;
 		floor = (rand() % 250) + 250;	//250~500
 		is_alive = true;
