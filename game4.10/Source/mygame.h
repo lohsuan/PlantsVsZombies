@@ -105,6 +105,7 @@ namespace game_framework {
 		CMovingBitmap	loadtext;						// Loading... picture
 		CMovingBitmap	adventure0;
 		CMovingBitmap	adventure1;
+		CMovingBitmap   all_level_done;
 		int				flag_menutogame;
 	};
 

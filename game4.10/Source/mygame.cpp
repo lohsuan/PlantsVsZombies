@@ -69,7 +69,7 @@ namespace game_framework {
 	int CGameState::victoryflag = 0;
 	int CGameState::level = 0;
 	bool CGameState::night_mode = false;
-
+	bool CGameState::all_victory_flag = false;
 
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲開頭畫面物件
@@ -97,6 +97,8 @@ void CGameStateInit::OnInit()
 	mainmenu.LoadBitmap("Bitmaps/MainMenu.bmp");
 	adventure0.LoadBitmap("Bitmaps/Adventure0.bmp", RGB(255,255,255));
 	adventure1.LoadBitmap("Bitmaps/Adventure1.bmp", RGB(255,255,255));
+	all_level_done.LoadBitmap("Bitmaps/vic_done.bmp", RGB(0, 0, 0));
+
 	CAudio::Instance()->Load(AUDIO_MAIN, "sounds\\mainmenu.mp3");
 	CAudio::Instance()->Play(AUDIO_MAIN, true);
 
@@ -126,15 +128,7 @@ void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 		PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE,0,0);	// 關閉遊戲
 }
 
-//void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point) {
-//	adventure1.SetTopLeft(470, 100);
-//	adventure1.ShowBitmap();
-//}
 
-//void CGameStateInit::OnMouseHover(UINT nFlags, CPoint point) {
-//	adventure1.SetTopLeft(470, 100);
-//	adventure1.ShowBitmap();
-//}
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
 
@@ -162,6 +156,11 @@ void CGameStateInit::OnShow()
 		adventure0.ShowBitmap();
 	} else {
 		adventure1.ShowBitmap();
+	}
+
+	if (all_victory_flag) {
+		all_level_done.SetTopLeft(38, 179);
+		all_level_done.ShowBitmap();
 	}
 	//
 	// Demo螢幕字型的使用，不過開發時請盡量避免直接使用字型，改用CMovingBitmap比較好
@@ -207,6 +206,7 @@ void CGameStateOver::OnLButtonDown(UINT nFlags, CPoint point)
 	if (victoryflag && point.x > 363 && point.y > 501 && point.x < 538 && point.y < 545) {
 		if (level == 11) {
 			level = 1;
+			all_victory_flag = true;
 		}
 		GotoGameState(GAME_STATE_INIT);
 		CAudio::Instance()->Stop(AUDIO_VICTORY);
@@ -379,7 +379,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 	//
-	level = 7;
+	level = 10;
 }
 
 std::vector<shared_ptr<YNormalZombie>> zombieInitTest(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {

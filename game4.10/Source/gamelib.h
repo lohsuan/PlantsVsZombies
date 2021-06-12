@@ -315,7 +315,7 @@ protected:
 	static int victoryflag;
 	static int level;
 	static bool night_mode;
-
+	static bool all_victory_flag;
 
 };
 
