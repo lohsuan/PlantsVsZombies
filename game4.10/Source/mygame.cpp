@@ -1,56 +1,3 @@
-/*
- * mygame.cpp: 本檔案儲遊戲本身的class的implementation
- * Copyright (C) 2002-2008 Woei-Kae Chen <wkc@csie.ntut.edu.tw>
- *
- * This file is part of game, a free game development framework for windows.
- *
- * game is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * game is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
- * History:
- *   2002-03-04 V3.1
- *          Add codes to demostrate the use of CMovingBitmap::ShowBitmap(CMovingBitmap &).
- *	 2004-03-02 V4.0
- *      1. Add CGameStateInit, CGameStateRun, and CGameStateOver to
- *         demonstrate the use of states.
- *      2. Demo the use of CInteger in CGameStateRun.
- *   2005-09-13
- *      Rewrite the codes for CBall and CEraser.
- *   2005-09-20 V4.2Beta1.
- *   2005-09-29 V4.2Beta2.
- *      1. Add codes to display IDC_GAMECURSOR in GameStateRun.
- *   2006-02-08 V4.2
- *      1. Revise sample screens to display in English only.
- *      2. Add code in CGameStateInit to demo the use of PostQuitMessage().
- *      3. Rename OnInitialUpdate() -> OnInit().
- *      4. Fix the bug that OnBeginState() of GameStateInit is not called.
- *      5. Replace AUDIO_CANYON as AUDIO_NTUT.
- *      6. Add help bitmap to CGameStateRun.
- *   2006-09-09 V4.3
- *      1. Rename Move() and Show() as OnMove and OnShow() to emphasize that they are
- *         event driven.
- *   2006-12-30
- *      1. Bug fix: fix a memory leak problem by replacing PostQuitMessage(0) as
- *         PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE,0,0).
- *   2008-02-15 V4.4
- *      1. Add namespace game_framework.
- *      2. Replace the demonstration of animation as a new bouncing ball.
- *      3. Use ShowInitProgress(percent) to display loading progress. 
- *   2010-03-23 V4.6
- *      1. Demo MP3 support: use lake.mp3 to replace lake.wav.
-*/
-
 #include "stdafx.h"
 #include "Resource.h"
 #include <mmsystem.h>
@@ -67,7 +14,7 @@
 namespace game_framework {
 
 	int CGameState::victoryflag = 0;
-	int CGameState::level = 0;
+	int CGameState::level = 7;
 	bool CGameState::night_mode = false;
 	bool CGameState::all_victory_flag = false;
 
@@ -90,7 +37,7 @@ void CGameStateInit::OnInit()
 	flag_menutogame = 0;
 	ShowInitProgress(0);	// 一開始的loading進度為0%
 	
-	Sleep(300);
+	//Sleep(300);
 	//
 	// 開始載入資料
 	//
@@ -107,7 +54,7 @@ void CGameStateInit::OnInit()
 	CAudio::Instance()->Load(AUDIO_PLANTS, "sounds\\plants_sound.mp3");
 	CAudio::Instance()->Load(AUDIO_CAR, "sounds\\car.mp3");
 
-	Sleep(500);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	//Sleep(500);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
 	// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 	//
@@ -204,8 +151,8 @@ void CGameStateOver::OnMove()
 void CGameStateOver::OnLButtonDown(UINT nFlags, CPoint point) 
 {
 	if (victoryflag && point.x > 363 && point.y > 501 && point.x < 538 && point.y < 545) {
-		if (level == 11) {
-			level = 1;
+		if (CGameState::level == 11) {
+			CGameState::level = 1;
 			all_victory_flag = true;
 		}
 		GotoGameState(GAME_STATE_INIT);
@@ -242,11 +189,11 @@ void CGameStateOver::OnInit()
 	ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
 
 
-	Sleep(100);
+	//Sleep(100);
 	ShowInitProgress(85);	// 接個前一個狀態的進度，此處進度視為66%
 
 
-	Sleep(100);
+	//Sleep(100);
 	//
 	// 開始載入資料
 	//
@@ -263,47 +210,43 @@ void CGameStateOver::OnShow()
 	if (victoryflag) {
 		newplant.SetTopLeft(0, 0);
 		newplant.ShowBitmap();
-		if (level == 2) {
+		if (CGameState::level == 2) {
 			wallnut.SetTopLeft(232, 91);
 			wallnut.ShowBitmap();
 		}
-		else if (level == 3) {
+		else if (CGameState::level == 3) {
 			cherrybomb.SetTopLeft(232, 91);
 			cherrybomb.ShowBitmap();
 		}
-		else if (level == 4) {
+		else if (CGameState::level == 4) {
 			conehead.SetTopLeft(232, 91);
 			conehead.ShowBitmap();
 		}
-		else if (level == 5) {
+		else if (CGameState::level == 5) {
 			snowpea.SetTopLeft(232, 91);
 			snowpea.ShowBitmap();
 		}
-		else if (level == 6) {
+		else if (CGameState::level == 6) {
 			bucket.SetTopLeft(232, 91);
 			bucket.ShowBitmap();
 		}
-		else if (level == 7) {
+		else if (CGameState::level == 7) {
 			potatomine.SetTopLeft(232, 91);
 			potatomine.ShowBitmap();
 		}
-		else if (level == 8) {
+		else if (CGameState::level == 8) {
 			newspaper.SetTopLeft(232, 91);
 			newspaper.ShowBitmap();
 		}
-		else if (level == 9) {
-			puff_shroom.SetTopLeft(232, 91);
-			puff_shroom.ShowBitmap();
-		}
-		else if (level == 10) {
-			squash.SetTopLeft(232, 91);
-			squash.ShowBitmap();
-		}
-		else if (level == 10) {
+		else if (CGameState::level == 9) {
 			squash.SetTopLeft(0, 0);
 			squash.ShowBitmap();
 		}
-		else if (level == 11) {
+		else if (CGameState::level == 10) {
+			puff_shroom.SetTopLeft(232, 91);
+			puff_shroom.ShowBitmap();
+		}
+		else if (CGameState::level == 11) {
 			victory.SetTopLeft(232, 91);
 			victory.ShowBitmap();
 		}
@@ -327,14 +270,14 @@ void CGameStateOver::OnShow()
 CGameStateRun::CGameStateRun(CGame *g)
 : CGameState(g), NUMBALLS(28)
 {
-	ball = new CBall [NUMBALLS];
+	//ball = new CBall [NUMBALLS];
 	picX = picY = 0;
 }
 
 
 CGameStateRun::~CGameStateRun()
 {
-	delete [] ball;
+	//delete [] ball;
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -344,7 +287,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
 	ShowInitProgress(33);	// 接個前一個狀態的進度，此處進度視為33%
-	Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	//Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 
 	// 開始載入資料
 
@@ -353,13 +296,13 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	background_night.LoadBitmap("Bitmaps/Background_1.bmp");
 	shovel_card.LoadBitmap();
 	ShowInitProgress(50);
-	Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	//Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 
-	help.LoadBitmap(IDB_HELP, RGB(255, 255, 255));				// 載入說明的圖形
+	//help.LoadBitmap(IDB_HELP, RGB(255, 255, 255));				// 載入說明的圖形
 	//corner.LoadBitmap(IDB_CORNER);							// 載入角落圖形
 	//corner.ShowBitmap(background);							// 將corner貼到background
-	bball.LoadBitmap();										// 載入圖形
-	hits_left.LoadBitmap();
+	//bball.LoadBitmap();										// 載入圖形
+	//hits_left.LoadBitmap();
 	sun.LoadBitmap();
 	sun_flower_card.LoadBitmap();
 	pea_shooter_card.LoadBitmap();
@@ -379,7 +322,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 	//
-	level = 10;
+	CGameState::level = 1;
 }
 
 std::vector<shared_ptr<YNormalZombie>> zombieInitTest(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
@@ -613,9 +556,9 @@ void CGameStateRun::OnBeginState()
 	const int BACKGROUND_X = 0;
 	const int ANIMATION_SPEED = 15;
 
-	help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
-	hits_left.SetInteger(HITS_LEFT);					// 指定剩下的撞擊數
-	hits_left.SetTopLeft(HITS_LEFT_X,HITS_LEFT_Y);		// 指定剩下撞擊數的座標
+	//help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
+	//hits_left.SetInteger(HITS_LEFT);					// 指定剩下的撞擊數
+	//hits_left.SetTopLeft(HITS_LEFT_X,HITS_LEFT_Y);		// 指定剩下撞擊數的座標
 	CAudio::Instance()->Stop(AUDIO_MAIN);
 	
 	flag = 0;
@@ -682,47 +625,47 @@ void CGameStateRun::OnBeginState()
 	map.clear();
 	zombie_fast_mode = false;
 	sun.SetY(-200);
-	if (level == 0) {
+	if (CGameState::level == 0) {
 		night_mode = false;
 		normalzombie_vector = zombieInitTest(normalzombie_vector);
 	}
-	else if (level == 1) {
+	else if (CGameState::level == 1) {
 		night_mode = false;
 		normalzombie_vector = zombieInitLevel1(normalzombie_vector);
 	}
-	else if (level == 2) {
+	else if (CGameState::level == 2) {
 		night_mode = false;
 		normalzombie_vector = zombieInitLevel2(normalzombie_vector);
 	}
-	else if (level == 3) {
+	else if (CGameState::level == 3) {
 		night_mode = false;
 		normalzombie_vector = zombieInitLevel3(normalzombie_vector);
 	}
-	else if (level == 4) {
+	else if (CGameState::level == 4) {
 		night_mode = true;
 		normalzombie_vector = zombieInitLevel4(normalzombie_vector);
 	}
-	else if (level == 5) {
+	else if (CGameState::level == 5) {
 		night_mode = false;
 		normalzombie_vector = zombieInitLevel5(normalzombie_vector);
 	}
-	else if (level == 6) {
+	else if (CGameState::level == 6) {
 		night_mode = true;
 		normalzombie_vector = zombieInitLevel6(normalzombie_vector);
 	}
-	else if (level == 7) {
+	else if (CGameState::level == 7) {
 		night_mode = false;
 		normalzombie_vector = zombieInitLevel7(normalzombie_vector);
 	}
-	else if (level == 8) {
+	else if (CGameState::level == 8) {
 		night_mode = true;
 		normalzombie_vector = zombieInitLevel8(normalzombie_vector);
 	}
-	else if (level == 9) {
+	else if (CGameState::level == 9) {
 		night_mode = false;
 		normalzombie_vector = zombieInitLevel9(normalzombie_vector);
 	}
-	else if (level == 10) {
+	else if (CGameState::level == 10) {
 		night_mode = true;
 		normalzombie_vector = zombieInitLevel10(normalzombie_vector);
 	}
@@ -802,7 +745,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		peashooter_vector.push_back(sp);
 		generatePeaShooterFlag = false;
 	}
-	else if (level > 1 && generateWallNutFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
+	else if (CGameState::level > 1 && generateWallNutFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
 		CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		int tx = map.getXmyMapLocation(point.x, point.y);
 		int ty = map.getYmyMapLocation(point.x, point.y);
@@ -813,14 +756,14 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		wallnut_vector.push_back(sp);
 		generateWallNutFlag = false;
 	}
-	else if (level > 2 && generateCherryBombFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
+	else if (CGameState::level > 2 && generateCherryBombFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
 		CAudio::Instance()->Play(AUDIO_BOMB, false);
 		auto sp = make_shared<YCherryBomb>(point.x, point.y);
 		sp->LoadBitmap();
 		cherrybomb_vector.push_back(sp);
 		generateCherryBombFlag = false;
 	}
-	else if (level > 4 && generateIceShooterFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
+	else if (CGameState::level > 4 && generateIceShooterFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
 		CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		int tx = map.getXmyMapLocation(point.x, point.y);
 		int ty = map.getYmyMapLocation(point.x, point.y);
@@ -831,7 +774,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		iceshooter_vector.push_back(sp);
 		generateIceShooterFlag = false;
 	}
-	else if (level > 6 && generatePotatomineFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
+	else if (CGameState::level > 6 && generatePotatomineFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
 		CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		int tx = map.getXmyMapLocation(point.x, point.y);
 		int ty = map.getYmyMapLocation(point.x, point.y);
@@ -842,7 +785,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		potatomine_vector.push_back(sp);
 		generatePotatomineFlag = false;
 	}
-	else if (level > 8 && generateSquashFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
+	else if (CGameState::level > 8 && generateSquashFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
 		CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		int tx = map.getXmyMapLocation(point.x, point.y);
 		int ty = map.getYmyMapLocation(point.x, point.y);
@@ -853,7 +796,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		squash_vector.push_back(sp);
 		generateSquashFlag = false;
 	}
-	else if (level > 9 && generateShooterFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
+	else if (CGameState::level > 9 && generateShooterFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
 		CAudio::Instance()->Play(AUDIO_PLANTS, false);
 		int tx = map.getXmyMapLocation(point.x, point.y);
 		int ty = map.getYmyMapLocation(point.x, point.y);
@@ -904,37 +847,37 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		generatePeaShooterFlag = true;
 		peashooter_card_delay_flag = 150;
 	}
-	else if (level > 1 && point.x > wallnut_card.GetX() && point.y > wallnut_card.GetY() && point.x < wallnut_card.GetX() + 65 && point.y < wallnut_card.GetY() + 90 && wallnut_card.IsAlive()) {
+	else if (CGameState::level > 1 && point.x > wallnut_card.GetX() && point.y > wallnut_card.GetY() && point.x < wallnut_card.GetX() + 65 && point.y < wallnut_card.GetY() + 90 && wallnut_card.IsAlive()) {
 		wallnut_card.SetIsAlive(false);
 		sun_amount -= wallnut_card.GetSunCost();
 		generateWallNutFlag = true;
 		wallnut_card_delay_flag = 150;
 	}
-	else if (level > 2 && point.x > cherrybomb_card.GetX() && point.y > cherrybomb_card.GetY() && point.x < cherrybomb_card.GetX() + 65 && point.y < cherrybomb_card.GetY() + 90 && cherrybomb_card.IsAlive()) {
+	else if (CGameState::level > 2 && point.x > cherrybomb_card.GetX() && point.y > cherrybomb_card.GetY() && point.x < cherrybomb_card.GetX() + 65 && point.y < cherrybomb_card.GetY() + 90 && cherrybomb_card.IsAlive()) {
 		cherrybomb_card.SetIsAlive(false);
 		sun_amount -= cherrybomb_card.GetSunCost();
 		generateCherryBombFlag = true;
 		cherrybomb_card_delay_flag = 150;
 	}
-	else if (level > 4 && point.x > ice_shooter_card.GetX() && point.y > ice_shooter_card.GetY() && point.x < ice_shooter_card.GetX() + 65 && point.y < ice_shooter_card.GetY() + 90 && ice_shooter_card.IsAlive()) {
+	else if (CGameState::level > 4 && point.x > ice_shooter_card.GetX() && point.y > ice_shooter_card.GetY() && point.x < ice_shooter_card.GetX() + 65 && point.y < ice_shooter_card.GetY() + 90 && ice_shooter_card.IsAlive()) {
 		ice_shooter_card.SetIsAlive(false);
 		sun_amount -= ice_shooter_card.GetSunCost();
 		generateIceShooterFlag = true;
 		iceshooter_card_delay_flag = 150;
 	}
-	else if (level > 6 && point.x > potatomine_card.GetX() && point.y > potatomine_card.GetY() && point.x < potatomine_card.GetX() + 65 && point.y < potatomine_card.GetY() + 90 && potatomine_card.IsAlive()) {
+	else if (CGameState::level > 6 && point.x > potatomine_card.GetX() && point.y > potatomine_card.GetY() && point.x < potatomine_card.GetX() + 65 && point.y < potatomine_card.GetY() + 90 && potatomine_card.IsAlive()) {
 		potatomine_card.SetIsAlive(false);
 		sun_amount -= potatomine_card.GetSunCost();
 		generatePotatomineFlag = true;
 		potatomine_card_delay_flag = 150;
 	}
-	else if (level > 8 && point.x > squash_card.GetX() && point.y > squash_card.GetY() && point.x < squash_card.GetX() + 65 && point.y < squash_card.GetY() + 90 && squash_card.IsAlive()) {
+	else if (CGameState::level > 8 && point.x > squash_card.GetX() && point.y > squash_card.GetY() && point.x < squash_card.GetX() + 65 && point.y < squash_card.GetY() + 90 && squash_card.IsAlive()) {
 		squash_card.SetIsAlive(false);
 		sun_amount -= squash_card.GetSunCost();
 		generateSquashFlag = true;
 		squash_card_delay_flag = 150;
 	}
-	else if (level > 9 && point.x > shooter_card.GetX() && point.y > shooter_card.GetY() && point.x < shooter_card.GetX() + 65 && point.y < shooter_card.GetY() + 90 && shooter_card.IsAlive()) {
+	else if (CGameState::level > 9 && point.x > shooter_card.GetX() && point.y > shooter_card.GetY() && point.x < shooter_card.GetX() + 65 && point.y < shooter_card.GetY() + 90 && shooter_card.IsAlive()) {
 		shooter_card.SetIsAlive(false);
 		sun_amount -= shooter_card.GetSunCost();
 		generateShooterFlag = true;
@@ -951,22 +894,22 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	if (pea_shooter_card.GetSunCost() > sun_amount) {
 		pea_shooter_card.SetIsAlive(false);
 	}
-	if (level > 1 && wallnut_card.GetSunCost() > sun_amount) {
+	if (CGameState::level > 1 && wallnut_card.GetSunCost() > sun_amount) {
 		wallnut_card.SetIsAlive(false);
 	}
-	if (level > 2 && cherrybomb_card.GetSunCost() > sun_amount) {
+	if (CGameState::level > 2 && cherrybomb_card.GetSunCost() > sun_amount) {
 		cherrybomb_card.SetIsAlive(false);
 	}
-	if (level > 4 && ice_shooter_card.GetSunCost() > sun_amount) {
+	if (CGameState::level > 4 && ice_shooter_card.GetSunCost() > sun_amount) {
 		ice_shooter_card.SetIsAlive(false);
 	}
-	if (level > 6 && potatomine_card.GetSunCost() > sun_amount) {
+	if (CGameState::level > 6 && potatomine_card.GetSunCost() > sun_amount) {
 		potatomine_card.SetIsAlive(false);
 	}
-	if (level > 8 && squash_card.GetSunCost() > sun_amount) {
+	if (CGameState::level > 8 && squash_card.GetSunCost() > sun_amount) {
 		squash_card.SetIsAlive(false);
 	}
-	if (level > 9 && shooter_card.GetSunCost() > sun_amount) {
+	if (CGameState::level > 9 && shooter_card.GetSunCost() > sun_amount) {
 		shooter_card.SetIsAlive(false);
 	}
 }
@@ -1031,22 +974,22 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (peashooter_card_delay_flag > 0) {
 			peashooter_card_delay_flag--;
 		}
-		if (level > 1 && wallnut_card_delay_flag > 0) {
+		if (CGameState::level > 1 && wallnut_card_delay_flag > 0) {
 			wallnut_card_delay_flag--;
 		}
-		if (level > 2 && cherrybomb_card_delay_flag > 0) {
+		if (CGameState::level > 2 && cherrybomb_card_delay_flag > 0) {
 			cherrybomb_card_delay_flag--;
 		}
-		if (level > 4 && iceshooter_card_delay_flag > 0) {
+		if (CGameState::level > 4 && iceshooter_card_delay_flag > 0) {
 			iceshooter_card_delay_flag--;
 		}
-		if (level > 6 && potatomine_card_delay_flag > 0) {
+		if (CGameState::level > 6 && potatomine_card_delay_flag > 0) {
 			potatomine_card_delay_flag--;
 		}
-		if (level > 8 && squash_card_delay_flag > 0) {
+		if (CGameState::level > 8 && squash_card_delay_flag > 0) {
 			squash_card_delay_flag--;
 		}
-		if (level > 9 && shooter_card_delay_flag > 0) {
+		if (CGameState::level > 9 && shooter_card_delay_flag > 0) {
 			shooter_card_delay_flag--;
 		}
 		// shovel the plant
@@ -1065,7 +1008,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				peashooter_vector.at(i)->OnMove();
 			}
 		}
-		if (level > 1) {
+		if (CGameState::level > 1) {
 			for (size_t i = 0; i < wallnut_vector.size(); i++) {
 				if (!map.checkmyMap(wallnut_vector.at(i)->GetX(), wallnut_vector.at(i)->GetY())) {
 					wallnut_vector.erase(wallnut_vector.begin() + i);	//if map is zero, delete the plant
@@ -1075,12 +1018,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				}
 			}
 		}
-		if (level > 2) {
+		if (CGameState::level > 2) {
 			for (size_t i = 0; i < cherrybomb_vector.size(); i++) {
 				cherrybomb_vector.at(i)->OnMove();
 			}
 		}
-		if (level > 4) {
+		if (CGameState::level > 4) {
 			for (size_t i = 0; i < iceshooter_vector.size(); i++) {
 				if (!map.checkmyMap(iceshooter_vector.at(i)->GetX(), iceshooter_vector.at(i)->GetY())) {
 					iceshooter_vector.erase(iceshooter_vector.begin() + i);	//if map is zero, delete the plant
@@ -1090,7 +1033,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				}
 			}
 		}
-		if (level > 6) {
+		if (CGameState::level > 6) {
 			for (size_t i = 0; i < potatomine_vector.size(); i++) {
 				if (!map.checkmyMap(potatomine_vector.at(i)->GetX(), potatomine_vector.at(i)->GetY())) {
 					potatomine_vector.erase(potatomine_vector.begin() + i);	//if map is zero, delete the plant
@@ -1100,7 +1043,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				}
 			}
 		}
-		if (level > 8) {
+		if (CGameState::level > 8) {
 			for (size_t i = 0; i < squash_vector.size(); i++) {
 				if (!map.checkmyMap(squash_vector.at(i)->GetX(), squash_vector.at(i)->GetY())) {
 					squash_vector.erase(squash_vector.begin() + i);	//if map is zero, delete the plant
@@ -1110,7 +1053,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				}
 			}
 		}
-		if (level > 9) {
+		if (CGameState::level > 9) {
 			for (size_t i = 0; i < shooter_vector.size(); i++) {
 				if (!map.checkmyMap(shooter_vector.at(i)->GetX(), shooter_vector.at(i)->GetY())) {
 					shooter_vector.erase(shooter_vector.begin() + i);	//if map is zero, delete the plant
@@ -1145,7 +1088,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					}
 				}
 			}
-			if (level > 1) {
+			if (CGameState::level > 1) {
 				for (size_t j = 0; j < wallnut_vector.size(); j++) {
 					if (wallnut_vector.at(j)->checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX() + 70, normalzombie_vector.at(i)->GetY() + 30)) {
 						wallnut_vector.at(j)->LostBlood(normalzombie_vector.at(i)->GetAttackPower());
@@ -1157,13 +1100,13 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					}
 				}
 			}
-			if (level > 2) {
+			if (CGameState::level > 2) {
 				if (!cherrybomb_vector.empty() && cherrybomb_vector.at(0)->Bomb() 
 					&& cherrybomb_vector.at(0)->checkNearbyZombies(normalzombie_vector.at(i)->GetX(), normalzombie_vector.at(i)->GetY())) {
 					normalzombie_vector.at(i)->SetBombFlag();
 					normalzombie_vector.at(i)->OnMove(std::string("bomb"));
 				}
-				else if (level > 6  && !potatomine_vector.empty() && potatomine_vector.at(0)->Bomb()
+				else if (CGameState::level > 6  && !potatomine_vector.empty() && potatomine_vector.at(0)->Bomb()
 					&& potatomine_vector.at(0)->checkNearbyZombies(normalzombie_vector.at(i)->GetX(), normalzombie_vector.at(i)->GetY())) {
 					normalzombie_vector.at(i)->SetBombFlag();
 					normalzombie_vector.at(i)->OnMove(std::string("bomb"));
@@ -1183,7 +1126,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 						normalzombie_vector.at(i)->OnMove(std::string("walk"));
 				}
 
-				if (level > 4) {
+				if (CGameState::level > 4) {
 					for (size_t j = 0; j < iceshooter_vector.size(); j++) {
 						if (iceshooter_vector.at(j)->checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX() + 70, normalzombie_vector.at(i)->GetY() + 30)) {
 							iceshooter_vector.at(j)->LostBlood(normalzombie_vector.at(i)->GetAttackPower());
@@ -1196,7 +1139,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					}
 				}
 
-				if (level > 6) {
+				if (CGameState::level > 6) {
 					for (size_t j = 0; j < potatomine_vector.size(); j++) {
 						if (potatomine_vector.at(j)->checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX() + 70, normalzombie_vector.at(i)->GetY() + 30)) {
 							potatomine_vector.at(j)->SetZombieChecked();
@@ -1209,7 +1152,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 						}
 					}
 				}
-				if (level > 8) {
+				if (CGameState::level > 8) {
 					for (size_t j = 0; j < squash_vector.size(); j++) {
 						if (squash_vector.at(j)->checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX() + 70, normalzombie_vector.at(i)->GetY() + 30)) {
 							squash_vector.at(j)->SetZombieChecked();
@@ -1222,7 +1165,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					}
 				}
 
-				if (level > 9) {
+				if (CGameState::level > 9) {
 					for (size_t j = 0; j < shooter_vector.size(); j++) {
 						if (normalzombie_vector.at(i)->IsAlive() && shooter_vector.at(j)->isClose(normalzombie_vector.at(i)->GetX() + 70, normalzombie_vector.at(i)->GetY() + 30)) {
 							shooter_vector.at(j)->SetClose(true);
@@ -1259,14 +1202,14 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				}
 			}
 
-			if (level > 2) {
+			if (CGameState::level > 2) {
 				for (size_t i = 0; i < cherrybomb_vector.size(); i++) {
 					if (!cherrybomb_vector.at(i)->IsAlive()) {
 						cherrybomb_vector.erase(cherrybomb_vector.begin() + i);
 					}
 				}
 			}
-			if (level > 6) {
+			if (CGameState::level > 6) {
 				for (size_t i = 0; i < potatomine_vector.size(); i++) {
 					if (!potatomine_vector.at(i)->IsAlive()) {
 						map.unsetmyMap(potatomine_vector.at(i)->GetX(), potatomine_vector.at(i)->GetY());
@@ -1340,7 +1283,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				}
 			}
 
-			if (level > 4) {
+			if (CGameState::level > 4) {
 				for (auto p : iceshooter_vector) {
 					int temp_y = map.getYmyMapLocation(normalzombie_vector.at(i)->GetX(), normalzombie_vector.at(i)->GetY() + 30);
 					if (p->checkBulletCollideWithZombie(normalzombie_vector.at(i)->GetX(), temp_y)) {
@@ -1349,7 +1292,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					}
 				}
 			}
-			if (level > 8) {
+			if (CGameState::level > 8) {
 				for (auto p : squash_vector) {
 					int temp_y = map.getYmyMapLocation(normalzombie_vector.at(i)->GetX(), normalzombie_vector.at(i)->GetY() + 30);
 					if (p->checkPlantCollideWithZombie(normalzombie_vector.at(i)->GetX(), temp_y)) {
@@ -1357,7 +1300,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					}
 				}
 			}
-			if (level > 9) {
+			if (CGameState::level > 9) {
 				for (auto p : shooter_vector) {
 					int temp_y = map.getYmyMapLocation(normalzombie_vector.at(i)->GetX(), normalzombie_vector.at(i)->GetY() + 30);
 					if (p->checkBulletCollideWithZombie(normalzombie_vector.at(i)->GetX(), temp_y)) {
@@ -1386,22 +1329,22 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (sun_amount >= pea_shooter_card.GetSunCost() && peashooter_card_delay_flag == 0) {
 			pea_shooter_card.SetIsAlive(true);
 		}
-		if (level>1 && sun_amount >= wallnut_card.GetSunCost() && wallnut_card_delay_flag == 0) {
+		if (CGameState::level>1 && sun_amount >= wallnut_card.GetSunCost() && wallnut_card_delay_flag == 0) {
 			wallnut_card.SetIsAlive(true);
 		}
-		if (level > 2 && sun_amount >= cherrybomb_card.GetSunCost() && cherrybomb_card_delay_flag == 0) {
+		if (CGameState::level > 2 && sun_amount >= cherrybomb_card.GetSunCost() && cherrybomb_card_delay_flag == 0) {
 			cherrybomb_card.SetIsAlive(true);
 		}
-		if (level > 4 && sun_amount >= ice_shooter_card.GetSunCost() && iceshooter_card_delay_flag == 0) {
+		if (CGameState::level > 4 && sun_amount >= ice_shooter_card.GetSunCost() && iceshooter_card_delay_flag == 0) {
 			ice_shooter_card.SetIsAlive(true);
 		}
-		if (level > 6 && sun_amount >= potatomine_card.GetSunCost() && potatomine_card_delay_flag == 0) {
+		if (CGameState::level > 6 && sun_amount >= potatomine_card.GetSunCost() && potatomine_card_delay_flag == 0) {
 			potatomine_card.SetIsAlive(true);
 		}
-		if (level > 8 && sun_amount >= squash_card.GetSunCost() && squash_card_delay_flag == 0) {
+		if (CGameState::level > 8 && sun_amount >= squash_card.GetSunCost() && squash_card_delay_flag == 0) {
 			squash_card.SetIsAlive(true);
 		}
-		if (level > 9 && sun_amount >= shooter_card.GetSunCost() && shooter_card_delay_flag == 0) {
+		if (CGameState::level > 9 && sun_amount >= shooter_card.GetSunCost() && shooter_card_delay_flag == 0) {
 			shooter_card.SetIsAlive(true);
 		}
 		if (!shovelFlag) {
@@ -1414,7 +1357,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			CAudio::Instance()->Stop(AUDIO_START_NIGHT);
 			CAudio::Instance()->Play(AUDIO_VICTORY, false);
 			victoryflag = 1;
-			level += 1;
+			CGameState::level += 1;
 			GotoGameState(GAME_STATE_OVER);
 		}
 	}
@@ -1459,32 +1402,32 @@ void CGameStateRun::OnShow()
 		for (size_t i = 0; i < sunflower_vector.size(); i++) {
 			sunflower_vector.at(i)->OnShow();
 		}
-		if (level > 1) {
+		if (CGameState::level > 1) {
 			for (size_t i = 0; i < wallnut_vector.size(); i++) {
 				wallnut_vector.at(i)->OnShow();
 			}
 		}
-		if (level > 2) {
+		if (CGameState::level > 2) {
 			for (size_t i = 0; i < cherrybomb_vector.size(); i++) {
 				cherrybomb_vector.at(i)->OnShow();
 			}
 		}
-		if (level > 4) {
+		if (CGameState::level > 4) {
 			for (size_t i = 0; i < iceshooter_vector.size(); i++) {
 				iceshooter_vector.at(i)->OnShow();
 			}
 		}
-		if (level > 6) {
+		if (CGameState::level > 6) {
 			for (size_t i = 0; i < potatomine_vector.size(); i++) {
 				potatomine_vector.at(i)->OnShow();
 			}
 		}
-		if (level > 8) {
+		if (CGameState::level > 8) {
 			for (size_t i = 0; i < squash_vector.size(); i++) {
 				squash_vector.at(i)->OnShow();
 			}
 		}
-		if (level > 9) {
+		if (CGameState::level > 9) {
 			for (size_t i = 0; i < shooter_vector.size(); i++) {
 				shooter_vector.at(i)->OnShow();
 			}
@@ -1514,22 +1457,22 @@ void CGameStateRun::OnShow()
 		shovel_card.OnShow();
 		sun_flower_card.OnShow();
 		pea_shooter_card.OnShow();
-		if (level > 1) {
+		if (CGameState::level > 1) {
 			wallnut_card.OnShow();
 		}
-		if (level > 2) {
+		if (CGameState::level > 2) {
 			cherrybomb_card.OnShow();
 		}
-		if (level > 4) {
+		if (CGameState::level > 4) {
 			ice_shooter_card.OnShow();
 		}
-		if (level > 6) {
+		if (CGameState::level > 6) {
 			potatomine_card.OnShow();
 		}
-		if (level > 8) {
+		if (CGameState::level > 8) {
 			squash_card.OnShow();
 		}
-		if (level > 9) {
+		if (CGameState::level > 9) {
 			shooter_card.OnShow();
 		}
 		car0.OnShow();
@@ -1681,21 +1624,6 @@ void CGameStateRun::OnShow()
 		pDC->SelectObject(fp);
 		CDDraw::ReleaseBackCDC();		
 	}
-}
-
-
-void CBouncingBall::SetXY(int x, int y) {
-	this->x = x;
-	this->y = y;
-}
-
-void CBouncingBall::SetFloor(int floor) {
-	this->floor = floor;
-}
-
-void CBouncingBall::SetVelocity(int velocity) {
-	this->velocity = velocity;
-	this->initial_velocity = velocity;
 }
 
 

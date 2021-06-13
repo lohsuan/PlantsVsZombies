@@ -35,8 +35,6 @@
 #define IDB_HELP                        155
 #define IDB_BITMAP2                     156
 #define IDB_LOADING                     156
-#define IDB_SNOWGIE                     160
-#define IDB_SNOWGIEDRAW                 161
 #define IDB_GREEN                       162
 #define IDB_BITMAP3                     163
 #define IDB_BLUE                        163

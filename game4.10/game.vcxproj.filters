@@ -201,13 +201,7 @@
     <Image Include="res\bitmap4.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="RES\snowgy.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="RES\snowgie.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\snowgiesdraw.bmp">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="RES\green.bmp">

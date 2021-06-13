@@ -336,8 +336,6 @@
     <Image Include="RES\blue.bmp" />
     <Image Include="RES\green.bmp" />
     <Image Include="RES\snowgie.bmp" />
-    <Image Include="res\snowgiesdraw.bmp" />
-    <Image Include="RES\snowgy.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

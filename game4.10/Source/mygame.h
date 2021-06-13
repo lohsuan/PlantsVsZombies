@@ -43,9 +43,9 @@
 
 #include <memory>
 #include <vector>
-#include "CEraser.h"
-#include "CBall.h"
-#include "CBouncingBall.h"
+//#include "CEraser.h"
+//#include "CBall.h"
+//#include "CBouncingBall.h"
 #include "YSun.h"
 #include "YCard.h"
 #include "YPlants.h"
@@ -71,17 +71,6 @@ namespace game_framework {
 		AUDIO_VICTORY
 	};
 
-	
-	//class CPractice {
-	//public:
-	//	CPractice();
-	//	void LoadBitmap();
-	//	void OnMove();
-	//	void OnShow();
-	//private:
-	//	CMovingBitmap pic;
-	//	int			  x, y;
-	//};
 	
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -157,12 +146,7 @@ namespace game_framework {
 		void OnMouseMove(UINT nFlags, CPoint point);	// 處理滑鼠的動作 
 		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
-		// question
-		//void setmyMap(int x, int y);
-		//bool checkmyMap(int x, int y); // return true if plant are there
-		//int  getXmyMapLocation(int x, int y);
-		//int  getYmyMapLocation(int x, int y);
-		//int	 mymap[9][5];
+
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
@@ -174,13 +158,13 @@ namespace game_framework {
 		CMovingBitmap	background;	// 背景圖
 		CMovingBitmap	background_night;	// 背景圖
 
-		CMovingBitmap	help;		// 說明圖
-		CBall			*ball;		// 球的陣列
-		CMovingBitmap	corner;		// 角落圖
-		CEraser			eraser;		// 拍子
-		CInteger		hits_left;	// 剩下的撞擊數
-		CBouncingBall   bball;		// 反覆彈跳的球
-		CMovingBitmap	chooser; // practice;
+		//CMovingBitmap	help;		// 說明圖
+		//CBall			*ball;		// 球的陣列
+		//CMovingBitmap	corner;		// 角落圖
+		//CEraser			eraser;		// 拍子
+		//CInteger		hits_left;	// 剩下的撞擊數
+		//CBouncingBall   bball;		// 反覆彈跳的球
+		CMovingBitmap	chooser; 
 		YShovelCard		shovel_card;
 		int				picX, picY;
 		int				flag;
@@ -205,7 +189,6 @@ namespace game_framework {
 		YPotatomineCard		potatomine_card;
 		YShooterCard  shooter_card;
 		YSquashCard  squash_card;
-
 
 		int sun_flower_card_delay_flag;
 		int peashooter_card_delay_flag;

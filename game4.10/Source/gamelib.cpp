@@ -221,7 +221,9 @@ void CMovingBitmap::LoadBitmap(int IDB_BITMAP, COLORREF color)
 	const int ny = 0;
 	GAME_ASSERT(!isBitmapLoaded,"A bitmap has been loaded. You can not load another bitmap !!!");
 	CBitmap bitmap;
+	//BOOL rval = bitmap.LoadBitmap(IDB_0);
 	BOOL rval = bitmap.LoadBitmap(IDB_BITMAP);
+	//Functoin: $FUNCTION, CALLER : $CALLER, IDB : {IDB_BITMAP}, level : {level}
 	GAME_ASSERT(rval,"Load bitmap failed !!! Please check bitmap ID (IDB_XXX).");
 	BITMAP bitmapSize;
 	bitmap.GetBitmap(&bitmapSize);
