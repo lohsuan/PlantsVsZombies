@@ -14,7 +14,7 @@
 namespace game_framework {
 
 	int CGameState::victoryflag = 0;
-	int CGameState::level = 7;
+	int CGameState::level = 1;
 	bool CGameState::night_mode = false;
 	bool CGameState::all_victory_flag = false;
 
@@ -192,15 +192,6 @@ void CGameStateOver::OnInit()
 	//Sleep(100);
 	ShowInitProgress(85);	// 接個前一個狀態的進度，此處進度視為66%
 
-
-	//Sleep(100);
-	//
-	// 開始載入資料
-	//
-	// Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-	//
-	// 最終進度為100%
-	//
 	ShowInitProgress(100);
 }
 
@@ -322,7 +313,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 	//
-	CGameState::level = 1;
+	//CGameState::level = 1;
 }
 
 std::vector<shared_ptr<YNormalZombie>> zombieInitTest(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
@@ -625,6 +616,7 @@ void CGameStateRun::OnBeginState()
 	map.clear();
 	zombie_fast_mode = false;
 	sun.SetY(-200);
+
 	if (CGameState::level == 0) {
 		night_mode = false;
 		normalzombie_vector = zombieInitTest(normalzombie_vector);
@@ -676,11 +668,11 @@ void CGameStateRun::OnBeginState()
 	}
 	else {
 		CAudio::Instance()->Play(AUDIO_START, true);
+		sun.SetIsAlive(true);
 	}
 
 	for (auto normalzombie_sp : normalzombie_vector) {
 		normalzombie_sp->LoadBitmap();
-		sun.SetIsAlive(true);
 	}
 }
 
