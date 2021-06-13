@@ -13,7 +13,7 @@ namespace game_framework {
 
 	YSun::YSun() {
 		srand((int)time(NULL));
-		x = (rand() % 550)+100;		// 100~650
+		x = (rand() % 550) + 100;		// 100~650
 		y = -150;
 		floor = (rand() % 250) + 250;	//250~500
 		is_alive = true;
@@ -48,11 +48,10 @@ namespace game_framework {
 	}
 
 	void YSun::LoadBitmap() {
-		char *filename[8] = { ".\\bitmaps\\Sun\\sun0.bmp",".\\bitmaps\\Sun\\sun1.bmp",".\\bitmaps\\Sun\\sun2.bmp",".\\bitmaps\\Sun\\sun3.bmp"
-		, ".\\bitmaps\\Sun\\sun4.bmp",".\\bitmaps\\Sun\\sun5.bmp",".\\bitmaps\\Sun\\sun6.bmp",".\\bitmaps\\Sun\\sun7.bmp"
-		};
-		
-		for (int i = 0; i < 8; i++)
+		char *filename[5] = { ".\\bitmaps\\Sun\\sun0.bmp",".\\bitmaps\\Sun\\sun1.bmp",".\\bitmaps\\Sun\\sun2.bmp",".\\bitmaps\\Sun\\sun3.bmp"
+		, ".\\bitmaps\\Sun\\sun4.bmp" };
+
+		for (int i = 0; i < 5; i++)
 			sunanimation.AddBitmap(filename[i], RGB(255, 255, 255));
 	}
 

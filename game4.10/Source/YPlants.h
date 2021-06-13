@@ -9,7 +9,7 @@
 #include "YZombies.h"
 
 namespace game_framework {
-	
+
 	class YSunFlower
 	{
 	public:
@@ -17,7 +17,7 @@ namespace game_framework {
 			this->x = x + 8;
 			this->y = y + 13;
 			blood = 300;
-			sun_make_time = 60*5;
+			sun_make_time = 60 * 5;
 			is_alive = true;
 			YSun temp(this->x, this->y);
 			sun = temp;
@@ -26,12 +26,12 @@ namespace game_framework {
 		~YSunFlower() {
 		}
 		void LoadBitmap() {
-			char *filename[8] = { ".\\bitmaps\\SunFlower\\SunFlower_0.bmp",".\\bitmaps\\SunFlower\\SunFlower_1.bmp"
-				, ".\\bitmaps\\SunFlower\\SunFlower_2.bmp",".\\bitmaps\\SunFlower\\SunFlower_3.bmp"
+			char *filename[6] = { ".\\bitmaps\\SunFlower\\SunFlower_0.bmp",".\\bitmaps\\SunFlower\\SunFlower_1.bmp"
+				, ".\\bitmaps\\SunFlower\\SunFlower_2.bmp"
 				, ".\\bitmaps\\SunFlower\\SunFlower_4.bmp",".\\bitmaps\\SunFlower\\SunFlower_5.bmp"
-				, ".\\bitmaps\\SunFlower\\SunFlower_6.bmp",".\\bitmaps\\SunFlower\\SunFlower_7.bmp"
+				,".\\bitmaps\\SunFlower\\SunFlower_7.bmp"
 			};
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < 6; i++)
 				sun_flower_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 		}
 		void OnMove() {
@@ -58,7 +58,7 @@ namespace game_framework {
 		}
 		bool checkPlantCollideWithZombie(int zx, int zy) {
 			if (zy == y - 13) {
-				if(x > zx - 72 && x < zx - 48){
+				if (x > zx - 72 && x < zx - 48) {
 					return true;
 				}
 			}
@@ -103,7 +103,7 @@ namespace game_framework {
 		}
 
 	private:
-		int x,y;
+		int x, y;
 		bool is_alive;
 		int blood;
 		int sun_make_time;
@@ -114,7 +114,7 @@ namespace game_framework {
 	class YPeaShooterBullet {
 	public:
 		YPeaShooterBullet(int x, int y) {
-			this->x = x+30;
+			this->x = x + 30;
 			this->y = y;
 			is_alive = true;
 		}
@@ -186,7 +186,7 @@ namespace game_framework {
 		void OnMove()
 		{
 			peashooter_animation.OnMove();
-			
+
 			if (delay == 0) {
 				fireBullet();
 				delay = 80;
@@ -197,7 +197,7 @@ namespace game_framework {
 				if (bullets_vector.at(i)->IsAlive())
 					bullets_vector.at(i)->OnMove();
 				else {
-					bullets_vector.erase(bullets_vector.begin()+i);
+					bullets_vector.erase(bullets_vector.begin() + i);
 				}
 			}
 
@@ -255,12 +255,12 @@ namespace game_framework {
 		bool checkBulletCollideWithZombie(int zx, int mapy) {
 			int by;
 			if (!bullets_vector.empty()) {
-				
+
 				by = bullets_vector.at(0)->GetY() - 20;
 			}
 			if (!bullets_vector.empty() && bullets_vector.at(0)->GetY() - 20 == mapy) {
 				int t = bullets_vector.at(0)->GetX();
-				if ( bullets_vector.at(0)->GetX() > zx + 20 && bullets_vector.at(0)->GetX() < zx + 80) {
+				if (bullets_vector.at(0)->GetX() > zx + 20 && bullets_vector.at(0)->GetX() < zx + 80) {
 					bullets_vector.at(0)->SetIsAlive(false);
 					return true;
 				}
@@ -300,17 +300,17 @@ namespace game_framework {
 		}
 		void LoadBitmap()
 		{
-			char *filename[8] = { ".\\bitmaps\\WallNut\\WallNut\\WallNut_0.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_1.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_2.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_3.bmp",
-				".\\bitmaps\\WallNut\\WallNut\\WallNut_4.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_5.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_6.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_7.bmp" };
-			for (int i = 0; i < 8; i++)
+			char *filename[5] = { ".\\bitmaps\\WallNut\\WallNut\\WallNut_0.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_2.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_3.bmp",
+				".\\bitmaps\\WallNut\\WallNut\\WallNut_4.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_5.bmp" };
+			for (int i = 0; i < 5; i++)
 				wallnut_animation.AddBitmap(filename[i], RGB(255, 255, 255));
-			char *filename1[8] = { ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_0.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_1.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_2.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_3.bmp",
-				".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_4.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_5.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_6.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_7.bmp" };
-			for (int i = 0; i < 8; i++)
+			char *filename1[5] = { ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_0.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_2.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_3.bmp",
+				".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_4.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_5.bmp" };
+			for (int i = 0; i < 5; i++)
 				wallnut_cracked1_animation.AddBitmap(filename1[i], RGB(255, 255, 255));
-			char *filename2[8] = { ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_0.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_1.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_2.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_3.bmp",
-				".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_4.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_5.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_6.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_7.bmp" };
-			for (int i = 0; i < 8; i++)
+			char *filename2[5] = { ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_0.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_2.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_3.bmp",
+				".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_4.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_5.bmp" };
+			for (int i = 0; i < 5; i++)
 				wallnut_cracked2_animation.AddBitmap(filename2[i], RGB(255, 255, 255));
 		}
 		void OnMove()
@@ -431,14 +431,14 @@ namespace game_framework {
 		{
 			if (!bomb)
 			{
-				cherrybomb_animation.SetTopLeft(x-55, y-40);
+				cherrybomb_animation.SetTopLeft(x - 55, y - 40);
 				cherrybomb_animation.OnShow();
 			}
 			else {
 				cherrybomb_animation.SetTopLeft(x - 85, y - 64);
 				cherrybomb_animation.OnShow();
 			}
-			
+
 		}
 		bool IsAlive()
 		{
@@ -461,8 +461,8 @@ namespace game_framework {
 		}
 
 		bool checkNearbyZombies(int zx, int zy) {
-			if (y-160 < zy && zy < y+120) {
-				if (zx > x-160 && zx < x+120) {
+			if (y - 160 < zy && zy < y + 120) {
+				if (zx > x - 160 && zx < x + 120) {
 					return true;
 				}
 			}
@@ -527,7 +527,7 @@ namespace game_framework {
 		int x, y;
 		bool is_alive;
 		CMovingBitmap iceshooter_bullet;
-	}; 
+	};
 
 	class YIceShooter
 	{
@@ -651,8 +651,8 @@ namespace game_framework {
 	public:
 		YPotatoMine(int x, int y)
 		{
-			this->x = x+10;
-			this->y = y+20;
+			this->x = x + 10;
+			this->y = y + 20;
 			is_alive = true;
 			bomb = 0;
 			counter = 0;
@@ -664,9 +664,9 @@ namespace game_framework {
 		}
 		void LoadBitmap()
 		{
-			char *filename[8] = { ".\\bitmaps\\PotatoMine\\PotatoMine_0.bmp", 
+			char *filename[8] = { ".\\bitmaps\\PotatoMine\\PotatoMine_0.bmp",
 				".\\bitmaps\\PotatoMine\\PotatoMine_1.bmp", ".\\bitmaps\\PotatoMine\\PotatoMine_2.bmp",
-				".\\bitmaps\\PotatoMine\\PotatoMine_3.bmp", ".\\bitmaps\\PotatoMine\\PotatoMine_4.bmp", 
+				".\\bitmaps\\PotatoMine\\PotatoMine_3.bmp", ".\\bitmaps\\PotatoMine\\PotatoMine_4.bmp",
 				 ".\\bitmaps\\PotatoMine\\PotatoMine_5.bmp",".\\bitmaps\\PotatoMine\\PotatoMine_6.bmp"
 				,".\\bitmaps\\PotatoMine\\PotatoMine_7.bmp" };
 			for (int i = 0; i < 8; i++)
@@ -802,13 +802,12 @@ namespace game_framework {
 		}
 		void LoadBitmap()
 		{
-			char *filename[10] = { ".\\bitmaps\\Squash\\Squash_0.bmp",
+			char *filename[8] = { ".\\bitmaps\\Squash\\Squash_0.bmp",
 				".\\bitmaps\\Squash\\Squash_1.bmp", ".\\bitmaps\\Squash\\Squash_2.bmp",
-				".\\bitmaps\\Squash\\Squash_3.bmp", ".\\bitmaps\\Squash\\Squash_4.bmp",
-				 ".\\bitmaps\\Squash\\Squash_5.bmp",".\\bitmaps\\Squash\\Squash_6.bmp"
+				".\\bitmaps\\Squash\\Squash_3.bmp", ".\\bitmaps\\Squash\\Squash_5.bmp"
 				,".\\bitmaps\\Squash\\Squash_7.bmp", ".\\bitmaps\\Squash\\SquashAim_0.bmp"
 				, ".\\bitmaps\\Squash\\SquashAim_0.bmp" };
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 8; i++)
 				squash_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 
 			char *filenamee[5] = { ".\\bitmaps\\Squash\\SquashAttack_0.bmp",
@@ -831,7 +830,7 @@ namespace game_framework {
 			else {
 				squash_animation.OnMove();
 			}
-			
+
 		}
 		void SetZombieChecked() {
 			zombie_checked = true;
@@ -840,11 +839,11 @@ namespace game_framework {
 		void OnShow()
 		{
 			if (zombie_checked) {
-				squash_attack_animation.SetTopLeft(x-10, y-140);
+				squash_attack_animation.SetTopLeft(x - 10, y - 140);
 				squash_attack_animation.OnShow();
 			}
 			else {
-				squash_animation.SetTopLeft(x-10, y-140);
+				squash_animation.SetTopLeft(x - 10, y - 140);
 				squash_animation.OnShow();
 			}
 		}
@@ -907,7 +906,6 @@ namespace game_framework {
 		bool zombie_checked;
 	};
 
-
 	class YShooterBullet {
 	public:
 		YShooterBullet(int x, int y) {
@@ -932,7 +930,7 @@ namespace game_framework {
 		{
 			if (is_alive)
 			{
-				shooter_bullet.SetTopLeft(x, y+25);
+				shooter_bullet.SetTopLeft(x, y + 25);
 				shooter_bullet.ShowBitmap();
 			}
 		}
@@ -977,8 +975,8 @@ namespace game_framework {
 		}
 		void LoadBitmap()
 		{
-			char *filename[5] = { ".\\bitmaps\\Shroom\\PuffShroom_0.bmp", ".\\bitmaps\\Shroom\\PuffShroom_1.bmp", ".\\bitmaps\\Shroom\\PuffShroom_2.bmp", ".\\bitmaps\\Shroom\\PuffShroom_3.bmp", ".\\bitmaps\\Shroom\\PuffShroom_4.bmp" };
-			for (int i = 0; i < 5; i++)
+			char *filename[4] = { ".\\bitmaps\\Shroom\\PuffShroom_0.bmp", ".\\bitmaps\\Shroom\\PuffShroom_2.bmp", ".\\bitmaps\\Shroom\\PuffShroom_3.bmp", ".\\bitmaps\\Shroom\\PuffShroom_4.bmp" };
+			for (int i = 0; i < 4; i++)
 				shooter_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 		}
 		void OnMove()
@@ -1004,7 +1002,7 @@ namespace game_framework {
 		{
 			if (is_alive)
 			{
-				shooter_animation.SetTopLeft(x, y+10);
+				shooter_animation.SetTopLeft(x, y + 10);
 				shooter_animation.OnShow();
 			}
 			for (size_t i = 0; i < bullets_vector.size(); i++) {
@@ -1048,9 +1046,9 @@ namespace game_framework {
 		}
 		bool isClose(int zx, int zy) {
 			if (zy == y - 20) {
-			if (x + 300 > zx && zx > x - 60) {
-				return true;
-			}
+				if (x + 300 > zx && zx > x - 60) {
+					return true;
+				}
 			}
 			return false;
 		}
