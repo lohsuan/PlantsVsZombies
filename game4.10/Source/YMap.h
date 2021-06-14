@@ -89,7 +89,7 @@ namespace game_framework {
 					mymap[3][4] = 1;
 				}
 			}
-			else if (x >= 425-70-70 && x < 505-70) {
+			else if (x >= 425-70 && x < 505-70) {
 				if (y > 78 && y < 182) {
 					mymap[4][0] = 1;
 				}
@@ -279,7 +279,7 @@ namespace game_framework {
 					mymap[5][4] = 0;
 				}
 			}
-			else if (x >= 585-70 && x < 660-70-70) {
+			else if (x >= 585-70 && x < 660-70) {
 				if (y > 78 && y < 182) {
 					mymap[6][0] = 0;
 				}
