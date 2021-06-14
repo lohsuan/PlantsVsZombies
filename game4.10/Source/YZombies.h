@@ -11,9 +11,6 @@
 namespace game_framework {
 	class YNormalZombie {
 	public:
-		//friend class CGameStateRun;
-		//friend class YSunFlower;
-		//friend class YPeaShooter;
 
 		YNormalZombie() {
 			srand((int)time(NULL));
@@ -26,6 +23,7 @@ namespace game_framework {
 			is_alive = true;
 			zombie_die_delay_time = 115;
 		}
+
 		YNormalZombie(int x, int my) {
 			Map_Y_Location = my;		// 0~4
 			int a[5] = { 78, 182, 270, 368, 464 };
@@ -36,8 +34,8 @@ namespace game_framework {
 			bomb_flag = false;
 			zombie_die_delay_time = 115;
 			zombie_bomb_die_delay_time = 180;
-
 		}
+
 		YNormalZombie(int x, int my, std::string style) {
 			Map_Y_Location = my;		// 0~4
 			int a[5] = { 78, 182, 270, 368, 464 };
@@ -60,26 +58,25 @@ namespace game_framework {
 			}
 		}
 		~YNormalZombie() {
-
 		}
 
 		void LoadBitmap() {
 			if (zombie_style == "newspaper") {
-				char *filenameni[10] = { ".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_0.bmp",
-								".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_1.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_2.bmp",
-								".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_3.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_4.bmp",
-								".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_5.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_6.bmp",
-								".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_7.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_8.bmp",
+				char *filenameni[6] = { ".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_0.bmp",
+								".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_1.bmp",
+								".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_3.bmp", 
+								".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_5.bmp", 
+								".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_7.bmp", 
 								".\\bitmaps\\NormalZombie\\NewspaperZombie\\NewspaperZombie_9.bmp" };
-				for (int i = 0; i < 10; i++)
+				for (int i = 0; i < 6; i++)
 					zombie_news_animation.AddBitmap(filenameni[i], RGB(255, 255, 255));
 
-				char *filenamen[8] = { ".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_0.bmp",
-								".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_1.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_2.bmp",
-								".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_3.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_4.bmp",
-								".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_5.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_6.bmp",
+				char *filenamen[5] = { ".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_0.bmp",
+								".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_1.bmp",
+								".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_3.bmp",
+								".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_5.bmp", 
 								".\\bitmaps\\NormalZombie\\NewspaperZombieAttack\\NewspaperZombieAttack_7.bmp" };
-				for (int i = 0; i < 8; i++)
+				for (int i = 0; i < 5; i++)
 					zombie_news_attack_animation.AddBitmap(filenamen[i], RGB(255, 255, 255));
 
 				char *filenamena[11] = { ".\\bitmaps\\NormalZombie\\NewspaperZombieDie\\NewspaperZombieDie_0.bmp",
@@ -91,93 +88,92 @@ namespace game_framework {
 				for (int i = 0; i < 11; i++)
 					zombie_news_die_animation.AddBitmap(filenamena[i], RGB(255, 255, 255));
 
-				char *filenamene[10] = { ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_0.bmp",
-									".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_1.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_2.bmp",
-									".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_3.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_4.bmp",
-									".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_5.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_6.bmp",
-									".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_7.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_8.bmp",
+				char *filenamene[6] = { ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_0.bmp",
+									".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_1.bmp",
+									".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_3.bmp",
+									".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_5.bmp",
+									".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_7.bmp",
 									".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaper\\NewspaperZombieNoPaper_9.bmp" };
-				for (int i = 0; i < 10; i++)
+				for (int i = 0; i < 6; i++)
 					zombie_nonews_animation.AddBitmap(filenamene[i], RGB(255, 255, 255));
 
-				char *filenameno[7] = { ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_0.bmp",
+				char *filenameno[6] = { ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_0.bmp",
 							".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_1.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_2.bmp",
 							".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_3.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_4.bmp",
-							".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_5.bmp", ".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_6.bmp" };
-				for (int i = 0; i < 7; i++)
+							".\\bitmaps\\NormalZombie\\NewspaperZombieNoPaperAttack\\NewspaperZombieNoPaperAttack_5.bmp" };
+				for (int i = 0; i < 6; i++)
 					zombie_nonews_attack_animation.AddBitmap(filenameno[i], RGB(255, 255, 255));
 			}
 
 			else if (zombie_style == "bucket") {
-				char *filenameb[10] = { ".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_0.bmp",
-					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_1.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_2.bmp",
-					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_3.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_4.bmp",
-					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_5.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_6.bmp",
-					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_7.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_8.bmp",
+				char *filenameb[6] = { ".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_0.bmp",
+					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_1.bmp",
+					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_3.bmp",
+					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_5.bmp",
+					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_7.bmp",
 					".\\bitmaps\\NormalZombie\\BucketheadZombie\\BucketheadZombie_9.bmp" };
-				for (int i = 0; i < 10; i++)
+				for (int i = 0; i < 6; i++)
 					zombie_bucket_animation.AddBitmap(filenameb[i], RGB(255, 255, 255));
 
-				char *filenameba[11] = { ".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_0.bmp",
-					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_1.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_2.bmp",
-					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_3.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_4.bmp",
-					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_5.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_6.bmp",
-					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_7.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_8.bmp",
-					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_9.bmp", ".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_10.bmp" };
-				for (int i = 0; i < 11; i++)
+				char *filenameba[5] = {
+					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_1.bmp",
+					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_3.bmp",
+					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_5.bmp",
+					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_7.bmp"
+					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_9.bmp" };
+				for (int i = 0; i < 5; i++)
 					zombie_bucket_attack_animation.AddBitmap(filenameba[i], RGB(255, 255, 255));
 			}
 
 			else if (zombie_style == "conehead") {
-				char *filenamec[10] = { ".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_0.bmp",
-					".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_1.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_2.bmp",
-					".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_3.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_4.bmp",
-					".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_5.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_6.bmp",
-					".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_7.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_8.bmp",
+				char *filenamec[5] = {
+					".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_1.bmp",
+					".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_3.bmp",
+					".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_5.bmp",
+					".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_7.bmp", 
 					".\\bitmaps\\NormalZombie\\ConeheadZombie\\ConeheadZombie_9.bmp" };
-				for (int i = 0; i < 10; i++)
+				for (int i = 0; i < 5; i++)
 					zombie_conehead_animation.AddBitmap(filenamec[i], RGB(255, 255, 255));
 
-				char *filenameca[11] = { ".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_0.bmp",
-					".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_1.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_2.bmp",
-					".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_3.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_4.bmp",
-					".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_5.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_6.bmp",
-					".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_7.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_8.bmp",
-					".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_9.bmp", ".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_10.bmp" };
-				for (int i = 0; i < 11; i++)
+				char *filenameca[5] = {
+					".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_1.bmp", 
+					".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_3.bmp", 
+					".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_5.bmp", 
+					".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_7.bmp", 
+					".\\bitmaps\\NormalZombie\\ConeheadZombieAttack\\ConeheadZombieAttack_9.bmp" };
+				for (int i = 0; i < 5; i++)
 					zombie_conehead_attack_animation.AddBitmap(filenameca[i], RGB(255, 255, 255));
 			}
 
 			else if (zombie_style == "flag") {
-				char *filenamefa[10] = { ".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_0.bmp",
-					".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_1.bmp", ".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_2.bmp",
-					".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_3.bmp", ".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_4.bmp",
-					".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_5.bmp", ".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_6.bmp",
-					".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_7.bmp", ".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_8.bmp",
+				char *filenamefa[5] = {
+					".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_1.bmp", 
+					".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_3.bmp", 
+					".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_5.bmp", 
+					".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_7.bmp",
 					".\\bitmaps\\NormalZombie\\FlagZombie\\FlagZombie_9.bmp" };
-				for (int i = 0; i < 10; i++)
+				for (int i = 0; i < 5; i++)
 					zombie_flag_animation.AddBitmap(filenamefa[i], RGB(255, 255, 255));
 
-				char *filename[10] = { ".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_0.bmp",
-					".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_1.bmp", ".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_2.bmp",
-					".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_3.bmp", ".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_4.bmp",
-					".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_5.bmp", ".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_6.bmp",
-					".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_7.bmp", ".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_8.bmp",
+				char *filename[5] = {
+					".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_1.bmp",
+					".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_3.bmp", 
+					".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_5.bmp",
+					".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_7.bmp",
 					".\\bitmaps\\NormalZombie\\FlagZombieAttack\\FlagZombieAttack_9.bmp" };
-				for (int i = 0; i < 10; i++)
+				for (int i = 0; i < 5; i++)
 					zombie_flag_attack_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 			}
 
-			char *filenamef[7] = { ".\\bitmaps\\NormalZombie\\Zombie\\Zombie_0.bmp",
+			char *filenamef[5] = { ".\\bitmaps\\NormalZombie\\Zombie\\Zombie_0.bmp",
 				".\\bitmaps\\NormalZombie\\Zombie\\Zombie_1.bmp", ".\\bitmaps\\NormalZombie\\Zombie\\Zombie_2.bmp",
-				".\\bitmaps\\NormalZombie\\Zombie\\Zombie_3.bmp", ".\\bitmaps\\NormalZombie\\Zombie\\Zombie_4.bmp",
-				".\\bitmaps\\NormalZombie\\Zombie\\Zombie_5.bmp", ".\\bitmaps\\NormalZombie\\Zombie\\Zombie_6.bmp"
+				".\\bitmaps\\NormalZombie\\Zombie\\Zombie_3.bmp", ".\\bitmaps\\NormalZombie\\Zombie\\Zombie_4.bmp"
 			};
-			for (int i = 0; i < 7; i++)
+			for (int i = 0; i < 5; i++)
 				zombie_animation.AddBitmap(filenamef[i], RGB(255, 255, 255));
 
-			char *filenamea[7] = { ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_0.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_1.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_2.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_3.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_4.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_5.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_6.bmp" };
-			for (int i = 0; i < 7; i++)
+			char *filenamea[5] = { ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_0.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_1.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_3.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_4.bmp", ".\\bitmaps\\NormalZombie\\ZombieAttack\\ZombieAttack_5.bmp"};
+			for (int i = 0; i < 5; i++)
 				zombie_attack_animation.AddBitmap(filenamea[i], RGB(255, 255, 255));
 
 			char *filenamed[12] = { ".\\bitmaps\\NormalZombie\\ZombieDie\\ZombieDie_0.bmp",

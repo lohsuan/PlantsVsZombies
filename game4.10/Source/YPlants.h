@@ -26,12 +26,12 @@ namespace game_framework {
 		~YSunFlower() {
 		}
 		void LoadBitmap() {
-			char *filename[6] = { ".\\bitmaps\\SunFlower\\SunFlower_0.bmp",".\\bitmaps\\SunFlower\\SunFlower_1.bmp"
+			char *filename[5] = { ".\\bitmaps\\SunFlower\\SunFlower_0.bmp",".\\bitmaps\\SunFlower\\SunFlower_1.bmp"
 				, ".\\bitmaps\\SunFlower\\SunFlower_2.bmp"
-				, ".\\bitmaps\\SunFlower\\SunFlower_4.bmp",".\\bitmaps\\SunFlower\\SunFlower_5.bmp"
+				, ".\\bitmaps\\SunFlower\\SunFlower_4.bmp"
 				,".\\bitmaps\\SunFlower\\SunFlower_7.bmp"
 			};
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < 5; i++)
 				sun_flower_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 		}
 		void OnMove() {
@@ -179,8 +179,8 @@ namespace game_framework {
 		}
 		void LoadBitmap()
 		{
-			char *filename[6] = { ".\\bitmaps\\PeaShooter\\PeaShooter_0.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_1.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_2.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_3.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_4.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_5.bmp" };
-			for (int i = 0; i < 6; i++)
+			char *filename[5] = { ".\\bitmaps\\PeaShooter\\PeaShooter_1.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_2.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_3.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_4.bmp", ".\\bitmaps\\PeaShooter\\PeaShooter_5.bmp" };
+			for (int i = 0; i < 5; i++)
 				peashooter_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 		}
 		void OnMove()
@@ -300,17 +300,17 @@ namespace game_framework {
 		}
 		void LoadBitmap()
 		{
-			char *filename[5] = { ".\\bitmaps\\WallNut\\WallNut\\WallNut_0.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_2.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_3.bmp",
-				".\\bitmaps\\WallNut\\WallNut\\WallNut_4.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_5.bmp" };
-			for (int i = 0; i < 5; i++)
+			char *filename[4] = { ".\\bitmaps\\WallNut\\WallNut\\WallNut_0.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_2.bmp", ".\\bitmaps\\WallNut\\WallNut\\WallNut_3.bmp",
+				".\\bitmaps\\WallNut\\WallNut\\WallNut_4.bmp" };
+			for (int i = 0; i < 4; i++)
 				wallnut_animation.AddBitmap(filename[i], RGB(255, 255, 255));
-			char *filename1[5] = { ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_0.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_2.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_3.bmp",
-				".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_4.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_5.bmp" };
-			for (int i = 0; i < 5; i++)
+			char *filename1[4] = { ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_0.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_2.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_3.bmp",
+				".\\bitmaps\\WallNut\\WallNut_cracked1\\WallNut_cracked1_4.bmp"};
+			for (int i = 0; i < 4; i++)
 				wallnut_cracked1_animation.AddBitmap(filename1[i], RGB(255, 255, 255));
-			char *filename2[5] = { ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_0.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_2.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_3.bmp",
-				".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_4.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_5.bmp" };
-			for (int i = 0; i < 5; i++)
+			char *filename2[4] = { ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_0.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_2.bmp", ".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_3.bmp",
+				".\\bitmaps\\WallNut\\WallNut_cracked2\\WallNut_cracked2_4.bmp" };
+			for (int i = 0; i < 4; i++)
 				wallnut_cracked2_animation.AddBitmap(filename2[i], RGB(255, 255, 255));
 		}
 		void OnMove()
@@ -545,8 +545,8 @@ namespace game_framework {
 		}
 		void LoadBitmap()
 		{
-			char *filename[6] = { ".\\bitmaps\\IceShooter\\SnowPea_0.bmp", ".\\bitmaps\\IceShooter\\SnowPea_1.bmp", ".\\bitmaps\\IceShooter\\SnowPea_2.bmp", ".\\bitmaps\\IceShooter\\SnowPea_3.bmp", ".\\bitmaps\\IceShooter\\SnowPea_4.bmp", ".\\bitmaps\\IceShooter\\SnowPea_5.bmp" };
-			for (int i = 0; i < 6; i++)
+			char *filename[5] = { ".\\bitmaps\\IceShooter\\SnowPea_1.bmp", ".\\bitmaps\\IceShooter\\SnowPea_2.bmp", ".\\bitmaps\\IceShooter\\SnowPea_3.bmp", ".\\bitmaps\\IceShooter\\SnowPea_4.bmp", ".\\bitmaps\\IceShooter\\SnowPea_5.bmp" };
+			for (int i = 0; i < 5; i++)
 				iceshooter_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 		}
 		void OnMove()
