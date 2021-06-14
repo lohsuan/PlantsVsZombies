@@ -85,7 +85,7 @@ namespace game_framework {
 		adventure0.ShowBitmap();
 
 		if (all_victory_flag) {
-			all_level_done.SetTopLeft(38, 179);
+			all_level_done.SetTopLeft(45, 150);
 			all_level_done.ShowBitmap();
 		}
 		

@@ -119,7 +119,7 @@ namespace game_framework {
 					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_1.bmp",
 					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_3.bmp",
 					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_5.bmp",
-					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_7.bmp"
+					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_7.bmp",
 					".\\bitmaps\\NormalZombie\\BucketheadZombieAttack\\BucketheadZombieAttack_9.bmp" };
 				for (int i = 0; i < 5; i++)
 					zombie_bucket_attack_animation.AddBitmap(filenameba[i], RGB(255, 255, 255));

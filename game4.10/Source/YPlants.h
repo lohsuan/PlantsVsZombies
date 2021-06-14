@@ -26,7 +26,8 @@ namespace game_framework {
 		~YSunFlower() {
 		}
 		void LoadBitmap() {
-			char *filename[5] = { ".\\bitmaps\\SunFlower\\SunFlower_0.bmp",".\\bitmaps\\SunFlower\\SunFlower_1.bmp"
+			char *filename[5] = { ".\\bitmaps\\SunFlower\\SunFlower_0.bmp"
+				,".\\bitmaps\\SunFlower\\SunFlower_1.bmp"
 				, ".\\bitmaps\\SunFlower\\SunFlower_2.bmp"
 				, ".\\bitmaps\\SunFlower\\SunFlower_4.bmp"
 				,".\\bitmaps\\SunFlower\\SunFlower_7.bmp"
@@ -409,8 +410,8 @@ namespace game_framework {
 		void LoadBitmap()
 		{
 			char *filename[7] = { ".\\bitmaps\\CherryBomb\\CherryBomb_0.bmp", ".\\bitmaps\\CherryBomb\\CherryBomb_1.bmp", ".\\bitmaps\\CherryBomb\\CherryBomb_2.bmp",
-				".\\bitmaps\\CherryBomb\\CherryBomb_3.bmp", ".\\bitmaps\\CherryBomb\\CherryBomb_4.bmp"
-				, ".\\bitmaps\\CherryBomb\\Boom.bmp", ".\\bitmaps\\CherryBomb\\Boom.bmp" };
+				".\\bitmaps\\CherryBomb\\CherryBomb_3.bmp", ".\\bitmaps\\CherryBomb\\CherryBomb_4.bmp",
+				".\\bitmaps\\CherryBomb\\Boom.bmp", ".\\bitmaps\\CherryBomb\\Boom.bmp" };
 			for (int i = 0; i < 7; i++)
 				cherrybomb_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 		}
@@ -667,14 +668,14 @@ namespace game_framework {
 			char *filename[8] = { ".\\bitmaps\\PotatoMine\\PotatoMine_0.bmp",
 				".\\bitmaps\\PotatoMine\\PotatoMine_1.bmp", ".\\bitmaps\\PotatoMine\\PotatoMine_2.bmp",
 				".\\bitmaps\\PotatoMine\\PotatoMine_3.bmp", ".\\bitmaps\\PotatoMine\\PotatoMine_4.bmp",
-				 ".\\bitmaps\\PotatoMine\\PotatoMine_5.bmp",".\\bitmaps\\PotatoMine\\PotatoMine_6.bmp"
-				,".\\bitmaps\\PotatoMine\\PotatoMine_7.bmp" };
+				 ".\\bitmaps\\PotatoMine\\PotatoMine_5.bmp",".\\bitmaps\\PotatoMine\\PotatoMine_6.bmp",
+				".\\bitmaps\\PotatoMine\\PotatoMine_7.bmp" };
 			for (int i = 0; i < 8; i++)
 				potatomine_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 
 			char *filenamee[5] = { ".\\bitmaps\\PotatoMine\\PotatoMineExplode_0.bmp",
-				".\\bitmaps\\PotatoMine\\PotatoMineExplode_0.bmp",".\\bitmaps\\PotatoMine\\PotatoMineExplode_0.bmp"
-				,".\\bitmaps\\PotatoMine\\PotatoMineExplode_0.bmp" ,".\\bitmaps\\PotatoMine\\PotatoMineExplode_0.bmp" };
+				".\\bitmaps\\PotatoMine\\PotatoMineExplode_0.bmp",".\\bitmaps\\PotatoMine\\PotatoMineExplode_0.bmp",
+				".\\bitmaps\\PotatoMine\\PotatoMineExplode_0.bmp" ,".\\bitmaps\\PotatoMine\\PotatoMineExplode_0.bmp" };
 			for (int i = 0; i < 5; i++)
 				potatomine_explode_animation.AddBitmap(filenamee[i], RGB(255, 255, 255));
 
@@ -804,15 +805,15 @@ namespace game_framework {
 		{
 			char *filename[8] = { ".\\bitmaps\\Squash\\Squash_0.bmp",
 				".\\bitmaps\\Squash\\Squash_1.bmp", ".\\bitmaps\\Squash\\Squash_2.bmp",
-				".\\bitmaps\\Squash\\Squash_3.bmp", ".\\bitmaps\\Squash\\Squash_5.bmp"
-				,".\\bitmaps\\Squash\\Squash_7.bmp", ".\\bitmaps\\Squash\\SquashAim_0.bmp"
-				, ".\\bitmaps\\Squash\\SquashAim_0.bmp" };
+				".\\bitmaps\\Squash\\Squash_3.bmp", ".\\bitmaps\\Squash\\Squash_5.bmp",
+				".\\bitmaps\\Squash\\Squash_7.bmp", ".\\bitmaps\\Squash\\SquashAim_0.bmp",
+				".\\bitmaps\\Squash\\SquashAim_0.bmp" };
 			for (int i = 0; i < 8; i++)
 				squash_animation.AddBitmap(filename[i], RGB(255, 255, 255));
 
 			char *filenamee[5] = { ".\\bitmaps\\Squash\\SquashAttack_0.bmp",
-				".\\bitmaps\\Squash\\SquashAttack_1.bmp",".\\bitmaps\\Squash\\SquashAttack_2.bmp"
-				,".\\bitmaps\\Squash\\SquashAttack_3.bmp" ,".\\bitmaps\\Squash\\SquashAttack_3.bmp" };
+				".\\bitmaps\\Squash\\SquashAttack_1.bmp",".\\bitmaps\\Squash\\SquashAttack_2.bmp",
+				".\\bitmaps\\Squash\\SquashAttack_3.bmp" ,".\\bitmaps\\Squash\\SquashAttack_3.bmp" };
 			for (int i = 0; i < 5; i++)
 				squash_attack_animation.AddBitmap(filenamee[i], RGB(255, 255, 255));
 
