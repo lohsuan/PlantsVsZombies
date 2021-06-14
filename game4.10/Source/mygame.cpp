@@ -344,12 +344,11 @@ namespace game_framework {
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1550, 4, "flag"));
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1650, 2));
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1860, 0));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2020, 2));
 
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2370, 3, "flag"));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2420, 1));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2450, 4));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2520, 0));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(2270, 3, "flag"));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(2320, 1));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(2350, 4));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(2420, 0));
 
 		return normalzombie_vector;
 	}
@@ -379,8 +378,7 @@ namespace game_framework {
 
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 4, "flag"));
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(2100, 2));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2250, 1));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2450, 3, "conehead"));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(2350, 3, "conehead"));
 
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(2850, 3, "flag"));
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(2900, 2));
@@ -414,16 +412,14 @@ namespace game_framework {
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1270, 0, "bucket"));
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1520, 4));
 
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(1620, 3));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(1750, 1, "flag"));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(1800, 3, "conehead"));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(1870, 2));
 
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 1, "flag"));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2100, 3, "conehead"));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2170, 2));
-
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2550, 3, "flag"));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2630, 2));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2850, 0, "bucket"));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2830, 4));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(2150, 3, "flag"));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(2230, 2));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(2250, 0, "bucket"));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(2370, 4));
 
 		return normalzombie_vector;
 	}
@@ -435,15 +431,15 @@ namespace game_framework {
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1460, 3));
 
 
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 2, "flag"));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2100, 0, "bucket"));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2370, 4));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 3));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(1850, 2, "flag"));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(1950, 0, "bucket"));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(2100, 4));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(2250, 3));
 
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(3050, 4, "flag"));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(3150, 3, "newspaper"));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(3200, 0));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(3250, 2));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(2850, 4, "flag"));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(2920, 3, "newspaper"));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(3000, 0));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(3120, 2));
 
 		return normalzombie_vector;
 	}
@@ -470,14 +466,12 @@ namespace game_framework {
 		// shooter night
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1270, 4, "bucket"));
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1480, 1));
-
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1600, 2));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(1720, 3));
 
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(2250, 0, "flag"));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2300, 4, "bucket"));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(2300, 3, "bucket"));
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(2470, 0));
-		normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 3, "newspaper"));
+		normalzombie_vector.push_back(make_shared<YNormalZombie>(2650, 1, "newspaper"));
 
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(3150, 3, "flag"));
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(3170, 4));
