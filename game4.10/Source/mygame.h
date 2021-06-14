@@ -3,9 +3,6 @@
 
 #include <memory>
 #include <vector>
-//#include "CEraser.h"
-//#include "CBall.h"
-//#include "CBouncingBall.h"
 #include "YSun.h"
 #include "YCard.h"
 #include "YPlants.h"
@@ -20,7 +17,7 @@ namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 
 	enum AUDIO_ID {				// 定義各種音效的編號
-		AUDIO_START,				// 0
+		AUDIO_START,
 		AUDIO_MAIN,
 		AUDIO_MENUTOGAME,
 		AUDIO_SUNPICK,
@@ -91,7 +88,7 @@ namespace game_framework {
 		int				picX, picY;
 		int				flag;
 		YSun			sun;
-		int				sun_amount;			// show on the board
+		int				sun_amount;	
 		bool			generateSunFlowerFlag;
 		bool			generatePeaShooterFlag;
 		bool			generateWallNutFlag;

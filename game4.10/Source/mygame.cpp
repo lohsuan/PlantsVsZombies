@@ -30,16 +30,8 @@ namespace game_framework {
 	void CGameStateInit::OnInit()
 	{
 
-		//
-		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
-		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
-		//
-		ShowInitProgress(0);	// 一開始的loading進度為0%
+		ShowInitProgress(0);
 
-		//Sleep(300);
-		//
-		// 開始載入資料
-		//
 		mainmenu.LoadBitmap("Bitmaps/MainMenu.bmp");
 		adventure0.LoadBitmap("Bitmaps/Adventure0.bmp", RGB(255, 255, 255));
 		all_level_done.LoadBitmap("Bitmaps/vic_done.bmp", RGB(0, 0, 0));
@@ -52,11 +44,6 @@ namespace game_framework {
 		CAudio::Instance()->Load(AUDIO_PLANTS, "sounds\\plants_sound.mp3");
 		CAudio::Instance()->Load(AUDIO_CAR, "sounds\\car.mp3");
 
-		//Sleep(500);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-		//
-		// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
-		//
-
 	}
 
 	void CGameStateInit::OnBeginState()
@@ -66,28 +53,31 @@ namespace game_framework {
 	void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		const char KEY_ESC = 27;
+		const char KEY_L = 76;
 		//const char KEY_SPACE = ' ';
 		//if (nChar == KEY_SPACE)
 		//	GotoGameState(GAME_STATE_RUN);						// 切換至GAME_STATE_RUN
-		if (nChar == KEY_ESC)								// Demo 關閉遊戲的方法
-			PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);	// 關閉遊戲
+		if (nChar == KEY_ESC)
+			PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);
+		if (nChar == KEY_L) {
+			level += 1;
+			if (level == 11) {
+				level = 1;
+			}
+		}
 	}
 
 
 	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	{
-
 		if (point.x > 418 && point.y > 100 && point.x < 702 && point.y < 260) {
 			CAudio::Instance()->Play(AUDIO_MENUTOGAME, false);
-			//Sleep(2000);
-
 			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 		}
 	}
 
 	void CGameStateInit::OnShow()
 	{
-
 		mainmenu.SetTopLeft(0, 0);
 		mainmenu.ShowBitmap();
 
@@ -98,27 +88,49 @@ namespace game_framework {
 			all_level_done.SetTopLeft(38, 179);
 			all_level_done.ShowBitmap();
 		}
-		//
-		// Demo螢幕字型的使用，不過開發時請盡量避免直接使用字型，改用CMovingBitmap比較好
-		//
-		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+		
+		CDC *pDC = CDDraw::GetBackCDC();
 		CFont f, *fp;
-		f.CreatePointFont(170, "微軟正黑體");	// 產生 font f; 160表示16 point的字
-		fp = pDC->SelectObject(&f);					// 選用 font f
-		// pDC->SetBkColor(RGB(0,0,0));
+		f.CreatePointFont(130, "微軟正黑體");
+		fp = pDC->SelectObject(&f);
 		pDC->SetBkMode(TRANSPARENT);
+		pDC->SetTextColor(RGB(174, 225, 174));
+		if (level == 1)
+			pDC->TextOut(710, 10, "level: 1");
+		else if (level == 2)
+			pDC->TextOut(710, 10, "level: 2");
+		else if (level == 3)
+			pDC->TextOut(710, 10, "level: 3");
+		else if (level == 4)
+			pDC->TextOut(710, 10, "level: 4");
+		else if (level == 5)
+			pDC->TextOut(710, 10, "level: 5");
+		else if (level == 6)
+			pDC->TextOut(710, 10, "level: 6");
+		else if (level == 7)
+			pDC->TextOut(710, 10, "level: 7");
+		else if (level == 8)
+			pDC->TextOut(710, 10, "level: 8");
+		else if (level == 9)
+			pDC->TextOut(710, 10, "level: 9");
+		else if (level == 10)
+			pDC->TextOut(710, 10, "level: 10");
 
-		pDC->SetTextColor(RGB(0, 0, 0));
-		pDC->TextOut(445, 270, "~ 19XX-XX-XX ~");
 		pDC->SetTextColor(RGB(204, 255, 204));
-		pDC->TextOut(426, 320, "點擊 \"冒險模式\" 開始 !");
-		// pDC->TextOut(5,395,"Press Ctrl-F to switch in between window mode and full screen mode.");
-		if (ENABLE_GAME_PAUSE)
-			pDC->SetTextColor(RGB(255, 255, 0));
-		pDC->TextOut(5, 530, "Press Ctrl-Q to pause the Game.");
-		pDC->TextOut(5, 565, "Press Alt-F4 or ESC to Quit.");
-		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
-		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+		pDC->TextOut(440, 260, "點擊 \"冒險模式\" 開始 !");
+		pDC->SetTextColor(RGB(197, 229, 210));
+		pDC->TextOut(470, 295, "L: level += 1");
+		pDC->TextOut(470, 325, "S: sun = 500");
+		pDC->TextOut(465, 355, "Z: zombie fast");
+		pDC->TextOut(460, 385, "D: zombie all die");
+		
+		pDC->SetTextColor(RGB(185, 229, 255));
+		pDC->TextOut(5, 516, "Use mouse to plant your plants and beat all zombies!");
+		pDC->SetTextColor(RGB(255, 255, 0));
+		pDC->TextOut(5, 543, "Ctrl-Q: pause the Game.  Alt-F4 or ESC: Quit.");
+		pDC->TextOut(5, 570, "Ctrl-F: switch between windows / full screen mode.");
+		pDC->SelectObject(fp);
+		CDDraw::ReleaseBackCDC();
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -175,17 +187,15 @@ namespace game_framework {
 		newspaper.LoadBitmap("Bitmaps/almanac/newspaper.bmp");
 		victory.LoadBitmap("Bitmaps/almanac/victory.bmp");
 
-		ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
+		ShowInitProgress(66);
 
-		//Sleep(100);
-		ShowInitProgress(85);	// 接個前一個狀態的進度，此處進度視為66%
+		ShowInitProgress(85);
 
 		ShowInitProgress(100);
 	}
 
 	void CGameStateOver::OnShow()
 	{
-
 		if (victoryflag) {
 			newplant.SetTopLeft(0, 0);
 			newplant.ShowBitmap();
@@ -257,16 +267,10 @@ namespace game_framework {
 	{
 	}
 
-	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
+	void CGameStateRun::OnInit()
 	{
-		//
-		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
-		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
-		//
-		ShowInitProgress(33);	// 接個前一個狀態的進度，此處進度視為33%
-		//Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 
-		// 開始載入資料
+		ShowInitProgress(33);
 
 		chooser.LoadBitmap("Bitmaps/ChooserBackground.bmp");
 		background.LoadBitmap("Bitmaps/Background.bmp");
@@ -290,9 +294,6 @@ namespace game_framework {
 		CAudio::Instance()->Load(AUDIO_BOMB, "sounds\\bomb.mp3");
 		CAudio::Instance()->Load(AUDIO_VICTORY, "sounds\\victory.mp3");
 
-		//
-		// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
-		//
 		//CGameState::level = 1;
 	}
 
@@ -303,6 +304,7 @@ namespace game_framework {
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
 		return normalzombie_vector;
 	}
+
 	std::vector<shared_ptr<YNormalZombie>> zombieInitLevel1(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 1));
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1250, 0));
@@ -314,6 +316,7 @@ namespace game_framework {
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(2050, 4));
 		return normalzombie_vector;
 	}
+
 	std::vector<shared_ptr<YNormalZombie>> zombieInitLevel2(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
 		// wallnut morning
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 3));
@@ -331,6 +334,7 @@ namespace game_framework {
 
 		return normalzombie_vector;
 	}
+
 	std::vector<shared_ptr<YNormalZombie>> zombieInitLevel3(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
 		// cherrybomb morning
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 3));
@@ -349,6 +353,7 @@ namespace game_framework {
 
 		return normalzombie_vector;
 	}
+
 	std::vector<shared_ptr<YNormalZombie>> zombieInitLevel4(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
 		// cone zombie night
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1050, 3));
@@ -365,6 +370,7 @@ namespace game_framework {
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(2550, 0));
 		return normalzombie_vector;
 	}
+
 	std::vector<shared_ptr<YNormalZombie>> zombieInitLevel5(std::vector<shared_ptr<YNormalZombie>> normalzombie_vector) {
 		// ice shooter morning
 		normalzombie_vector.push_back(make_shared<YNormalZombie>(1000, 1));
@@ -494,7 +500,7 @@ namespace game_framework {
 		CAudio::Instance()->Stop(AUDIO_MAIN);
 
 		flag = 0;
-		sun_amount = 50;			// 一開始50個sun
+		sun_amount = 50;
 		generateSunFlowerFlag = false;
 		generatePeaShooterFlag = false;
 		generateWallNutFlag = false;
@@ -523,7 +529,6 @@ namespace game_framework {
 		potatomine_card_delay_flag = 0;
 		shooter_card_delay_flag = 0;
 		squash_card_delay_flag = 0;
-
 
 		car0 = YCar(0);
 		car1 = YCar(1);
@@ -616,7 +621,6 @@ namespace game_framework {
 			normalzombie_sp->LoadBitmap();
 		}
 	}
-
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
@@ -853,7 +857,6 @@ namespace game_framework {
 
 	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
-		// 沒事。如果需要處理滑鼠移動的話，寫code在這裡
 	}
 
 	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -864,13 +867,13 @@ namespace game_framework {
 	{
 	}
 
-	void CGameStateRun::OnMove()							// 移動遊戲元素
+	void CGameStateRun::OnMove()
 	{
 		chooser.SetTopLeft(0, 0);
 
 		if (picX > -500 && flag == 0) {
 			picX -= 8;
-		}// (-400,0)
+		}
 		else if (flag == 0) {
 			Sleep(1000);
 			flag = 1;
