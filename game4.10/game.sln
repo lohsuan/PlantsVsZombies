@@ -9,6 +9,8 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "gameSetup.vdproj",
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "mygame", "..\mygame\mygame.vdproj", "{1972BEE7-09DF-4A3F-AC14-FF7174938476}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PlantsVsZombies", "..\PlantsVsZombies\PlantsVsZombies.vdproj", "{4E0DA4FD-0196-4B5F-8AFF-ECBD2476D271}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -24,6 +26,8 @@ Global
 		{984E2E2A-0DB0-4F9D-9E5C-A3C536609A39}.Release|Win32.Build.0 = Release
 		{1972BEE7-09DF-4A3F-AC14-FF7174938476}.Debug|Win32.ActiveCfg = Debug
 		{1972BEE7-09DF-4A3F-AC14-FF7174938476}.Release|Win32.ActiveCfg = Release
+		{4E0DA4FD-0196-4B5F-8AFF-ECBD2476D271}.Debug|Win32.ActiveCfg = Debug
+		{4E0DA4FD-0196-4B5F-8AFF-ECBD2476D271}.Release|Win32.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
