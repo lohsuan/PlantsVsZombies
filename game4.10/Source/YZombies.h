@@ -33,7 +33,7 @@ namespace game_framework {
 			is_alive = true;
 			bomb_flag = false;
 			zombie_die_delay_time = 115;
-			zombie_bomb_die_delay_time = 180;
+			zombie_bomb_die_delay_time = 160;
 		}
 
 		YNormalZombie(int x, int my, std::string style) {
@@ -45,7 +45,7 @@ namespace game_framework {
 			is_alive = true;
 			bomb_flag = false;
 			zombie_die_delay_time = 115;
-			zombie_bomb_die_delay_time = 180;
+			zombie_bomb_die_delay_time = 160;
 			zombie_style = style;
 			if (zombie_style == "conehead") {
 				blood = 20;

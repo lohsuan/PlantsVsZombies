@@ -462,7 +462,7 @@ namespace game_framework {
 		}
 
 		bool checkNearbyZombies(int zx, int zy) {
-			if (y - 160 < zy && zy < y + 120) {
+			if (y - 160 < zy && zy < y + 80) {
 				if (zx > x - 160 && zx < x + 120) {
 					return true;
 				}
@@ -765,7 +765,7 @@ namespace game_framework {
 		}
 
 		bool checkNearbyZombies(int zx, int zy) {
-			if (y - 160 < zy && zy < y + 120) {
+			if (y - 160 < zy && zy < y + 80) {
 				if (x - 160 < zx && zx < x + 140) {
 					return true;
 				}
@@ -888,7 +888,7 @@ namespace game_framework {
 		}
 
 		bool checkNearbyZombies(int zx, int zy) {
-			if (y - 160 < zy && zy < y + 120) {
+			if (y - 160 < zy && zy < y + 80) {
 				if (x - 160 < zx && zx < x + 140) {
 					return true;
 				}
