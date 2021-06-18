@@ -1037,11 +1037,6 @@ namespace game_framework {
 						normalzombie_vector.at(i)->SetBombFlag();
 						normalzombie_vector.at(i)->OnMove(std::string("bomb"));
 					}
-					//else if (CGameState::level > 6 && !potatomine_vector.empty() && potatomine_vector.at(0)->Bomb()
-					//	&& potatomine_vector.at(0)->checkNearbyZombies(normalzombie_vector.at(i)->GetX(), normalzombie_vector.at(i)->GetY())) {
-					//	normalzombie_vector.at(i)->SetBombFlag();
-					//	normalzombie_vector.at(i)->OnMove(std::string("bomb"));
-					//}
 					if (CGameState::level > 6 && !potatomine_vector.empty()) {
 						for (size_t j = 0; j < potatomine_vector.size(); j++) {
 							if (potatomine_vector.at(j)->Bomb()
