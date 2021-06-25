@@ -1,5 +1,5 @@
 # Plants vs Zombies
-![](https://i.imgur.com/Eb5PtGk.png)
+<img src="https://i.imgur.com/Eb5PtGk.png" width="50%">
 
 ## Announcement
 This is an imitation of the world famous game, "Plants vs Zombies", to pratice C++. \
@@ -18,7 +18,7 @@ Use mouse to plants your plants and try to beat all zombies.
 `Ctrl-F` : switch between windows / full screen mode.
 
 ## Tips
-To help you get through all levels, we set tips to help you pass the game quickly.
+To help you get through all levels, we set tips to help you pass the game quickly. \
 `L` : level += 1 in menu \
 `S` : sun = 500 \
 `Z` : zombie fast \
