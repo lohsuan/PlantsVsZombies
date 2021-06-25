@@ -26,3 +26,9 @@ To help you get through all levels, we set tips to help you pass the game quickl
 
 ## About us
 We are students from National Taipei University of Technology with a strong passion in programming.
+
+## demo pictures
+<img src="./report/morning_demo.png" width="50%">
+
+<img src="./report/night_demo.png" width="50%">
+
