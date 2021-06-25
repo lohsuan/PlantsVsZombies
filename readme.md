@@ -1,5 +1,5 @@
 # Plants vs Zombies
-<img src="https://i.imgur.com/Eb5PtGk.png" width="50%">
+<img src="https://i.imgur.com/Eb5PtGk.png" width="70%">
 
 ## Announcement
 This is an imitation of the world famous game, "Plants vs Zombies", to pratice C++. \
