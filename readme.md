@@ -6,7 +6,7 @@ This is an imitation of the world famous game, "Plants vs Zombies", to pratice C
 You can find [Official website](https://www.ea.com/ea-studios/popcap/plants-vs-zombies) here.
 
 ## How to Play
-You can install our game [here](PlantsVsZombies/Release) on your Windows OS.
+You can install our game [here(PlantsVsZombies/Release)](PlantsVsZombies/Release) on your Windows OS.
 
 ## Introduction
 Plants vs Zombies is a scavenger hunt desktop game. \
