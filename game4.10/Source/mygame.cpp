@@ -125,6 +125,7 @@ namespace game_framework {
 		pDC->TextOut(460, 385, "D: zombie all die");
 		
 		pDC->SetTextColor(RGB(185, 229, 255));
+		pDC->TextOut(5, 489, "OOPL Processor: 陳碩漢, Author: 羅羽軒 周雨柔");
 		pDC->TextOut(5, 516, "Use mouse to plant your plants and beat all zombies!");
 		pDC->SetTextColor(RGB(255, 255, 0));
 		pDC->TextOut(5, 543, "Ctrl-Q: pause the Game.  Alt-F4 or ESC: Quit.");
@@ -618,10 +619,10 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		const char KEY_LEFT = 0x25; // keyboard左箭頭
-		const char KEY_UP = 0x26; // keyboard上箭頭
-		const char KEY_RIGHT = 0x27; // keyboard右箭頭
-		const char KEY_DOWN = 0x28; // keyboard下箭頭
+		const char KEY_LEFT = 0x25;
+		const char KEY_UP = 0x26;
+		const char KEY_RIGHT = 0x27;
+		const char KEY_DOWN = 0x28;
 		const char KEY_Z = 90;
 		const char KEY_S = 83;
 		const char KEY_D = 68;
@@ -641,10 +642,10 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		const char KEY_LEFT = 0x25; // keyboard左箭頭
-		const char KEY_UP = 0x26; // keyboard上箭頭
-		const char KEY_RIGHT = 0x27; // keyboard右箭頭
-		const char KEY_DOWN = 0x28; // keyboard下箭頭
+		const char KEY_LEFT = 0x25; 
+		const char KEY_UP = 0x26;
+		const char KEY_RIGHT = 0x27; 
+		const char KEY_DOWN = 0x28; 
 		const char KEY_Z = 90;
 
 		if (nChar == KEY_Z) {
@@ -652,7 +653,7 @@ namespace game_framework {
 		}
 	}
 
-	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
+	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 		if (generateSunFlowerFlag && !map.checkmyMap(point.x, point.y) && point.x > 30 && point.x < 770 && point.y>78 && point.y < 571) {
 			CAudio::Instance()->Play(AUDIO_PLANTS, false);
@@ -845,21 +846,13 @@ namespace game_framework {
 		}
 	}
 
-	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
-	{
-	}
+	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	{}
 
-	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
-	{
-	}
+	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	{}
 
-	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
-	{
-	}
+	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  {}
 
-	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
-	{
-	}
+	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	{}
 
 	void CGameStateRun::OnMove()
 	{
@@ -1312,12 +1305,6 @@ namespace game_framework {
 			}
 		}
 
-
-		// 修改cursor樣式
-		//if (generateSunFlowerFlag) {
-		//	SetCursor(AfxGetApp()->LoadCursor(".\\bitmaps\\SunFlower\\SunFlower_0.bmp"));
-		//}
-
 	}
 
 	void CGameStateRun::OnShow()
@@ -1561,6 +1548,5 @@ namespace game_framework {
 			CDDraw::ReleaseBackCDC();
 		}
 	}
-
 
 }

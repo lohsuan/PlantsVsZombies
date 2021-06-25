@@ -29,10 +29,8 @@ namespace game_framework {
 	};
 
 
-
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件
-	// 每個Member function的Implementation都要弄懂
 	/////////////////////////////////////////////////////////////////////////////
 
 	class CGameStateInit : public CGameState {
@@ -42,20 +40,18 @@ namespace game_framework {
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnKeyUp(UINT, UINT, UINT); 				// 處理鍵盤Up的動作
 		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
-		//void OnMouseMove(UINT nFlags, CPoint point);
-		//void OnMouseHover(UINT nFlags, CPoint point);
+
 	protected:
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		CMovingBitmap	mainmenu;								// mainmenu picture
-		CMovingBitmap	loadtext;						// Loading... picture
+		CMovingBitmap	mainmenu;		
+		CMovingBitmap	loadtext;
 		CMovingBitmap	adventure0;
 		CMovingBitmap   all_level_done;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
-	// 每個Member function的Implementation都要弄懂
 	/////////////////////////////////////////////////////////////////////////////
 
 	class CGameStateRun : public CGameState {
@@ -79,9 +75,9 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 
-		const int		NUMBALLS;	// 球的總數
-		CMovingBitmap	background;	// 背景圖
-		CMovingBitmap	background_night;	// 背景圖
+		const int		NUMBALLS;
+		CMovingBitmap	background;
+		CMovingBitmap	background_night;
 
 		CMovingBitmap	chooser;
 		YShovelCard		shovel_card;
@@ -155,20 +151,19 @@ namespace game_framework {
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的結束狀態(Game Over)
-	// 每個Member function的Implementation都要弄懂
 	/////////////////////////////////////////////////////////////////////////////
 
 	class CGameStateOver : public CGameState {
 	public:
 		CGameStateOver(CGame *g);
-		void OnBeginState();							// 設定每次重玩所需的變數
+		void OnBeginState();
 		void OnInit();
 		void OnLButtonDown(UINT nFlags, CPoint point);
 	protected:
-		void OnMove();									// 移動遊戲元素
-		void OnShow();									// 顯示這個狀態的遊戲畫面
+		void OnMove();	
+		void OnShow();
 	private:
-		int counter;	// 倒數之計數器
+		int counter;
 		CMovingBitmap	loose;
 		CMovingBitmap	loose_night;
 		CMovingBitmap	newplant;
