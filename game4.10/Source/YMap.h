@@ -645,7 +645,6 @@ namespace game_framework {
 			}
 			return 0;
 		}
-
 	};
 }
 #endif
